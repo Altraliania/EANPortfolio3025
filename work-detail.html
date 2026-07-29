@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model United Nations Details</title>
@@ -12,9 +11,14 @@
     <!-- Animation Overlay -->
     <div id="page-overlay"></div>
 
+    <!-- NEW: Full-screen Image Lightbox Overlay -->
+    <div id="lightbox-overlay">
+        <button id="lightbox-back-btn">⬅ Back to Project</button>
+        <img id="lightbox-img" src="" alt="Enlarged View">
+    </div>
+
     <!-- Container wrapper that slides down and fades in -->
     <div id="page-content">
-
         <!-- Header Banner Area -->
         <header class="project-header" style="background-color: #222;">
             <div class="header-overlay-text">
@@ -51,46 +55,76 @@
         </div>
 
         <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
+            const toggleButton = document.getElementById('dark-mode-toggle');
+            const body = document.body;
 
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
-    }
+            // Check if the user previously picked Dark Mode
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                if (toggleButton) toggleButton.textContent = '☀️ Light Mode';
+            }
 
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
-        }
-    });
-</script>
-
-
+            if (toggleButton) {
+                toggleButton.addEventListener('click', () => {
+                    body.classList.toggle('dark-mode');
+                    // Switch button text based on the mode
+                    if (body.classList.contains('dark-mode')) {
+                        localStorage.setItem('darkMode', 'enabled');
+                        toggleButton.textContent = '☀️ Light Mode';
+                    } else {
+                        localStorage.setItem('darkMode', 'disabled');
+                        toggleButton.textContent = '🌙 Dark Mode';
+                    }
+                });
+            }
+        </script>
     </div> <!-- Close page-content container -->
+
+    <!-- NEW: Lightbox Script Engine for Detail Gallery -->
+    <script>
+        const galleryImages = document.querySelectorAll('.side-images img');
+        const lightbox = document.getElementById('lightbox-overlay');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxBackBtn = document.getElementById('lightbox-back-btn');
+
+        // Loop through gallery images and attach lightbox opening events
+        galleryImages.forEach(img => {
+            img.style.cursor = 'pointer'; // Forces cursor change on hover
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src; // Hook the source over to the lightbox element
+                lightbox.classList.add('visible'); // Fade the lightbox backdrop visible
+            });
+        });
+
+        // Hide overlay viewport when clicking back button
+        lightboxBackBtn.addEventListener('click', () => {
+            lightbox.classList.remove('visible');
+        });
+
+        // Hide overlay viewport when clicking anywhere in the backdrop workspace
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('visible');
+            }
+        });
+    </script>
 
     <!-- Script to enable the back-button fade transition -->
     <script>
         const overlay = document.getElementById('page-overlay');
         const fadeButtons = document.querySelectorAll('.fade-link');
-        
+
         fadeButtons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
                 const targetUrl = this.getAttribute('href');
                 if (overlay) overlay.classList.add('active');
-                setTimeout(() => { window.location.href = targetUrl; }, 500);
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 500);
             });
         });
-        
+
         window.addEventListener('pageshow', function(event) {
             if (event.persisted && overlay) overlay.classList.remove('active');
         });

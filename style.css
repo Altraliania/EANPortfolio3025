@@ -1,325 +1,504 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f8f9fa;
-    color: #333;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f8f9fa;
+  color: #333;
 }
+
 .hero-section {
-    text-align: center;
-    padding: 60px 20px;
-    max-width: 800px;
-    margin: 0 auto;
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
+
+/* Flexbox container for grouping profile image system together */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px; /* Expanded slightly to give extra clearing room for rotated square corners */
+  margin-bottom: 20px;
+}
+
 .profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: 4px solid #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0 !important; /* Overridden to sit properly inside flex layout */
+  border: 4px solid var(--img-border, #fff); /* Uses variable for dark mode support */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease;
+  cursor: pointer;
 }
+
+/* Profile picture hover behavior: Subtle lift effect */
+.profile-img:not(.side-img):hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Turns side images into squares with dynamic outline tracking */
+.side-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 0% !important; /* Forces a perfect square shape */
+  border: 8px solid var(--img-border, #fff) !important; /* Uses global layout variable */
+  opacity: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation-delay: 2s; /* Trigger exactly 2 seconds into load */
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: forwards;
+}
+
+/* Handles the specific left tilt animation setup */
+.side-img:first-of-type {
+  transform: scale(0.6) rotate(0deg);
+  animation-name: popInLeftImg;
+}
+
+/* Handles the specific right tilt animation setup */
+.side-img:last-of-type {
+  transform: scale(0.6) rotate(0deg);
+  animation-name: popInRightImg;
+}
+
+/* Animation mechanism for the left image (tilts 40 degrees left) */
+@keyframes popInLeftImg {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(-40deg);
+  }
+}
+
+/* Animation mechanism for the right image (tilts 40 degrees right) */
+@keyframes popInRightImg {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(40deg);
+  }
+}
+
+/* INTERACTIVE EFFECT: Straightens, centers, and shadows the photos on hover */
+.side-img:hover {
+  transform: scale(1.1) rotate(0deg) translateY(-5px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+  z-index: 10; /* Ensures the hovered photo floats over surrounding layout elements */
+}
+
+/* Full-Screen Backdrop Overlay for Lightbox View */
+#lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Translucent dark tint backdrop wrapper */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10000; /* Layers completely on top of regular document nodes */
+  transition: opacity 0.3s ease-in-out;
+  padding: 20px;
+}
+
+/* Triggers visible reveal state adjustments via JS class injections */
+#lightbox-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* The actual high-resolution expanded picture viewport image boundaries */
+#lightbox-img {
+  max-width: 90%;
+  max-height: 75%;
+  object-fit: contain;
+  border: 4px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out;
+}
+
+#lightbox-overlay.visible #lightbox-img {
+  transform: scale(1);
+}
+
+/* Interactive Floating Back Button */
+#lightbox-back-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background-color: var(--text-color, #333);
+  color: var(--bg-color, #fff);
+  border: 2px solid var(--border-color, #fff);
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#lightbox-back-btn:hover {
+  transform: scale(1.05);
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
 /* Title matches your requested custom cursive font styling */
 .Title {
-    font-family: "Playwrite NZ Guides", cursive;
-    font-size: 3rem;
-    margin-bottom: 10px;
-    font-weight: normal;
+  font-family: "Playwrite NZ Guides", cursive;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  font-weight: normal;
 }
+
 .subtitle {
-    font-size: 1.2rem;
-    color: #007bff;
-    font-weight: 600;
-    margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #007bff;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
+
 .bio {
-    font-size: 1.1rem;
-    color: #666;
+  font-size: 1.1rem;
+  color: #666;
 }
+
 .skills-section {
-    padding: 60px 10%;
-    background-color: #fff;
-    text-align: center;
+  padding: 60px 10%;
+  background-color: #fff;
+  text-align: center;
 }
+
 .skills-section h2 {
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    color: #222;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #222;
 }
+
 .skills-grid {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
+
 .skill-card {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 12px;
-    flex: 1;
-    min-width: 280px;
-    max-width: 350px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Pushes the button to the bottom */
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes the button to the bottom */
 }
+
 .skill-card h3 {
-    margin-bottom: 12px;
-    color: #222;
-    font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #222;
+  font-size: 1.3rem;
 }
+
 .skill-card p {
-    color: #666;
-    margin-bottom: 25px;
+  color: #666;
+  margin-bottom: 25px;
 }
+
 /* Layout container for the card button */
 .card-btn-container {
-    margin-top: auto;
+  margin-top: auto;
 }
+
 /* This code transforms the navbar links into clean buttons */
 .card-btn {
-    display: inline-block;
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 10px 15px;
-    border: 2px solid #333;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
-    width: 100%; /* Makes the button fill the card width */
+  display: inline-block;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 10px 15px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  width: 100%; /* Makes the button fill the card width */
 }
+
 .card-btn:hover {
-    background-color: #333;
-    color: #fff;
+  background-color: #333;
+  color: #fff;
 }
 
 /* Update your existing overlay rule to include the fade-in animation */
 #page-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #111;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 9999;
-    /* This line triggers a smooth 0.5s fade-in on page load */
-    animation: fadeInPage 0.5s ease-in-out forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #111;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  /* This line triggers a smooth 0.5s fade-in on page load */
+  animation: fadeInPage 0.5s ease-in-out forwards;
 }
 
 /* JavaScript transitions will still use this class */
 #page-overlay.active {
-    opacity: 1;
-    animation: none; /* Disables the load animation when fading out */
-    transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  animation: none; /* Disables the load animation when fading out */
+  transition: opacity 0.5s ease-in-out;
 }
 
 /* The actual animation mechanism */
 @keyframes fadeInPage {
-    from { opacity: 1; }
-    to { opacity: 0; }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
-
 
 /* --- Project Detail Page Layout --- */
 .project-header {
-    position: relative;
-    width: 100%;
-    height: 350px;
-    overflow: hidden;
-}
-.header-banner {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.header-overlay-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Darkens the image so text is readable */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-align: center;
-}
-.header-overlay-text h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-.project-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    display: flex;
-    gap: 50px;
-}
-/* Main text takes up 65% of width */
-.project-story {
-    flex: 65%;
-}
-.project-story h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #222;
-}
-.project-story p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 20px;
-    line-height: 1.7;
-}
-.back-home-btn {
-    display: inline-block;
-    margin-top: 20px;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 600;
-}
-/* Side image column takes up 35% of width */
-.project-gallery {
-    flex: 35%;
-}
-.project-gallery h3 {
-    font-size: 1.3rem;
-    margin-bottom: 20px;
-    color: #222;
-}
-.side-images {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.side-images img {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
-}
-.side-images img:hover {
-    transform: scale(1.02);
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
 }
 
-/* --- NEW CORRECTED DARK MODE & CARD SHADOW SYSTEM --- */
+.header-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-overlay-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Darkens the image so text is readable */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.header-overlay-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.project-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 50px;
+}
+
+/* Main text takes up 65% of width */
+.project-story {
+  flex: 65%;
+}
+
+.project-story h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.project-story p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.back-home-btn {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Side image column takes up 35% of width */
+.project-gallery {
+  flex: 35%;
+}
+
+.project-gallery h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.side-images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.side-images img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.side-images img:hover {
+  transform: scale(1.02);
+}
+
+/* --- CORRECTED DARK MODE & CARD SHADOW SYSTEM --- */
 /* Light Mode Setup */
 :root {
-    --bg-color: #f8f9fa;
-    --text-color: #333;
-    --heading-color: #222;
-    --card-bg: #fff;
-    --card-text: #666;
-    --navbar-bg: #fff;
-    --btn-bg: #333;
-    --btn-text: #fff;
-    --border-color: #e2e8f0; 
-    --header-bg: #222222;
-    --header-text: #ffffff; 
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --bg-color: #f8f9fa;
+  --text-color: #333;
+  --heading-color: #222;
+  --card-bg: #fff;
+  --card-text: #666;
+  --navbar-bg: #fff;
+  --btn-bg: #333;
+  --btn-text: #fff;
+  --border-color: #e2e8f0;
+  --header-bg: #222222;
+  --header-text: #ffffff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --img-border: #ffffff; /* White borders for light mode */
 }
 
 /* Dark Mode Colors */
 body.dark-mode {
-    --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --heading-color: #ffffff;
-    --card-bg: #1e1e1e; 
-    --card-text: #b0b0b0;
-    --navbar-bg: #1e1e1e;
-    --btn-bg: #007bff;
-    --btn-text: #fff;
-    --border-color: #2d3748; 
-    --header-bg: #333333;
-    --header-text: #e0e0e0;
-    --card-shadow: 0 4px 15px rgba(255, 255, 255, 0.03);
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --heading-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --card-text: #b0b0b0;
+  --navbar-bg: #1e1e1e;
+  --btn-bg: #007bff;
+  --btn-text: #fff;
+  --border-color: #2d3748;
+  --header-bg: #333333;
+  --header-text: #e0e0e0;
+  --card-shadow: 0 4px 15px rgba(255, 255, 255, 0.03);
+  --img-border: #2d3748; /* Dark gray outline swap for dark mode */
 }
 
 /* Apply variables globally */
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, .Title {
-    color: var(--heading-color) !important;
+  color: var(--heading-color) !important;
 }
 
 .navbar, .skills-section {
-    background-color: var(--navbar-bg) !important;
+  background-color: var(--navbar-bg) !important;
 }
 
 .project-header {
-    background-color: var(--header-bg) !important;
-    transition: background-color 0.3s ease;
+  background-color: var(--header-bg) !important;
+  transition: background-color 0.3s ease;
 }
 
-.project-header h1, 
-.project-header p,
-.header-overlay-text h1,
-.header-overlay-text p {
-    color: var(--header-text) !important;
+.project-header h1, .project-header p, .header-overlay-text h1, .header-overlay-text p {
+  color: var(--header-text) !important;
 }
 
 /* Fixes the vanished cards by assigning outlines and dynamic shadows */
 .skill-card, .side-images div, .project-story div {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border: 1px solid var(--border-color) !important; 
-    box-shadow: var(--card-shadow) !important;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--card-shadow) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Retains accent bars for history of schools list cards */
 .side-images div {
-    border-left-width: 4px !important;
+  border-left-width: 4px !important;
 }
 
 .skill-card p, .side-images div p, .bio {
-    color: var(--card-text) !important;
+  color: var(--card-text) !important;
 }
 
 .card-btn {
-    border-color: var(--text-color) !important;
-    color: var(--text-color) !important;
+  border-color: var(--text-color) !important; /* Fixed dot typo */
+  color: var(--text-color) !important;
 }
 
 .card-btn:hover {
-    background-color: var(--text-color) !important;
-    color: var(--bg-color) !important;
+  background-color: var(--text-color) !important;
+  color: var(--bg-color) !important;
 }
 
-/* Mobile Responsive Breakpoint */
+/* --- Mobile Responsive Breakpoints --- */
 @media (max-width: 768px) {
-    .project-container {
-        flex-direction: column; /* Stacks text on top of images on phones */
-    }
+  .project-container {
+    flex-direction: column; /* Stacks text on top of images on phones */
+  }
 }
+
+/* --- Mobile safety scaling for header cluster profile configuration --- */
+@media (max-width: 480px) {
+  .profile-container {
+    gap: 15px;
+    flex-wrap: wrap; /* Stacks image assets safely if display screen width is extreme */
+  }
+  .profile-img {
+    width: 90px;
+    height: 90px;
+  }
+  .side-img {
+    width: 65px;
+    height: 65px;
+    border-width: 4px !important; /* Shrinks outline profile weights for balance */
+  }
+  #lightbox-back-btn {
+    top: 15px;
+    left: 15px;
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
+} /* Fixed layout tracking bracket spacing */
 
 /* --- Entrance Slide & Fade Animation for All Pages --- */
 #page-content {
-    opacity: 0;
-    animation: slideDownFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  opacity: 0;
+  animation: slideDownFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes slideDownFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px); /* Starts slightly higher */
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);    /* Slides smoothly into place */
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-30px); /* Starts slightly higher */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Slides smoothly into place */
+  }
 }

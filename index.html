@@ -11,11 +11,22 @@
     <!-- Full-screen animation overlay -->
     <div id="page-overlay"></div>
 
+    <!-- Full-screen Image Lightbox Overlay -->
+    <div id="lightbox-overlay">
+        <button id="lightbox-back-btn">⬅ Back to Profile</button>
+        <img id="lightbox-img" src="" alt="Enlarged View">
+    </div>
+
     <!-- Container wrapper that slides down and fades in -->
     <div id="page-content">
-
         <header class="hero-section" id="about">
-            <img src="2026 02 22.jpg" alt="My Profile Picture" class="profile-img">
+            <!-- UPDATED PICTURE CONTAINER WITH SPECIFIED FILENAMES -->
+            <div class="profile-container">
+                <img src="EmanuelAFAF1.jpg" alt="Header Picture Left" class="profile-img side-img">
+                <img src="2026 02 22.jpg" alt="My Profile Picture" class="profile-img">
+                <img src="EmanuelAFAF2.jpg" alt="Header Picture Right" class="profile-img side-img">
+            </div>
+            
             <p class="Title">Emanuel Alemu Negussie</p>
             <p class="subtitle">Student of Shawnigan Lake School</p>
             <p class="bio">
@@ -30,13 +41,12 @@
 
             <!-- Download Resume Button Container -->
             <div class="card-btn-container" style="margin-bottom: 50px; max-width: 200px; margin-left: auto; margin-right: auto; margin-top: 15px;">
-            <!-- Removed hardcoded blue colors so it matches your site theme perfectly -->
-            <a href="Emanuel_Negussie_Resume.pdf" download="Emanuel_Negussie_Resume.pdf" class="card-btn" style="text-align: center; display: block;">📥 Download Resume</a>
+                <a href="EmanuelNegussieResume.png" download="EmanuelNegussieResume.png" class="card-btn" style="text-align: center; display: block;">
+                    📥 Download Resume
+                </a>
             </div>
 
-
-
-            <!-- NEW: ACADEMICS & PROJECTS CUE CARDS SECTION -->
+            <!-- ACADEMICS & PROJECTS CUE CARDS SECTION -->
             <h2 style="margin-bottom: 20px;">Overview</h2>
             <div class="skills-grid" style="margin-bottom: 60px;">
                 <!-- Academics Card -->
@@ -89,40 +99,65 @@
             </div>
         </main>
 
-        <!-- NEW FOOTER HEADER ADDED HERE -->
+        <!-- FOOTER HEADER -->
         <footer style="text-align: center; padding: 40px 20px 20px; font-size: 0.85rem; color: #888;">
             <p>Created by Emanuel Negussie</p>
         </footer>
-
     </div> <!-- Close page-content container -->
 
     <!-- Mini Dark Mode Toggle Button -->
-<button id="dark-mode-toggle" class="card-btn" style="margin-left: 20px; cursor: pointer; padding: 4px 10px; font-size: 0.75rem; border-width: 1px; width: auto; border-radius: 4px;">🌙 Dark Mode</button>
+    <button id="dark-mode-toggle" class="card-btn" style="margin-left: 20px; cursor: pointer; padding: 4px 10px; font-size: 0.75rem; border-width: 1px; width: auto; border-radius: 4px;">🌙 Dark Mode</button>
 
-<script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
+    <!-- Lightbox Script Engine -->
+    <script>
+        const profileImages = document.querySelectorAll('.profile-container .profile-img');
+        const lightbox = document.getElementById('lightbox-overlay');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxBackBtn = document.getElementById('lightbox-back-btn');
 
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
-    }
+        // Loop through each image and listen for clicks
+        profileImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src; // Set lightbox source to clicked image
+                lightbox.classList.add('visible'); // Show the overlay smoothly
+            });
+        });
 
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
+        // Hide overlay when clicking the back button
+        lightboxBackBtn.addEventListener('click', () => {
+            lightbox.classList.remove('visible');
+        });
 
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
+        // Hide overlay if user clicks the dark background workspace
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('visible');
+            }
+        });
+    </script>
+
+    <script>
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        // Check if the user previously picked Dark Mode
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
             toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
         }
-    });
-</script>
 
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            // Switch button text based on the mode
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                toggleButton.textContent = '☀️ Light Mode';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                toggleButton.textContent = '🌙 Dark Mode';
+            }
+        });
+    </script>
 
     <!-- Embedded Fade Animation Script -->
     <script>
@@ -133,11 +168,9 @@
             button.addEventListener('click', function(event) {
                 event.preventDefault();
                 const targetUrl = this.getAttribute('href');
-
                 if (overlay) {
                     overlay.classList.add('active');
                 }
-
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 500);
