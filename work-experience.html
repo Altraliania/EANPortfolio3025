@@ -1,0 +1,166 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Work and Experience of Emanuel</title> 
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Small helper to separate the rows nicely */
+        .experience-row {
+            margin-bottom: 60px;
+        }
+    </style>
+</head> 
+<body> 
+    <!-- Animation Overlay --> 
+    <div id="page-overlay"></div> 
+
+    <!-- Full-screen Image Lightbox Overlay --> 
+    <div id="lightbox-overlay"> 
+        <button id="lightbox-back-btn">⬅ Back to Project</button> 
+        <img id="lightbox-img" src="" alt="Enlarged View"> 
+    </div> 
+    
+    <!-- Container wrapper that slides down and fades in --> 
+    <div id="page-content"> 
+        <!-- Header Banner Area --> 
+        <header class="project-header" style="background-color: #222;"> 
+            <div class="header-overlay-text"> 
+                <h1>Work and Experience of Emanuel</h1> 
+                <p>Learn about my work and experience</p> 
+            </div> 
+        </header> 
+        
+        <!-- MAIN CONTENT AREA -->
+        <div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+
+            <!-- Block 1: Pro-Presenter --> 
+            <div class="project-container experience-row"> 
+                <!-- Left Side: Text Box -->
+                <main class="project-story"> 
+                    <h2>TLCC Volunteering Pro-Presenter</h2> 
+                    <p>Operated ProPresenter during church services at The Life Christian Church (TLCC), managing on-screen lyrics, scripture, and presentation slides. Developed technical, attention-to-detail, and teamwork skills in a live production environment.</p> 
+                </main> 
+                <!-- Right Side: Next-to-text Image -->
+                <aside class="project-gallery"> 
+                    <div class="side-images"> 
+                        <img src="Pro-P.jpg" alt="Pro-Presenter Volunteering" style="width: 100%; border-radius: 8px;"> 
+                    </div> 
+                </aside>
+            </div> 
+
+            <!-- Block 2: Cafe Cashier --> 
+            <div class="project-container experience-row"> 
+                <!-- Left Side: Text Box -->
+                <main class="project-story"> 
+                    <h2>TLCC Volunteering Cafe Cashier</h2> 
+                    <p>Volunteered in the café at The Life Christian Church (TLCC), providing customer service, preparing food and beverages, and maintaining a clean workspace. Strengthened teamwork, communication, and customer service skills.</p> 
+                </main> 
+                <!-- Right Side: Next-to-text Image -->
+                <aside class="project-gallery"> 
+                    <div class="side-images"> 
+                        <img src="Cafe-Service.jpg" alt="Cafe Cashier Volunteering" style="width: 100%; border-radius: 8px;"> 
+                    </div> 
+                </aside>
+            </div> 
+
+            <!-- Block 3: Model United Nations --> 
+            <div class="project-container experience-row"> 
+                <!-- Left Side: Text Box -->
+                <main class="project-story"> 
+                    <h2>Model United Nations Experience</h2> 
+                    <p>Since participating in Model United Nations (Model UN) in 2026, I have developed strong debate, public speaking, and critical thinking skills through researching global issues, presenting arguments, and engaging in structured discussions. I have participated in 3 Model UN conferences including 1 which was overnight in Vancouver.</p> 
+                </main> 
+                <!-- Right Side: Next-to-text Image -->
+                <aside class="project-gallery"> 
+                    <div class="side-images"> 
+                        <img src="IMG_6107.jpg" alt="Model UN Conference" style="width: 100%; border-radius: 8px;"> 
+                    </div> 
+                </aside>
+            </div> 
+
+            <!-- Back Button centered under everything -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="back-home-btn fade-link">← Back to Homepage</a> 
+            </div>
+
+        </div>
+    </div> <!-- Close page-content container -->
+
+    <!-- Lightbox Script Engine for Detail Gallery --> 
+    <script> 
+        const galleryImages = document.querySelectorAll('.side-images img'); 
+        const lightbox = document.getElementById('lightbox-overlay'); 
+        const lightboxImg = document.getElementById('lightbox-img'); 
+        const lightboxBackBtn = document.getElementById('lightbox-back-btn'); 
+
+        // Loop through gallery images and attach lightbox opening events 
+        galleryImages.forEach(img => { 
+            img.style.cursor = 'pointer'; // Forces cursor change on hover 
+            img.addEventListener('click', () => { 
+                lightboxImg.src = img.src; // Hook the source over to the lightbox element 
+                lightbox.classList.add('visible'); // Fade the lightbox backdrop visible 
+            }); 
+        }); 
+
+        // Hide overlay viewport when clicking back button 
+        lightboxBackBtn.addEventListener('click', () => { 
+            lightbox.classList.remove('visible'); 
+        }); 
+
+        // Hide overlay viewport when clicking anywhere in the backdrop workspace 
+        lightbox.addEventListener('click', (e) => { 
+            if (e.target === lightbox) { 
+                lightbox.classList.remove('visible'); 
+            } 
+        }); 
+    </script>
+
+    <!-- Script to enable Dark Mode functionality -->
+    <script> 
+        const toggleButton = document.getElementById('dark-mode-toggle'); 
+        const body = document.body; 
+
+        if (localStorage.getItem('darkMode') === 'enabled') { 
+            body.classList.add('dark-mode'); 
+            if (toggleButton) toggleButton.textContent = '☀️ Light Mode'; 
+        } 
+
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => { 
+                body.classList.toggle('dark-mode'); 
+                if (body.classList.contains('dark-mode')) { 
+                    localStorage.setItem('darkMode', 'enabled'); 
+                    toggleButton.textContent = '☀️ Light Mode'; 
+                } else { 
+                    localStorage.setItem('darkMode', 'disabled'); 
+                    toggleButton.textContent = '🌙 Dark Mode'; 
+                } 
+            }); 
+        }
+    </script> 
+
+    <!-- Script to enable the back-button fade transition --> 
+    <script> 
+        const overlay = document.getElementById('page-overlay'); 
+        const fadeButtons = document.querySelectorAll('.fade-link'); 
+
+        fadeButtons.forEach(button => { 
+            button.addEventListener('click', function(event) { 
+                event.preventDefault(); 
+                const targetUrl = this.getAttribute('href'); 
+                if (overlay) overlay.classList.add('active'); 
+                setTimeout(() => { 
+                    window.location.href = targetUrl; 
+                }, 500); 
+            }); 
+        }); 
+
+        window.addEventListener('pageshow', function(event) { 
+            if (event.persisted && overlay) overlay.classList.remove('active'); 
+        }); 
+    </script> 
+</body> 
+</html>

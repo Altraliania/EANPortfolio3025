@@ -502,3 +502,20 @@ h1, h2, h3, h4, .Title {
     transform: translateY(0); /* Slides smoothly into place */
   }
 }
+
+.experience-block {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Puts space between the image and text */
+    margin-bottom: 30px; /* Puts space between each section */
+}
+
+.experience-img {
+    width: 150px; /* Adjust size as needed */
+    height: auto;
+    border-radius: 8px; /* Optional: rounds the photo corners */
+}
+
+.experience-text {
+    flex: 1;
+}
