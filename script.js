@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
 
                 // Vercel API
-                const response = await fetch(
-                    "https://ean-portfolio3025-git-main-altralianias-projects.vercel.app/api/send-email",
+               const response = await fetch(
+    "https://ean-portfolio3025.vercel.app/api/send-email",
                     {
                         method: "POST",
 
