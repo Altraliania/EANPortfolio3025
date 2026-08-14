@@ -18,19 +18,19 @@ export default async function handler(req, res) {
             });
         }
 
-        const { data, error } = await resend.emails.send({
-            from: "Portfolio <onboarding@resend.dev>",
-            to: ["emanuel.negussie@gmail.com"],
-            replyTo: email,
-            subject: `New message from ${name}`,
-            html: `
-                <h2>New Portfolio Contact</h2>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Message:</strong></p>
-                <p>${message}</p>
-            `
-        });
+const { data, error } = await resend.emails.send({
+    from: "onboarding@resend.dev",
+    to: ["negussiegamer@gmail.com"],
+    subject: `New message from ${name}`,
+    replyTo: email,
+    text: `
+Name: ${name}
+Email: ${email}
+
+Message:
+${message}
+`
+});
 
         if (error) {
             console.error("Resend error:", error);
