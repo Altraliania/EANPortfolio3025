@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-email-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node api/send-email.js"
+  },
+  "dependencies": {
+    "resend": "^4.8.0"
+  }
+}
