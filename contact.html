@@ -4,14 +4,18 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Contact Emanuel</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
     <!-- Animation Overlay -->
     <div id="page-overlay"></div>
 
-    <!-- Container wrapper that slides down and fades in -->
+    <!-- Container wrapper -->
     <div id="page-content">
 
         <!-- Header Banner Area -->
@@ -22,174 +26,249 @@
             </div>
         </header>
 
-        <!-- Split Content Layout -->
+
+        <!-- Main Content -->
         <div class="project-container">
-            <!-- Main Writing / Details -->
-            <main class="project-story" style="flex: 100%; max-width: 600px; margin: 0 auto;">
+
+            <main
+                class="project-story"
+                style="flex: 100%; max-width: 600px; margin: 0 auto;"
+            >
+
                 <h2>Let's Connect</h2>
+
                 <p>
-                    If necessary, these are my details you can contact me with. When contacting by phone, please be aware that I might not always be available, and it may take some time to respond to my email or phone.
+                    If necessary, these are my details you can contact me with.
+                    When contacting by phone, please be aware that I might not
+                    always be available, and it may take some time to respond
+                    to my email or phone.
                 </p>
 
-                <!-- Contact Details Block -->
-                <div style="margin: 40px 0; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                    <p style="margin-bottom: 15px; font-size: 1.1rem; color: #555;">
-                        <strong>Phone Number:</strong> +1 551-396-2595
+
+                <!-- Contact Details -->
+                <div
+                    style="
+                        margin: 40px 0;
+                        background: #fff;
+                        padding: 30px;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                    "
+                >
+
+                    <p
+                        style="
+                            margin-bottom: 15px;
+                            font-size: 1.1rem;
+                            color: #555;
+                        "
+                    >
+                        <strong>Phone Number:</strong>
+                        +1 551-396-2595
                     </p>
-                    <p style="margin-bottom: 15px; font-size: 1.1rem; color: #555;">
-                        <strong>Email:</strong> emanuel.negussie@gmail.com
+
+                    <p
+                        style="
+                            margin-bottom: 15px;
+                            font-size: 1.1rem;
+                            color: #555;
+                        "
+                    >
+                        <strong>Email:</strong>
+                        emanuel.negussie@gmail.com
                     </p>
-                    <p style="margin-bottom: 15px; font-size: 1.1rem; color: #555;">
-                        <strong>Location:</strong> Newark/The Oranges Region, New Jersey, United States
+
+                    <p
+                        style="
+                            margin-bottom: 15px;
+                            font-size: 1.1rem;
+                            color: #555;
+                        "
+                    >
+                        <strong>Location:</strong>
+                        Newark/The Oranges Region, New Jersey, United States
                     </p>
+
                 </div>
-                
+
+
                 <!-- Contact Form -->
-<div style="margin: 40px 0; background: #fff; padding: 30px; border-radius: 12px;">
+                <div
+                    style="
+                        margin: 40px 0;
+                        background: #fff;
+                        padding: 30px;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                    "
+                >
 
-    <h2>Send Me A Message</h2>
-
-    <form id="contact-form">
-
-        <input 
-        type="text" 
-        id="name"
-        placeholder="Your Full Name"
-        required
-        style="width:100%; padding:12px; margin-bottom:15px;"
-        >
-
-        <input 
-        type="email" 
-        id="email"
-        placeholder="Your Email"
-        required
-        style="width:100%; padding:12px; margin-bottom:15px;"
-        >
-
-        <textarea 
-        id="message"
-        placeholder="Your Message"
-        required
-        style="width:100%; height:150px; padding:12px;"
-        ></textarea>
+                    <h2>Send Me A Message</h2>
 
 
-        <button 
-        type="submit"
-        style="margin-top:15px; padding:12px 25px;">
-            Send Message
-        </button>
+                    <form id="contact-form">
 
-    </form>
+                        <!-- Name -->
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your Full Name"
+                            required
+                            style="
+                                width: 100%;
+                                padding: 12px;
+                                margin-bottom: 15px;
+                                box-sizing: border-box;
+                            "
+                        >
 
-    <p id="status"></p>
 
-</div>
+                        <!-- Email -->
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Your Email"
+                            required
+                            style="
+                                width: 100%;
+                                padding: 12px;
+                                margin-bottom: 15px;
+                                box-sizing: border-box;
+                            "
+                        >
 
 
-                <a href="index.html" class="back-home-btn fade-link">← Back to Homepage</a>
+                        <!-- Message -->
+                        <textarea
+                            id="message"
+                            name="message"
+                            placeholder="Your Message"
+                            required
+                            style="
+                                width: 100%;
+                                height: 150px;
+                                padding: 12px;
+                                box-sizing: border-box;
+                                resize: vertical;
+                            "
+                        ></textarea>
+
+
+                        <!-- Submit Button -->
+                        <button
+                            type="submit"
+                            style="
+                                margin-top: 15px;
+                                padding: 12px 25px;
+                            "
+                        >
+                            Send Message
+                        </button>
+
+                    </form>
+
+
+                    <!-- Status Message -->
+                    <p
+                        id="status"
+                        style="
+                            margin-top: 15px;
+                            font-weight: bold;
+                        "
+                    ></p>
+
+                </div>
+
+
+                <!-- Back Home -->
+                <a
+                    href="index.html"
+                    class="back-home-btn fade-link"
+                >
+                    ← Back to Homepage
+                </a>
+
             </main>
+
         </div>
 
-    </div> <!-- Close page-content container -->
+    </div>
 
+
+    <!-- Dark Mode -->
     <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        const body = document.body;
 
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
-    }
+        if (toggleButton) {
 
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                toggleButton.textContent = '☀️ Light Mode';
+            }
 
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
+            toggleButton.addEventListener('click', () => {
+
+                body.classList.toggle('dark-mode');
+
+                if (body.classList.contains('dark-mode')) {
+
+                    localStorage.setItem('darkMode', 'enabled');
+                    toggleButton.textContent = '☀️ Light Mode';
+
+                } else {
+
+                    localStorage.setItem('darkMode', 'disabled');
+                    toggleButton.textContent = '🌙 Dark Mode';
+
+                }
+
+            });
+
         }
-    });
-</script>
+    </script>
 
 
-    <!-- Script to enable the back-button fade transition -->
+    <!-- Page Transition -->
     <script>
         const overlay = document.getElementById('page-overlay');
         const fadeButtons = document.querySelectorAll('.fade-link');
 
         fadeButtons.forEach(button => {
+
             button.addEventListener('click', function(event) {
+
                 event.preventDefault();
+
                 const targetUrl = this.getAttribute('href');
-                if (overlay) overlay.classList.add('active');
-                setTimeout(() => { window.location.href = targetUrl; }, 500);
+
+                if (overlay) {
+                    overlay.classList.add('active');
+                }
+
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 500);
+
             });
+
         });
+
 
         window.addEventListener('pageshow', function(event) {
-            if (event.persisted && overlay) overlay.classList.remove('active');
+
+            if (event.persisted && overlay) {
+                overlay.classList.remove('active');
+            }
+
         });
     </script>
-    <script>
-
-document
-.getElementById("contact-form")
-.addEventListener("submit", async function(e){
-
-    e.preventDefault();
 
 
-    const name = document.getElementById("name").value;
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
 
-    const email = document.getElementById("email").value;
-
-    const message = document.getElementById("message").value;
-
-
-    const response = await fetch(
-        "YOUR_BACKEND_URL",
-        {
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body: JSON.stringify({
-                name,
-                email,
-                message
-            })
-        }
-    );
-
-
-    if(response.ok){
-
-        document.getElementById("status").innerHTML =
-        "Message sent successfully!";
-
-    }
-
-    else{
-
-        document.getElementById("status").innerHTML =
-        "Something went wrong.";
-
-    }
-
-
-});
-
-</script>
-
-<script src="script.js"></script>
 </body>
 </html>
