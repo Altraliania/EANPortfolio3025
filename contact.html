@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,37 +15,21 @@
 
 <body>
 
-    <!-- =========================
-         PAGE OVERLAY
-    ========================== -->
+    <!-- Page Overlay -->
     <div id="page-overlay"></div>
 
-
-    <!-- =========================
-         PAGE CONTENT
-    ========================== -->
+    <!-- Page Content -->
     <div id="page-content">
 
-
-        <!-- =========================
-             HEADER
-        ========================== -->
+        <!-- Header -->
         <header class="project-header" style="background-color: #222;">
-
             <div class="header-overlay-text">
-
                 <h1>Contact Emanuel</h1>
-
                 <p>Get in touch with me</p>
-
             </div>
-
         </header>
 
-
-        <!-- =========================
-             MAIN CONTENT
-        ========================== -->
+        <!-- Main Content -->
         <div class="project-container">
 
             <main
@@ -56,8 +41,7 @@
                 "
             >
 
-
-                <!-- INTRO -->
+                <!-- Introduction -->
                 <h2>Let's Connect</h2>
 
                 <p>
@@ -67,10 +51,7 @@
                     to my email or phone.
                 </p>
 
-
-                <!-- =========================
-                     CONTACT DETAILS
-                ========================== -->
+                <!-- Contact Details -->
                 <div
                     style="
                         margin: 40px 0;
@@ -92,7 +73,6 @@
                         +1 551-396-2595
                     </p>
 
-
                     <p
                         style="
                             margin-bottom: 15px;
@@ -103,7 +83,6 @@
                         <strong>Email:</strong>
                         emanuel.negussie@gmail.com
                     </p>
-
 
                     <p
                         style="
@@ -119,10 +98,7 @@
 
                 </div>
 
-
-                <!-- =========================
-                     CONTACT FORM
-                ========================== -->
+                <!-- Contact Form -->
                 <div
                     style="
                         margin: 40px 0;
@@ -135,17 +111,13 @@
 
                     <h2>Send Me A Message</h2>
 
-
-                    <!-- IMPORTANT:
-                         This is the ONLY contact form -->
                     <form
                         id="contact-form"
-                        action="#"
                         method="post"
+                        novalidate
                     >
 
-
-                        <!-- NAME -->
+                        <!-- Name -->
                         <input
                             type="text"
                             id="name"
@@ -161,8 +133,7 @@
                             "
                         >
 
-
-                        <!-- EMAIL -->
+                        <!-- Email -->
                         <input
                             type="email"
                             id="email"
@@ -178,8 +149,7 @@
                             "
                         >
 
-
-                        <!-- MESSAGE -->
+                        <!-- Message -->
                         <textarea
                             id="message"
                             name="message"
@@ -194,9 +164,9 @@
                             "
                         ></textarea>
 
-
-                        <!-- SEND BUTTON -->
+                        <!-- Submit Button -->
                         <button
+                            id="send-button"
                             type="submit"
                             style="
                                 margin-top: 15px;
@@ -207,13 +177,13 @@
                             Send Message
                         </button>
 
-
                     </form>
 
-
-                    <!-- STATUS -->
+                    <!-- Status -->
                     <p
                         id="status"
+                        role="status"
+                        aria-live="polite"
                         style="
                             margin-top: 15px;
                             font-weight: bold;
@@ -222,17 +192,13 @@
 
                 </div>
 
-
-                <!-- =========================
-                     BACK HOME
-                ========================== -->
+                <!-- Back Home -->
                 <a
                     href="index.html"
                     class="back-home-btn fade-link"
                 >
                     ← Back to Homepage
                 </a>
-
 
             </main>
 
@@ -241,79 +207,72 @@
     </div>
 
 
-    <!-- =========================
-         DARK MODE
-    ========================== -->
-
+    <!-- Dark Mode -->
     <script>
-
         document.addEventListener("DOMContentLoaded", function () {
 
             const body = document.body;
-
             const toggleButton =
                 document.getElementById("dark-mode-toggle");
 
-
-            // Check saved dark mode
-            if (localStorage.getItem("darkMode") === "enabled") {
-
+            if (
+                localStorage.getItem("darkMode") === "enabled"
+            ) {
                 body.classList.add("dark-mode");
 
                 if (toggleButton) {
-                    toggleButton.textContent = "☀️ Light Mode";
+                    toggleButton.textContent =
+                        "☀️ Light Mode";
                 }
-
             }
 
-
-            // Dark mode button
             if (toggleButton) {
 
-                toggleButton.addEventListener("click", function () {
+                toggleButton.addEventListener(
+                    "click",
+                    function () {
 
-                    body.classList.toggle("dark-mode");
-
-
-                    if (body.classList.contains("dark-mode")) {
-
-                        localStorage.setItem(
-                            "darkMode",
-                            "enabled"
+                        body.classList.toggle(
+                            "dark-mode"
                         );
 
-                        toggleButton.textContent =
-                            "☀️ Light Mode";
+                        if (
+                            body.classList.contains(
+                                "dark-mode"
+                            )
+                        ) {
 
-                    } else {
+                            localStorage.setItem(
+                                "darkMode",
+                                "enabled"
+                            );
 
-                        localStorage.setItem(
-                            "darkMode",
-                            "disabled"
-                        );
+                            toggleButton.textContent =
+                                "☀️ Light Mode";
 
-                        toggleButton.textContent =
-                            "🌙 Dark Mode";
+                        } else {
 
+                            localStorage.setItem(
+                                "darkMode",
+                                "disabled"
+                            );
+
+                            toggleButton.textContent =
+                                "🌙 Dark Mode";
+                        }
                     }
-
-                });
-
+                );
             }
 
         });
-
     </script>
 
 
-    <!-- =========================
-         MAIN JAVASCRIPT
-         Contact form + page transitions
-    ========================== -->
-
-    <script src="./script.js?v=3"></script>
-
+    <!-- Main JavaScript -->
+    <!-- v4 forces browsers/CDNs to load the newest script.js -->
+    <script src="./script.js?v=4"></script>
 
 </body>
 
 </html>
+```
