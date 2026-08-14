@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,28 +14,50 @@
 
 <body>
 
-    <!-- Animation Overlay -->
+    <!-- =========================
+         PAGE OVERLAY
+    ========================== -->
     <div id="page-overlay"></div>
 
-    <!-- Page Content -->
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================== -->
     <div id="page-content">
 
-        <!-- Header -->
+
+        <!-- =========================
+             HEADER
+        ========================== -->
         <header class="project-header" style="background-color: #222;">
+
             <div class="header-overlay-text">
+
                 <h1>Contact Emanuel</h1>
+
                 <p>Get in touch with me</p>
+
             </div>
+
         </header>
 
-        <!-- Main Content -->
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================== -->
         <div class="project-container">
 
             <main
                 class="project-story"
-                style="flex: 100%; max-width: 600px; margin: 0 auto;"
+                style="
+                    flex: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                "
             >
 
+
+                <!-- INTRO -->
                 <h2>Let's Connect</h2>
 
                 <p>
@@ -43,7 +67,10 @@
                     to my email or phone.
                 </p>
 
-                <!-- Contact Details -->
+
+                <!-- =========================
+                     CONTACT DETAILS
+                ========================== -->
                 <div
                     style="
                         margin: 40px 0;
@@ -65,6 +92,7 @@
                         +1 551-396-2595
                     </p>
 
+
                     <p
                         style="
                             margin-bottom: 15px;
@@ -76,6 +104,7 @@
                         emanuel.negussie@gmail.com
                     </p>
 
+
                     <p
                         style="
                             margin-bottom: 15px;
@@ -84,12 +113,16 @@
                         "
                     >
                         <strong>Location:</strong>
-                        Newark/The Oranges Region, New Jersey, United States
+                        Newark/The Oranges Region,
+                        New Jersey, United States
                     </p>
 
                 </div>
 
-                <!-- Contact Form -->
+
+                <!-- =========================
+                     CONTACT FORM
+                ========================== -->
                 <div
                     style="
                         margin: 40px 0;
@@ -102,9 +135,17 @@
 
                     <h2>Send Me A Message</h2>
 
-                    <form id="contact-form" action="#" method="post">
 
-                        <!-- Name -->
+                    <!-- IMPORTANT:
+                         This is the ONLY contact form -->
+                    <form
+                        id="contact-form"
+                        action="#"
+                        method="post"
+                    >
+
+
+                        <!-- NAME -->
                         <input
                             type="text"
                             id="name"
@@ -120,7 +161,8 @@
                             "
                         >
 
-                        <!-- Email -->
+
+                        <!-- EMAIL -->
                         <input
                             type="email"
                             id="email"
@@ -136,7 +178,8 @@
                             "
                         >
 
-                        <!-- Message -->
+
+                        <!-- MESSAGE -->
                         <textarea
                             id="message"
                             name="message"
@@ -151,25 +194,26 @@
                             "
                         ></textarea>
 
-                        <!-- Submit -->
+
+                        <!-- SEND BUTTON -->
                         <button
-                            id="submit-button"
                             type="submit"
                             style="
                                 margin-top: 15px;
                                 padding: 12px 25px;
+                                cursor: pointer;
                             "
                         >
                             Send Message
                         </button>
 
+
                     </form>
 
-                    <!-- Status -->
+
+                    <!-- STATUS -->
                     <p
                         id="status"
-                        role="status"
-                        aria-live="polite"
                         style="
                             margin-top: 15px;
                             font-weight: bold;
@@ -178,7 +222,10 @@
 
                 </div>
 
-                <!-- Back Home -->
+
+                <!-- =========================
+                     BACK HOME
+                ========================== -->
                 <a
                     href="index.html"
                     class="back-home-btn fade-link"
@@ -186,77 +233,87 @@
                     ← Back to Homepage
                 </a>
 
+
             </main>
 
         </div>
 
     </div>
 
-    <!-- Dark Mode -->
+
+    <!-- =========================
+         DARK MODE
+    ========================== -->
+
     <script>
-        const toggleButton = document.getElementById('dark-mode-toggle');
-        const body = document.body;
 
-        if (toggleButton) {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            if (localStorage.getItem('darkMode') === 'enabled') {
-                body.classList.add('dark-mode');
-                toggleButton.textContent = '☀️ Light Mode';
+            const body = document.body;
+
+            const toggleButton =
+                document.getElementById("dark-mode-toggle");
+
+
+            // Check saved dark mode
+            if (localStorage.getItem("darkMode") === "enabled") {
+
+                body.classList.add("dark-mode");
+
+                if (toggleButton) {
+                    toggleButton.textContent = "☀️ Light Mode";
+                }
+
             }
 
-            toggleButton.addEventListener('click', () => {
 
-                body.classList.toggle('dark-mode');
+            // Dark mode button
+            if (toggleButton) {
 
-                if (body.classList.contains('dark-mode')) {
-                    localStorage.setItem('darkMode', 'enabled');
-                    toggleButton.textContent = '☀️ Light Mode';
-                } else {
-                    localStorage.setItem('darkMode', 'disabled');
-                    toggleButton.textContent = '🌙 Dark Mode';
-                }
+                toggleButton.addEventListener("click", function () {
 
-            });
+                    body.classList.toggle("dark-mode");
 
-        }
-    </script>
 
-    <!-- Page Transition -->
-    <script>
-        const overlay = document.getElementById('page-overlay');
-        const fadeButtons = document.querySelectorAll('.fade-link');
+                    if (body.classList.contains("dark-mode")) {
 
-        fadeButtons.forEach(button => {
+                        localStorage.setItem(
+                            "darkMode",
+                            "enabled"
+                        );
 
-            button.addEventListener('click', function(event) {
+                        toggleButton.textContent =
+                            "☀️ Light Mode";
 
-                event.preventDefault();
+                    } else {
 
-                const targetUrl = this.getAttribute('href');
+                        localStorage.setItem(
+                            "darkMode",
+                            "disabled"
+                        );
 
-                if (overlay) {
-                    overlay.classList.add('active');
-                }
+                        toggleButton.textContent =
+                            "🌙 Dark Mode";
 
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 500);
+                    }
 
-            });
+                });
+
+            }
 
         });
 
-        window.addEventListener('pageshow', function(event) {
-
-            if (event.persisted && overlay) {
-                overlay.classList.remove('active');
-            }
-
-        });
     </script>
 
-    <!-- Contact Form JavaScript -->
-<script src="./script.js?v=2"></script>
+
+    <!-- =========================
+         MAIN JAVASCRIPT
+         Contact form + page transitions
+    ========================== -->
+
+    <script src="./script.js?v=3"></script>
+
 
 </body>
+
 </html>
