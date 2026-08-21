@@ -1,220 +1,1182 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Emanuel Negussie | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
+
 <body>
-    <!-- Full-screen animation overlay -->
+
+    <!-- ========================================
+         PAGE TRANSITION OVERLAY
+    ======================================== -->
+
     <div id="page-overlay"></div>
 
-    <!-- Full-screen Image Lightbox Overlay -->
+
+    <!-- ========================================
+         FULL-SCREEN IMAGE LIGHTBOX
+    ======================================== -->
+
     <div id="lightbox-overlay">
-        <button id="lightbox-back-btn">⬅ Back to Profile</button>
-        <img id="lightbox-img" src="" alt="Enlarged View">
+
+        <button id="lightbox-back-btn">
+            ⬅ Back to Profile
+        </button>
+
+        <img
+            id="lightbox-img"
+            src=""
+            alt="Enlarged View"
+        >
+
     </div>
 
-    <!-- Container wrapper that slides down and fades in -->
+
+    <!-- ========================================
+         MAIN PAGE CONTENT
+    ======================================== -->
+
     <div id="page-content">
-        <header class="hero-section" id="about">
+
+
+        <!-- ========================================
+             HERO / ABOUT
+        ======================================== -->
+
+        <header
+            class="hero-section"
+            id="about"
+        >
+
             <div class="profile-container">
-                <img src="EmanuelAFAF1.jpg" alt="Header Picture Left" class="profile-img side-img">
-                <img src="2026 02 22.jpg" alt="My Profile Picture" class="profile-img">
-                <img src="EmanuelAFAF2.jpg" alt="Header Picture Right" class="profile-img side-img">
+
+                <img
+                    src="EmanuelAFAF1.jpg"
+                    alt="Header Picture Left"
+                    class="profile-img side-img"
+                >
+
+                <img
+                    src="2026 02 22.jpg"
+                    alt="My Profile Picture"
+                    class="profile-img"
+                >
+
+                <img
+                    src="EmanuelAFAF2.jpg"
+                    alt="Header Picture Right"
+                    class="profile-img side-img"
+                >
+
             </div>
-            
-            <p class="Title">Emanuel Alemu Negussie</p>
-            <p class="subtitle">Student of Shawnigan Lake School</p>
-            <p class="bio">
-                Hello everyone! Welcome to my Digital Home! I am a Shawnigan Lake School Freshmen Student who lives in New Jersey in the United States of America. This website is an all about me and my work.
+
+
+            <p class="Title">
+                Emanuel Alemu Negussie
             </p>
+
+
+            <p class="subtitle">
+                Student of Shawnigan Lake School
+            </p>
+
+
+            <p class="bio">
+                Hello everyone! Welcome to my Digital Home!
+                I am a Shawnigan Lake School Freshmen Student
+                who lives in New Jersey in the United States
+                of America. This website is an all about me
+                and my work.
+            </p>
+
         </header>
 
-<div class="clock-card">
-    <div class="clock-icon">🕐</div>
 
-    <div class="clock-info">
-        <span class="clock-label">LOCAL TIME (EST)</span>
-        <div id="clockTime">--:--:--</div>
-        <div id="clockDate">Loading...</div>
-    </div>
-</div>
-        <main class="skills-section" id="skills">
-            <div class="card-btn-container" style="margin-bottom: 50px; max-width: 200px; margin-left: auto; margin-right: auto;">
-                <a href="contact.html" class="card-btn fade-link">Contact Me</a>
+
+        <!-- ========================================
+             LIVE CLOCK
+        ======================================== -->
+
+        <div class="clock-card">
+
+            <div class="clock-icon">
+                🕐
             </div>
 
-            <!-- Download Resume Button Container -->
-            <div class="card-btn-container" style="margin-bottom: 50px; max-width: 200px; margin-left: auto; margin-right: auto; margin-top: 15px;">
-                <a href="EmanuelNegussieResume.png" download="EmanuelNegussieResume.png" class="card-btn" style="text-align: center; display: block;">
+
+            <div class="clock-info">
+
+                <span class="clock-label">
+                    LOCAL TIME (EST)
+                </span>
+
+
+                <div id="clockTime">
+                    --:--:--
+                </div>
+
+
+                <div id="clockDate">
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================================
+             MAIN CONTENT
+        ======================================== -->
+
+        <main
+            class="skills-section"
+            id="skills"
+        >
+
+
+            <!-- CONTACT BUTTON -->
+
+            <div
+                class="card-btn-container"
+                style="
+                    margin-bottom: 50px;
+                    max-width: 200px;
+                    margin-left: auto;
+                    margin-right: auto;
+                "
+            >
+
+                <a
+                    href="contact.html"
+                    class="card-btn fade-link"
+                >
+                    Contact Me
+                </a>
+
+            </div>
+
+
+
+            <!-- RESUME BUTTON -->
+
+            <div
+                class="card-btn-container"
+                style="
+                    margin-bottom: 50px;
+                    max-width: 200px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 15px;
+                "
+            >
+
+                <a
+                    href="EmanuelNegussieResume.png"
+                    download="EmanuelNegussieResume.png"
+                    class="card-btn"
+                    style="
+                        text-align: center;
+                        display: block;
+                    "
+                >
                     📥 Download Resume
                 </a>
+
             </div>
 
-            <!-- ACADEMICS & PROJECTS CUE CARDS SECTION -->
-            <h2 style="margin-bottom: 20px;">Overview</h2>
-            <div class="skills-grid" style="margin-bottom: 60px;">
-                <!-- Academics Card -->
+
+
+            <!-- ========================================
+                 OVERVIEW
+            ======================================== -->
+
+            <h2 style="margin-bottom: 20px;">
+                Overview
+            </h2>
+
+
+            <div
+                class="skills-grid"
+                style="margin-bottom: 60px;"
+            >
+
+
+                <!-- ACADEMICS -->
+
                 <div class="skill-card">
-                    <h3>Academics</h3>
-                    <p>All Schools that I have attended.</p>
+
+                    <h3>
+                        Academics
+                    </h3>
+
+                    <p>
+                        All Schools that I have attended.
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="academics-detail.html" class="card-btn fade-link">View Academics</a>
+
+                        <a
+                            href="academics-detail.html"
+                            class="card-btn fade-link"
+                        >
+                            View Academics
+                        </a>
+
                     </div>
+
                 </div>
 
-                <!-- Projects Card -->
+
+
+                <!-- PROJECTS -->
+
                 <div class="skill-card">
-                    <h3>Projects</h3>
-                    <p>Explore independent work, developments, and personal goals.</p>
+
+                    <h3>
+                        Projects
+                    </h3>
+
+                    <p>
+                        Explore independent work,
+                        developments, and personal goals.
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="projects-detail.html" class="card-btn fade-link">Explore Projects</a>
+
+                        <a
+                            href="projects-detail.html"
+                            class="card-btn fade-link"
+                        >
+                            Explore Projects
+                        </a>
+
                     </div>
+
                 </div>
 
-                <!-- History Card -->
+
+
+                <!-- HISTORY -->
+
                 <div class="skill-card">
-                    <h3>History</h3>
-                    <p>History of me and my family.</p>
+
+                    <h3>
+                        History
+                    </h3>
+
+                    <p>
+                        History of me and my family.
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="history.html" class="card-btn fade-link">View History</a>
+
+                        <a
+                            href="history.html"
+                            class="card-btn fade-link"
+                        >
+                            View History
+                        </a>
+
                     </div>
+
                 </div>
 
-                <!-- Work-Experience Card -->
+
+
+                <!-- WORK EXPERIENCE -->
+
                 <div class="skill-card">
-                    <h3>Work Experience</h3>
-                    <p>My Experience & Work History.</p>
+
+                    <h3>
+                        Work Experience
+                    </h3>
+
+                    <p>
+                        My Experience & Work History.
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="work-experience.html" class="card-btn fade-link">View Work Experience</a>
+
+                        <a
+                            href="work-experience.html"
+                            class="card-btn fade-link"
+                        >
+                            View Work Experience
+                        </a>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <h2>My Work</h2>
+
+
+            <!-- ========================================
+                 MY WORK
+            ======================================== -->
+
+            <h2>
+                My Work
+            </h2>
+
+
             <div class="skills-grid">
-                <!-- Card 1: Model UN -->
+
+
+                <!-- MODEL UN -->
+
                 <div class="skill-card">
-                    <h3>Model United Nations</h3>
-                    <p>Fictional Debates about Real World Politics</p>
+
+                    <h3>
+                        Model United Nations
+                    </h3>
+
+                    <p>
+                        Fictional Debates about Real World Politics
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="work-detail.html" class="card-btn fade-link">More Information about Model UN</a>
+
+                        <a
+                            href="work-detail.html"
+                            class="card-btn fade-link"
+                        >
+                            More Information about Model UN
+                        </a>
+
                     </div>
+
                 </div>
 
-                <!-- Card 2: Graphic Design -->
+
+
+                <!-- GRAPHIC DESIGN -->
+
                 <div class="skill-card">
-                    <h3>Graphic Design</h3>
-                    <p>Making Detailed Advertisements and Posters</p>
+
+                    <h3>
+                        Graphic Design
+                    </h3>
+
+                    <p>
+                        Making Detailed Advertisements and Posters
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="design-detail.html" class="card-btn fade-link">More Information about Graphic Design</a>
+
+                        <a
+                            href="design-detail.html"
+                            class="card-btn fade-link"
+                        >
+                            More Information about Graphic Design
+                        </a>
+
                     </div>
+
                 </div>
 
-                <!-- Card 3: Filming & Editing -->
+
+
+                <!-- FILMING -->
+
                 <div class="skill-card">
-                    <h3>Filming & Editing</h3>
-                    <p>Filmed and Edited Short-Length Videos</p>
+
+                    <h3>
+                        Filming & Editing
+                    </h3>
+
+                    <p>
+                        Filmed and Edited Short-Length Videos
+                    </p>
+
                     <div class="card-btn-container">
-                        <a href="filming-detail.html" class="card-btn fade-link">More Information about Filming & Editing</a>
+
+                        <a
+                            href="filming-detail.html"
+                            class="card-btn fade-link"
+                        >
+                            More Information about Filming & Editing
+                        </a>
+
                     </div>
+
                 </div>
+
             </div>
+
         </main>
 
-        <!-- FOOTER HEADER -->
-        <footer style="text-align: center; padding: 40px 20px 20px; font-size: 0.85rem; color: #888;">
-            <p>Created by Emanuel Negussie</p>
 
-            <a href="https://www.instagram.com/emanuelaltra/" target="_blank" class="footer-logo-link">
-        <img src="instagram.png" alt="Visit Instagram" style="width: 24px; height: 24px; max-width: 24px; max-height: 24px; object-fit: contain; vertical-align: middle;">
-    </a>
+
+        <!-- ========================================
+             FOOTER
+        ======================================== -->
+
+        <footer
+            style="
+                text-align: center;
+                padding: 40px 20px 20px;
+                font-size: 0.85rem;
+                color: #888;
+            "
+        >
+
+            <p>
+                Created by Emanuel Negussie
+            </p>
+
+
+            <a
+                href="https://www.instagram.com/emanuelaltra/"
+                target="_blank"
+                class="footer-logo-link"
+            >
+
+                <img
+                    src="instagram.png"
+                    alt="Visit Instagram"
+                    style="
+                        width: 24px;
+                        height: 24px;
+                        max-width: 24px;
+                        max-height: 24px;
+                        object-fit: contain;
+                        vertical-align: middle;
+                    "
+                >
+
+            </a>
+
         </footer>
-    </div> <!-- Close page-content container -->
 
-    <!-- Mini Dark Mode Toggle Button -->
-    <button id="dark-mode-toggle" class="card-btn" style="margin-left: 20px; cursor: pointer; padding: 4px 10px; font-size: 0.75rem; border-width: 1px; width: auto; border-radius: 4px;">🌙 Dark Mode</button>
+    </div>
 
-    <!-- Lightbox Script Engine -->
+
+
+    <!-- ========================================
+         DARK MODE BUTTON
+    ======================================== -->
+
+    <button
+        id="dark-mode-toggle"
+        class="card-btn"
+        style="
+            margin-left: 20px;
+            cursor: pointer;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border-width: 1px;
+            width: auto;
+            border-radius: 4px;
+        "
+    >
+        🌙 Dark Mode
+    </button>
+
+
+
+    <!-- ========================================
+         WELCOME SCREEN
+    ======================================== -->
+
+    <div id="welcomeScreen">
+
+        <div class="welcome-content">
+
+
+            <div class="welcome-title">
+
+                <span class="welcome-symbol">
+                    &gt;
+                </span>
+
+                <span id="welcomeText"></span>
+
+                <span class="typing-cursor">
+                    _
+                </span>
+
+            </div>
+
+
+
+            <div class="terminal-box">
+
+
+                <div class="terminal-header">
+
+                    <span class="terminal-dot"></span>
+
+                    <span class="terminal-dot"></span>
+
+                    <span class="terminal-dot"></span>
+
+                    <span class="terminal-name">
+                        portfolio.exe
+                    </span>
+
+                </div>
+
+
+
+                <div class="terminal-body">
+
+                    <div id="bootMessages"></div>
+
+
+                    <div class="progress-container">
+
+                        <div id="progressBar"></div>
+
+                    </div>
+
+
+                    <div class="progress-text">
+
+                        <span id="progressText">
+                            0%
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <button
+                type="button"
+                id="skipWelcome"
+            >
+                Skip →
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         CREATOR MODE BUTTON
+    ======================================== -->
+
+    <button
+        id="creatorModeButton"
+        type="button"
+    >
+        ⚙️ Creator Mode
+    </button>
+
+
+
+    <!-- ========================================
+         CREATOR DASHBOARD
+    ======================================== -->
+
+    <div id="creatorOverlay">
+
+
+        <div id="creatorDashboard">
+
+
+            <!-- CREATOR HEADER -->
+
+            <div class="creator-header">
+
+                <div>
+
+                    <span class="creator-badge">
+                        CREATOR
+                    </span>
+
+
+                    <h1>
+                        Emanuel's Dashboard
+                    </h1>
+
+
+                    <p>
+                        Manage your portfolio
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="closeCreator"
+                    type="button"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+
+            <!-- CREATOR STATS -->
+
+            <div class="creator-stats">
+
+
+                <div class="creator-stat">
+
+                    <span>
+                        📁
+                    </span>
+
+                    <strong id="projectCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Projects
+                    </small>
+
+                </div>
+
+
+
+                <div class="creator-stat">
+
+                    <span>
+                        🛠️
+                    </span>
+
+                    <strong id="activeProjectCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Active
+                    </small>
+
+                </div>
+
+
+
+                <div class="creator-stat">
+
+                    <span>
+                        🌐
+                    </span>
+
+                    <strong>
+                        ONLINE
+                    </strong>
+
+                    <small>
+                        Portfolio
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROJECT MANAGEMENT -->
+
+            <div class="creator-section">
+
+
+                <div class="creator-section-header">
+
+
+                    <div>
+
+                        <h2>
+                            Projects
+                        </h2>
+
+                        <p>
+                            Manage the projects displayed
+                            on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="addProjectButton"
+                        class="creator-primary-button"
+                        type="button"
+                    >
+                        + Add Project
+                    </button>
+
+                </div>
+
+
+
+                <!-- PROJECTS GENERATED HERE -->
+
+                <div id="creatorProjects">
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ========================================
+                 PROJECT EDITOR
+            ======================================== -->
+
+            <div
+                id="projectEditor"
+                class="project-editor"
+            >
+
+
+                <div class="editor-header">
+
+                    <h2 id="editorTitle">
+                        Add Project
+                    </h2>
+
+
+                    <button
+                        id="closeEditor"
+                        type="button"
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+
+
+                <form id="projectForm">
+
+
+                    <input
+                        type="hidden"
+                        id="projectId"
+                    >
+
+
+
+                    <label>
+
+                        Project Name
+
+                        <input
+                            type="text"
+                            id="projectName"
+                            placeholder="MUN Together"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Description
+
+                        <textarea
+                            id="projectDescription"
+                            placeholder="Describe your project..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+
+                    <label>
+
+                        Technologies
+
+                        <input
+                            type="text"
+                            id="projectTech"
+                            placeholder="HTML, CSS, JavaScript, Supabase"
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        GitHub URL
+
+                        <input
+                            type="url"
+                            id="projectGithub"
+                            placeholder="https://github.com/..."
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Live Demo URL
+
+                        <input
+                            type="url"
+                            id="projectLive"
+                            placeholder="https://..."
+                        >
+
+                    </label>
+
+
+
+                    <label class="checkbox-label">
+
+                        <input
+                            type="checkbox"
+                            id="projectActive"
+                        >
+
+                        Currently Building
+
+                    </label>
+
+
+
+                    <div class="editor-buttons">
+
+
+                        <button
+                            type="button"
+                            id="cancelEditor"
+                            class="creator-secondary-button"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="creator-primary-button"
+                        >
+                            Save Project
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- CREATOR FOOTER -->
+
+            <div class="creator-footer">
+
+                <span>
+                    Creator Mode • Portfolio Manager
+                </span>
+
+
+                <button
+                    id="exitCreator"
+                    type="button"
+                >
+                    Exit Creator Mode
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         LIGHTBOX SCRIPT
+    ======================================== -->
+
     <script>
-        const profileImages = document.querySelectorAll('.profile-container .profile-img');
-        const lightbox = document.getElementById('lightbox-overlay');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const lightboxBackBtn = document.getElementById('lightbox-back-btn');
 
-        // Loop through each image and listen for clicks
-        profileImages.forEach(img => {
-            img.addEventListener('click', () => {
-                lightboxImg.src = img.src; // Set lightbox source to clicked image
-                lightbox.classList.add('visible'); // Show the overlay smoothly
-            });
-        });
+        const profileImages =
+            document.querySelectorAll(
+                '.profile-container .profile-img'
+            );
 
-        // Hide overlay when clicking the back button
-        lightboxBackBtn.addEventListener('click', () => {
-            lightbox.classList.remove('visible');
-        });
 
-        // Hide overlay if user clicks the dark background workspace
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('visible');
+        const lightbox =
+            document.getElementById(
+                'lightbox-overlay'
+            );
+
+
+        const lightboxImg =
+            document.getElementById(
+                'lightbox-img'
+            );
+
+
+        const lightboxBackBtn =
+            document.getElementById(
+                'lightbox-back-btn'
+            );
+
+
+        profileImages.forEach(
+            img => {
+
+                img.addEventListener(
+                    'click',
+                    () => {
+
+                        lightboxImg.src =
+                            img.src;
+
+                        lightbox.classList.add(
+                            'visible'
+                        );
+
+                    }
+                );
+
             }
-        });
+        );
+
+
+        lightboxBackBtn.addEventListener(
+            'click',
+            () => {
+
+                lightbox.classList.remove(
+                    'visible'
+                );
+
+            }
+        );
+
+
+        lightbox.addEventListener(
+            'click',
+            event => {
+
+                if (
+                    event.target === lightbox
+                ) {
+
+                    lightbox.classList.remove(
+                        'visible'
+                    );
+
+                }
+
+            }
+        );
+
     </script>
 
-    <script>
-        const toggleButton = document.getElementById('dark-mode-toggle');
-        const body = document.body;
 
-        // Check if the user previously picked Dark Mode
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            body.classList.add('dark-mode');
-            toggleButton.textContent = '☀️ Light Mode';
+
+    <!-- ========================================
+         DARK MODE SCRIPT
+    ======================================== -->
+
+    <script>
+
+        const toggleButton =
+            document.getElementById(
+                'dark-mode-toggle'
+            );
+
+
+        const body =
+            document.body;
+
+
+        if (
+            localStorage.getItem(
+                'darkMode'
+            ) === 'enabled'
+        ) {
+
+            body.classList.add(
+                'dark-mode'
+            );
+
+            toggleButton.textContent =
+                '☀️ Light Mode';
+
         }
 
-        toggleButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            // Switch button text based on the mode
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-                toggleButton.textContent = '☀️ Light Mode';
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                toggleButton.textContent = '🌙 Dark Mode';
-            }
-        });
-    </script>
 
-    <!-- Embedded Fade Animation Script -->
-    <script>
-        const overlay = document.getElementById('page-overlay');
-        const fadeButtons = document.querySelectorAll('.fade-link');
+        toggleButton.addEventListener(
+            'click',
+            () => {
 
-        fadeButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetUrl = this.getAttribute('href');
-                if (overlay) {
-                    overlay.classList.add('active');
+                body.classList.toggle(
+                    'dark-mode'
+                );
+
+
+                if (
+                    body.classList.contains(
+                        'dark-mode'
+                    )
+                ) {
+
+                    localStorage.setItem(
+                        'darkMode',
+                        'enabled'
+                    );
+
+                    toggleButton.textContent =
+                        '☀️ Light Mode';
+
+                } else {
+
+                    localStorage.setItem(
+                        'darkMode',
+                        'disabled'
+                    );
+
+                    toggleButton.textContent =
+                        '🌙 Dark Mode';
+
                 }
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 500);
-            });
-        });
 
-        // FIX FOR THE BROWSER BACK BUTTON:
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted && overlay) {
-                overlay.classList.remove('active');
             }
-        });
+        );
+
     </script>
+
+
+
+    <!-- ========================================
+         PAGE TRANSITIONS
+    ======================================== -->
+
+    <script>
+
+        const overlay =
+            document.getElementById(
+                'page-overlay'
+            );
+
+
+        const fadeButtons =
+            document.querySelectorAll(
+                '.fade-link'
+            );
+
+
+        fadeButtons.forEach(
+            button => {
+
+                button.addEventListener(
+                    'click',
+                    function (event) {
+
+                        event.preventDefault();
+
+
+                        const targetUrl =
+                            this.getAttribute(
+                                'href'
+                            );
+
+
+                        if (overlay) {
+
+                            overlay.classList.add(
+                                'active'
+                            );
+
+                        }
+
+
+                        setTimeout(
+                            () => {
+
+                                window.location.href =
+                                    targetUrl;
+
+                            },
+                            500
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        window.addEventListener(
+            'pageshow',
+            event => {
+
+                if (
+                    event.persisted &&
+                    overlay
+                ) {
+
+                    overlay.classList.remove(
+                        'active'
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+
+    <!-- ========================================
+         MAIN JAVASCRIPT
+    ======================================== -->
 
     <script src="script.js"></script>
+
+
+    <!-- ========================================
+         WELCOME ANIMATION
+    ======================================== -->
+
+    <script src="welcome.js"></script>
+
+
+    <!-- ========================================
+         CREATOR MODE
+    ======================================== -->
+
+    <script src="creator.js"></script>
+
+
 </body>
+
 </html>
