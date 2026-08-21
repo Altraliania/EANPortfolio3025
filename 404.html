@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>404 | Page Not Found</title>
+
+    <link rel="stylesheet" href="404.css">
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <main class="error-container">
+
+        <div class="error-code" data-text="404">404</div>
+
+        <h1>Page Not Found</h1>
+
+        <p class="subtitle">
+            Looks like this page got lost somewhere on the internet.
+        </p>
+
+        <!-- Terminal -->
+        <div class="terminal">
+
+            <div class="terminal-top">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="terminal-body">
+
+                <p>
+                    <span class="green">visitor@portfolio</span>:~$
+                    <span class="command">find page</span>
+                </p>
+
+                <p class="output">
+                    Searching...
+                </p>
+
+                <p class="output">
+                    Error: page does not exist.
+                </p>
+
+                <p>
+                    <span class="green">visitor@portfolio</span>:~$
+                    <span class="cursor">_</span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Music Player -->
+        <div class="music-player">
+
+            <div class="music-info">
+
+                <div class="album-art" id="albumArt">
+                    ♪
+                </div>
+
+                <div class="song-details">
+                    <span class="now-playing">
+                        NOW PLAYING
+                    </span>
+
+                    <h2>Isn't That What Foes Are For</h2>
+
+                    <p>404 soundtrack</p>
+                </div>
+
+            </div>
+
+            <div class="music-controls">
+
+                <button id="playPause" class="play-button">
+                    ▶
+                </button>
+
+                <div class="volume-section">
+
+                    <span id="volumeIcon">🔊</span>
+
+                    <input
+                        type="range"
+                        id="volumeSlider"
+                        min="0"
+                        max="100"
+                        value="70"
+                    >
+
+                    <span id="volumeValue">70%</span>
+
+                </div>
+
+            </div>
+
+            <div class="progress-section">
+
+                <span id="currentTime">0:00</span>
+
+                <input
+                    type="range"
+                    id="progressBar"
+                    min="0"
+                    max="100"
+                    value="0"
+                >
+
+                <span id="duration">0:00</span>
+
+            </div>
+
+            <audio
+                id="music"
+                src="isntthatwhatfoesarefor.mp3"
+                loop>
+            </audio>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <a href="index.html" class="btn primary">
+                ← Back Home
+            </a>
+
+            <a href="index.html#projects" class="btn secondary">
+                View Projects
+            </a>
+
+        </div>
+
+        <p class="small-text">
+            Error 404 • Nothing to see here... 👀
+        </p>
+
+    </main>
+
+    <script src="404.js"></script>
+
+</body>
+
+</html>
