@@ -475,24 +475,28 @@
 
 
     <!-- ========================================
-         DARK MODE BUTTON
+         BOTTOM-RIGHT CONTROLS
     ======================================== -->
 
-    <button
-        id="dark-mode-toggle"
-        class="card-btn"
-        style="
-            margin-left: 20px;
-            cursor: pointer;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            border-width: 1px;
-            width: auto;
-            border-radius: 4px;
-        "
-    >
-        🌙 Dark Mode
-    </button>
+    <div class="bottom-controls">
+
+        <button
+            id="dark-mode-toggle"
+            class="card-btn"
+            type="button"
+        >
+            🌙 Dark Mode
+        </button>
+
+
+        <button
+            id="creatorModeButton"
+            type="button"
+        >
+            ⚙️ Creator Mode
+        </button>
+
+    </div>
 
 
 
@@ -576,19 +580,6 @@
         </div>
 
     </div>
-
-
-
-    <!-- ========================================
-         CREATOR MODE BUTTON
-    ======================================== -->
-
-    <button
-        id="creatorModeButton"
-        type="button"
-    >
-        ⚙️ Creator Mode
-    </button>
 
 
 
@@ -731,11 +722,7 @@
 
 
 
-                <!-- PROJECTS GENERATED HERE -->
-
-                <div id="creatorProjects">
-
-                </div>
+                <div id="creatorProjects"></div>
 
 
             </div>
@@ -777,7 +764,6 @@
                         type="hidden"
                         id="projectId"
                     >
-
 
 
                     <label>
@@ -1001,7 +987,7 @@
 
 
     <!-- ========================================
-         DARK MODE SCRIPT
+         DARK MODE
     ======================================== -->
 
     <script>
@@ -1157,21 +1143,21 @@
 
 
     <!-- ========================================
-         MAIN JAVASCRIPT
+         MAIN SCRIPT
     ======================================== -->
 
     <script src="script.js"></script>
 
 
     <!-- ========================================
-         WELCOME ANIMATION
+         WELCOME ANIMATION SCRIPT
     ======================================== -->
 
     <script src="welcome.js"></script>
 
 
     <!-- ========================================
-         CREATOR MODE
+         CREATOR MODE SCRIPT
     ======================================== -->
 
     <script src="creator.js"></script>
