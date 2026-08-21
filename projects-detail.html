@@ -1,105 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Projects | Emanuel</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
+
 <body>
-    <!-- Animation Overlay -->
+
     <div id="page-overlay"></div>
 
-    <!-- Container wrapper that slides down and fades in -->
     <div id="page-content">
 
-        <!-- Header Banner Area -->
-        <header class="project-header" style="background-color: #222;">
+        <header
+            class="project-header"
+            style="background-color: #222;"
+        >
+
             <div class="header-overlay-text">
-                <h1>Independent Projects</h1>
-                <p>Explore my personal developments</p>
+
+                <h1>
+                    Independent Projects
+                </h1>
+
+                <p>
+                    Explore my personal developments
+                </p>
+
             </div>
+
         </header>
 
-        <!-- Split Content Layout -->
+
         <div class="project-container">
-            <!-- Left Side: Main Writing -->
+
             <main class="project-story">
-                <h2>My Independent Projects</h2>
+
+                <h2>
+                    My Independent Projects
+                </h2>
+
+
                 <p>
-                    Outside of my regular school courses at Shawnigan Lake School, I dedicate to take time to build independent projects. This space tracks my development work and personal project milestones as I turn my personal concepts into reality.
+                    Outside of my regular school courses at
+                    Shawnigan Lake School, I dedicate time to
+                    building independent projects. This space
+                    tracks my development work and personal
+                    project milestones as I turn my personal
+                    concepts into reality.
                 </p>
+
+
                 <p>
-                    Working on these projects makes me learn new skills I can use within my day to day life and it also helps me to teach my peers. I'm very proud of the work I can do and I'm always ready to learn a new skill.
+                    Working on these projects helps me learn
+                    new skills that I can use within my day-to-day
+                    life and also helps me teach my peers. I'm
+                    very proud of the work I can do and I'm
+                    always ready to learn a new skill.
                 </p>
-                <a href="index.html" class="back-home-btn fade-link">← Back to Homepage</a>
+
+
+                <a
+                    href="index.html"
+                    class="back-home-btn fade-link"
+                >
+                    ← Back to Homepage
+                </a>
+
             </main>
 
-            <!-- Right Side: Project Cue Cards / List -->
+
             <aside class="project-gallery">
-                <h3>Current Projects</h3>
-                <div class="side-images">
-                    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 4px solid #28a745;">
-                        <h4 style="margin-bottom: 5px; color: #222;">Website Development</h4>
-                        <p style="font-size: 0.95rem; color: #666; line-height: 1.5; margin: 0;">
-                            Instead of using an web service, I actually made this website with JavaScript with the help of AI. Since joining the AllStarCode* Program, I have learned to code with JavaScript.
-                        </p>
-                    </div>
-                    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 4px solid #007bff;">
-                        <h4 style="margin-bottom: 5px; color: #222;">Cookbook</h4>
-                        <p style="font-size: 0.95rem; color: #666; line-height: 1.5; margin: 0;">
-                            Since my oldest sister came back from the State of Alaska and made her own cookbook, I have learned how to cook and make my own recipes from insperation from youtubers and my own sister.
-                        </p>
-                    </div>
+
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 15px;
+                        margin-bottom: 20px;
+                    "
+                >
+
+                    <h3 style="margin: 0;">
+                        Current Projects
+                    </h3>
+
+
+                    <span
+                        id="projectTotal"
+                        style="
+                            font-size: 0.8rem;
+                            color: #777;
+                        "
+                    >
+                        0 Projects
+                    </span>
+
                 </div>
+
+
+                <div
+                    id="projectsContainer"
+                    class="side-images"
+                ></div>
+
+
+                <div
+                    id="emptyProjects"
+                    style="
+                        display: none;
+                        padding: 25px;
+                        text-align: center;
+                        border-radius: 8px;
+                        border: 1px solid var(--border-color);
+                        background: var(--card-bg);
+                        color: var(--card-text);
+                    "
+                >
+
+                    <p style="margin: 0 0 10px;">
+                        No projects yet.
+                    </p>
+
+                    <small>
+                        Add a project through Creator Mode.
+                    </small>
+
+                </div>
+
             </aside>
+
         </div>
 
-    </div> <!-- Close page-content container -->
+    </div>
+
+
+    <div class="bottom-controls">
+
+        <button
+            id="dark-mode-toggle"
+            class="card-btn"
+            type="button"
+        >
+            🌙 Dark Mode
+        </button>
+
+    </div>
+
 
     <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
 
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
-    }
+        const projectsContainer =
+            document.getElementById(
+                "projectsContainer"
+            );
 
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
 
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
+        const emptyProjects =
+            document.getElementById(
+                "emptyProjects"
+            );
+
+
+        const projectTotal =
+            document.getElementById(
+                "projectTotal"
+            );
+
+
+        const defaultProjects = [
+
+            {
+                id: "website-development",
+
+                name: "Website Development",
+
+                description:
+                    "Instead of using a web service, I actually made this website with JavaScript with the help of AI. Since joining the AllStarCode* Program, I have learned to code with JavaScript.",
+
+                tech:
+                    "HTML, CSS, JavaScript",
+
+                github: "",
+
+                live: "",
+
+                active: true
+            },
+
+
+            {
+                id: "cookbook",
+
+                name: "Cookbook",
+
+                description:
+                    "Since my oldest sister came back from the State of Alaska and made her own cookbook, I have learned how to cook and make my own recipes from inspiration from YouTubers and my own sister.",
+
+                tech:
+                    "Cooking, Recipe Development",
+
+                github: "",
+
+                live: "",
+
+                active: true
+            }
+
+        ];
+
+
+        function getProjects() {
+
+            const savedProjects =
+                localStorage.getItem(
+                    "portfolioProjects"
+                );
+
+
+            if (savedProjects) {
+
+                try {
+
+                    return JSON.parse(
+                        savedProjects
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Could not read projects:",
+                        error
+                    );
+
+                    return defaultProjects;
+
+                }
+
+            }
+
+
+            localStorage.setItem(
+                "portfolioProjects",
+                JSON.stringify(
+                    defaultProjects
+                )
+            );
+
+
+            return defaultProjects;
+
         }
-    });
-</script>
 
 
-    <!-- Script to enable the back-button fade transition -->
-    <script>
-        const overlay = document.getElementById('page-overlay');
-        const fadeButtons = document.querySelectorAll('.fade-link');
+        function saveProjects(projects) {
 
-        fadeButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetUrl = this.getAttribute('href');
-                if (overlay) overlay.classList.add('active');
-                setTimeout(() => { window.location.href = targetUrl; }, 500);
-            });
-        });
+            localStorage.setItem(
+                "portfolioProjects",
+                JSON.stringify(projects)
+            );
 
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted && overlay) overlay.classList.remove('active');
-        });
+        }
+
+
+        function renderProjects() {
+
+            const projects =
+                getProjects();
+
+
+            projectsContainer.innerHTML =
+                "";
+
+
+            projectTotal.textContent =
+                projects.length +
+                (
+                    projects.length === 1
+                        ? " Project"
+                        : " Projects"
+                );
+
+
+            if (projects.length === 0) {
+
+                emptyProjects.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            emptyProjects.style.display =
+                "none";
+
+
+            projects.forEach(
+                (project, index) => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "creator-project-card";
+
+
+                    const accentColors = [
+                        "#28a745",
+                        "#007bff",
+                        "#8b5cf6",
+                        "#f59e0b",
+                        "#ef4444"
+                    ];
+
+
+                    const accent =
+                        accentColors[
+                            index %
+                            accentColors.length
+                        ];
+
+
+                    card.style.cssText = `
+                        background: var(--card-bg);
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: var(--card-shadow);
+                        text-align: left;
+                        border-left: 4px solid ${accent};
+                        margin-bottom: 15px;
+                        border-top: 1px solid var(--border-color);
+                        border-right: 1px solid var(--border-color);
+                        border-bottom: 1px solid var(--border-color);
+                    `;
+
+
+                    const title =
+                        document.createElement(
+                            "h4"
+                        );
+
+
+                    title.textContent =
+                        project.name;
+
+
+                    title.style.cssText = `
+                        margin-bottom: 7px;
+                        color: var(--heading-color);
+                    `;
+
+
+                    const description =
+                        document.createElement(
+                            "p"
+                        );
+
+
+                    description.textContent =
+                        project.description;
+
+
+                    description.style.cssText = `
+                        font-size: 0.95rem;
+                        color: var(--card-text);
+                        line-height: 1.5;
+                        margin: 0 0 12px;
+                    `;
+
+
+                    card.appendChild(
+                        title
+                    );
+
+
+                    card.appendChild(
+                        description
+                    );
+
+
+                    if (project.tech) {
+
+                        const tech =
+                            document.createElement(
+                                "small"
+                            );
+
+
+                        tech.textContent =
+                            "🛠️ " +
+                            project.tech;
+
+
+                        tech.style.cssText = `
+                            display: block;
+                            color: var(--card-text);
+                            margin-bottom: 12px;
+                        `;
+
+
+                        card.appendChild(
+                            tech
+                        );
+
+                    }
+
+
+                    if (project.active) {
+
+                        const status =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        status.textContent =
+                            "● Currently Building";
+
+
+                        status.style.cssText = `
+                            display: inline-block;
+                            font-size: 0.75rem;
+                            font-weight: 600;
+                            color: #28a745;
+                            margin-bottom: 12px;
+                        `;
+
+
+                        card.appendChild(
+                            status
+                        );
+
+                    }
+
+
+                    const links =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    links.style.cssText = `
+                        display: flex;
+                        gap: 8px;
+                        flex-wrap: wrap;
+                        margin-top: 5px;
+                    `;
+
+
+                    if (project.github) {
+
+                        const github =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        github.href =
+                            project.github;
+
+
+                        github.target =
+                            "_blank";
+
+
+                        github.rel =
+                            "noopener noreferrer";
+
+
+                        github.textContent =
+                            "GitHub";
+
+
+                        github.style.cssText = `
+                            font-size: 0.8rem;
+                            text-decoration: none;
+                            color: var(--text-color);
+                            border: 1px solid var(--border-color);
+                            padding: 5px 9px;
+                            border-radius: 5px;
+                        `;
+
+
+                        links.appendChild(
+                            github
+                        );
+
+                    }
+
+
+                    if (project.live) {
+
+                        const live =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        live.href =
+                            project.live;
+
+
+                        live.target =
+                            "_blank";
+
+
+                        live.rel =
+                            "noopener noreferrer";
+
+
+                        live.textContent =
+                            "Live Demo";
+
+
+                        live.style.cssText = `
+                            font-size: 0.8rem;
+                            text-decoration: none;
+                            background: var(--text-color);
+                            color: var(--bg-color);
+                            border: 1px solid var(--text-color);
+                            padding: 5px 9px;
+                            border-radius: 5px;
+                        `;
+
+
+                        links.appendChild(
+                            live
+                        );
+
+                    }
+
+
+                    if (
+                        project.github ||
+                        project.live
+                    ) {
+
+                        card.appendChild(
+                            links
+                        );
+
+                    }
+
+
+                    projectsContainer.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        renderProjects();
+
+
+        window.addEventListener(
+            "storage",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "portfolioProjects"
+                ) {
+
+                    renderProjects();
+
+                }
+
+            }
+        );
+
     </script>
+
+
+    <script>
+
+        const toggleButton =
+            document.getElementById(
+                "dark-mode-toggle"
+            );
+
+
+        const body =
+            document.body;
+
+
+        if (
+            localStorage.getItem(
+                "darkMode"
+            ) === "enabled"
+        ) {
+
+            body.classList.add(
+                "dark-mode"
+            );
+
+
+            toggleButton.textContent =
+                "☀️ Light Mode";
+
+        }
+
+
+        toggleButton.addEventListener(
+            "click",
+            function () {
+
+                body.classList.toggle(
+                    "dark-mode"
+                );
+
+
+                if (
+                    body.classList.contains(
+                        "dark-mode"
+                    )
+                ) {
+
+                    localStorage.setItem(
+                        "darkMode",
+                        "enabled"
+                    );
+
+
+                    toggleButton.textContent =
+                        "☀️ Light Mode";
+
+                } else {
+
+                    localStorage.setItem(
+                        "darkMode",
+                        "disabled"
+                    );
+
+
+                    toggleButton.textContent =
+                        "🌙 Dark Mode";
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+    <script>
+
+        const overlay =
+            document.getElementById(
+                "page-overlay"
+            );
+
+
+        const fadeButtons =
+            document.querySelectorAll(
+                ".fade-link"
+            );
+
+
+        fadeButtons.forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+
+                        const targetUrl =
+                            this.getAttribute(
+                                "href"
+                            );
+
+
+                        if (overlay) {
+
+                            overlay.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        setTimeout(
+                            () => {
+
+                                window.location.href =
+                                    targetUrl;
+
+                            },
+                            500
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        window.addEventListener(
+            "pageshow",
+            function (event) {
+
+                if (
+                    event.persisted &&
+                    overlay
+                ) {
+
+                    overlay.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
 </body>
+
 </html>
