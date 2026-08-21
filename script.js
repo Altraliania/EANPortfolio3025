@@ -223,3 +223,28 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 });
+
+function updateClock() {
+    const now = new Date();
+
+    const time = now.toLocaleTimeString("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    const date = now.toLocaleDateString("en-US", {
+        timeZone: "America/New_York",
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+    });
+
+    document.getElementById("clockTime").textContent = time;
+    document.getElementById("clockDate").textContent = date;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
