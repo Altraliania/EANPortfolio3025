@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    const CREATOR_PASSWORD = "Altralania2011";
+    const CREATOR_PASSWORD = "Altraliania2011";
     const EASTER_EGG_PASSWORD = "Altrarunner";
 
     const STORAGE_KEY = "portfolioProjects";
