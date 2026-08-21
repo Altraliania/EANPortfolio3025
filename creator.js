@@ -4,10 +4,466 @@
     const CREATOR_PASSWORD = "Altraliania2011";
     const EASTER_EGG_PASSWORD = "Altrarunner";
 
-    const STORAGE_KEY = "portfolioProjects";
+const STORAGE_KEY = "portfolioProjects";
 
-    let passwordScreen = null;
-    let gameScreen = null;
+let passwordScreen = null;
+let gameScreen = null;
+let visitorStatsTimer = null;
+let visitorMap = null;
+let visitorMarkers = [];
+let visitorLocationTimer = null;
+let siteStatusTimer = null;
+
+
+async function updateSiteStatus() {
+
+    const website =
+        get("siteStatusWebsite");
+
+    const api =
+        get("siteStatusAPI");
+
+    const database =
+        get("siteStatusDatabase");
+
+    const analytics =
+        get("siteStatusAnalytics");
+
+    const lastChecked =
+        get("siteStatusLastChecked");
+
+    if (!website) {
+        return;
+    }
+
+    setStatus(
+        website,
+        "Checking...",
+        "status-checking"
+    );
+
+    setStatus(
+        api,
+        "Checking...",
+        "status-checking"
+    );
+
+    setStatus(
+        database,
+        "Checking...",
+        "status-checking"
+    );
+
+    setStatus(
+        analytics,
+        "Checking...",
+        "status-checking"
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/site-status",
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+            throw new Error(
+                data.error ||
+                "Status unavailable"
+            );
+        }
+
+        setStatus(
+            website,
+            data.website,
+            data.website === "Online"
+                ? "status-good"
+                : "status-bad"
+        );
+
+        setStatus(
+            api,
+            data.visitorApi,
+            data.visitorApi === "Operational"
+                ? "status-good"
+                : "status-bad"
+        );
+
+        setStatus(
+            database,
+            data.database,
+            data.database === "Connected"
+                ? "status-good"
+                : "status-bad"
+        );
+
+        setStatus(
+            analytics,
+            data.analytics,
+            data.analytics === "Tracking"
+                ? "status-good"
+                : "status-bad"
+        );
+
+        if (lastChecked) {
+
+            lastChecked.textContent =
+                "Last checked " +
+                new Date().toLocaleTimeString(
+                    "en-US",
+                    {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }
+                );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Site status check failed:",
+            error
+        );
+
+        setStatus(
+            website,
+            "Offline",
+            "status-bad"
+        );
+
+        setStatus(
+            api,
+            "Offline",
+            "status-bad"
+        );
+
+        setStatus(
+            database,
+            "Unavailable",
+            "status-bad"
+        );
+
+        setStatus(
+            analytics,
+            "Unavailable",
+            "status-bad"
+        );
+
+        if (lastChecked) {
+
+            lastChecked.textContent =
+                "Status check failed";
+
+        }
+
+    }
+}
+
+function setStatus(
+    element,
+    text,
+    className
+) {
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        text;
+
+    element.classList.remove(
+        "status-good",
+        "status-bad",
+        "status-checking"
+    );
+
+    element.classList.add(
+        className
+    );
+}
+
+function startSiteStatusPolling() {
+
+    stopSiteStatusPolling();
+
+    updateSiteStatus();
+
+    siteStatusTimer =
+        setInterval(
+            updateSiteStatus,
+            30000
+        );
+}
+
+function stopSiteStatusPolling() {
+
+    if (siteStatusTimer) {
+
+        clearInterval(
+            siteStatusTimer
+        );
+
+        siteStatusTimer = null;
+    }
+}
+
+    async function updateVisitorMap() {
+
+    const mapElement =
+        get("visitorMap");
+
+    const mapCount =
+        get("visitorMapCount");
+
+    if (!mapElement) {
+        return;
+    }
+
+    if (
+        typeof L === "undefined"
+    ) {
+
+        console.error(
+            "Leaflet is not loaded."
+        );
+
+        return;
+    }
+
+    if (!visitorMap) {
+
+        visitorMap =
+            L.map(
+                "visitorMap",
+                {
+                    worldCopyJump: true,
+                    minZoom: 2,
+                    maxZoom: 6
+                }
+            );
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution:
+                    "&copy; OpenStreetMap contributors"
+            }
+        ).addTo(
+            visitorMap
+        );
+
+        visitorMap.setView(
+            [20, 0],
+            2
+        );
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/visitor-locations",
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                `Location API returned HTTP ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+            throw new Error(
+                data?.error ||
+                "Location data unavailable"
+            );
+        }
+
+        visitorMarkers.forEach(
+            marker => {
+                visitorMap.removeLayer(
+                    marker
+                );
+            }
+        );
+
+        visitorMarkers = [];
+
+        const locations =
+            Array.isArray(
+                data.locations
+            )
+                ? data.locations
+                : [];
+
+        locations.forEach(
+            location => {
+
+                const latitude =
+                    Number(
+                        location.latitude
+                    );
+
+                const longitude =
+                    Number(
+                        location.longitude
+                    );
+
+                if (
+                    !Number.isFinite(
+                        latitude
+                    ) ||
+                    !Number.isFinite(
+                        longitude
+                    )
+                ) {
+                    return;
+                }
+
+                const marker =
+                    L.circleMarker(
+                        [
+                            latitude,
+                            longitude
+                        ],
+                        {
+                            radius: 7,
+                            fillColor: "#007bff",
+                            color: "#ffffff",
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.85
+                        }
+                    );
+
+                const locationParts =
+                    [
+                        location.city,
+                        location.region,
+                        location.country
+                    ].filter(
+                        Boolean
+                    );
+
+                const label =
+                    locationParts.length
+                        ? locationParts.join(
+                            ", "
+                        )
+                        : "Approximate location";
+
+                marker.bindPopup(
+                    `
+                        <strong>
+                            Visitor
+                        </strong>
+                        <br>
+                        ${escape(label)}
+                    `
+                );
+
+                marker.addTo(
+                    visitorMap
+                );
+
+                visitorMarkers.push(
+                    marker
+                );
+            }
+        );
+
+        if (mapCount) {
+
+            mapCount.textContent =
+                locations.length === 1
+                    ? "1 location"
+                    : `${locations.length} locations`;
+
+        }
+
+        setTimeout(
+            () => {
+
+                visitorMap.invalidateSize();
+
+            },
+            100
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not load visitor map:",
+            error
+        );
+
+        if (mapCount) {
+            mapCount.textContent =
+                "Unavailable";
+        }
+
+    }
+}
+
+function startVisitorLocationPolling() {
+
+    stopVisitorLocationPolling();
+
+    updateVisitorMap();
+
+    visitorLocationTimer =
+        setInterval(
+            updateVisitorMap,
+            15000
+        );
+}
+
+function stopVisitorLocationPolling() {
+
+    if (visitorLocationTimer) {
+
+        clearInterval(
+            visitorLocationTimer
+        );
+
+        visitorLocationTimer =
+            null;
+    }
+}
 
     function ready(callback) {
         if (document.readyState === "loading") {
@@ -380,6 +836,18 @@
                 font-size: 11px !important;
             }
 
+            .visitor-loading {
+                opacity: 0.65;
+            }
+
+            .visitor-error {
+                color: #dc3545 !important;
+            }
+
+            .visitor-live {
+                color: #198754 !important;
+            }
+
             @media (max-width: 600px) {
                 #creatorModeButton {
                     right: 12px !important;
@@ -668,6 +1136,9 @@
     }
 
     function openDashboard() {
+
+        startSiteStatusPolling();
+
         const overlay =
             get("creatorOverlay");
 
@@ -687,9 +1158,16 @@
             "hidden";
 
         updateDashboard();
+        updateVisitorStats();
+startVisitorStatsPolling();
+
+startVisitorLocationPolling();
     }
 
     function closeDashboard() {
+
+        stopSiteStatusPolling();
+        
         const overlay =
             get("creatorOverlay");
 
@@ -703,6 +1181,164 @@
 
         document.body.style.overflow =
             "";
+
+        stopVisitorStatsPolling();
+stopVisitorLocationPolling();
+    }
+
+    async function updateVisitorStats() {
+        const onlineElement =
+            get("onlineVisitorCount");
+
+        const totalElement =
+            get("totalVisitorCount");
+
+        if (!onlineElement && !totalElement) {
+            return;
+        }
+
+        if (onlineElement) {
+            onlineElement.classList.add(
+                "visitor-loading"
+            );
+        }
+
+        if (totalElement) {
+            totalElement.classList.add(
+                "visitor-loading"
+            );
+        }
+
+        try {
+            const response =
+                await fetch(
+                    "/api/visitor-stats",
+                    {
+                        method: "GET",
+                        cache: "no-store",
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Visitor API returned HTTP ${response.status}`
+                );
+            }
+
+            const data =
+                await response.json();
+
+            if (
+                !data ||
+                data.success !== true
+            ) {
+                throw new Error(
+                    data?.error ||
+                    "Visitor statistics unavailable"
+                );
+            }
+
+            const online =
+                Number(
+                    data.onlineVisitors
+                );
+
+            const total =
+                Number(
+                    data.totalVisitors
+                );
+
+            if (onlineElement) {
+                onlineElement.textContent =
+                    Number.isFinite(online)
+                        ? online
+                        : "0";
+
+                onlineElement.classList.remove(
+                    "visitor-error"
+                );
+
+                onlineElement.classList.add(
+                    "visitor-live"
+                );
+            }
+
+            if (totalElement) {
+                totalElement.textContent =
+                    Number.isFinite(total)
+                        ? total
+                        : "0";
+
+                totalElement.classList.remove(
+                    "visitor-error"
+                );
+            }
+
+        } catch (error) {
+            console.error(
+                "Could not load visitor statistics:",
+                error
+            );
+
+            if (onlineElement) {
+                onlineElement.textContent =
+                    "—";
+
+                onlineElement.classList.add(
+                    "visitor-error"
+                );
+
+                onlineElement.classList.remove(
+                    "visitor-live"
+                );
+            }
+
+            if (totalElement) {
+                totalElement.textContent =
+                    "—";
+
+                totalElement.classList.add(
+                    "visitor-error"
+                );
+            }
+
+        } finally {
+            if (onlineElement) {
+                onlineElement.classList.remove(
+                    "visitor-loading"
+                );
+            }
+
+            if (totalElement) {
+                totalElement.classList.remove(
+                    "visitor-loading"
+                );
+            }
+        }
+    }
+
+    function startVisitorStatsPolling() {
+        stopVisitorStatsPolling();
+
+        visitorStatsTimer =
+            setInterval(
+                updateVisitorStats,
+                15000
+            );
+    }
+
+    function stopVisitorStatsPolling() {
+        if (visitorStatsTimer) {
+            clearInterval(
+                visitorStatsTimer
+            );
+
+            visitorStatsTimer = null;
+        }
     }
 
     function getProjects() {
@@ -782,6 +1418,15 @@
         }
 
         renderProjects();
+
+        if (
+            get("creatorOverlay") &&
+            get("creatorOverlay").classList.contains(
+                "visible"
+            )
+        ) {
+            updateVisitorStats();
+        }
     }
 
     function renderProjects() {
@@ -1097,8 +1742,11 @@
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, "-");
 
-            let originalId = id;
-            let number = 1;
+            let originalId =
+                id;
+
+            let number =
+                1;
 
             while (
                 projects.some(
@@ -1367,7 +2015,9 @@
             start.textContent =
                 "Restart Game";
 
-            cancelAnimationFrame(frame);
+            cancelAnimationFrame(
+                frame
+            );
 
             loop();
         }
@@ -1817,11 +2467,23 @@
         );
 
         updateDashboard();
-
-        console.log(
-            "Creator system ready."
-        );
     }
 
     ready(setup);
 })();
+
+const lastUpdated =
+    get("visitorLastUpdated");
+
+if (lastUpdated) {
+    lastUpdated.textContent =
+        "Updated " +
+        new Date().toLocaleTimeString(
+            "en-US",
+            {
+                hour: "numeric",
+                minute: "2-digit",
+                second: "2-digit"
+            }
+        );
+}

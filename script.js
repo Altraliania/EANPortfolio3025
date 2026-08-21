@@ -2,209 +2,186 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("SCRIPT.JS LOADED");
 
+    const form =
+        document.getElementById("contact-form");
 
-    // ==================================================
-    // CONTACT FORM
-    // ==================================================
-
-    const form = document.getElementById("contact-form");
-    const status = document.getElementById("status");
-
-    console.log("FORM:", form);
-    console.log("STATUS:", status);
-
+    const status =
+        document.getElementById("status");
 
     if (form && status) {
 
-        form.addEventListener("submit", async function (event) {
+        form.addEventListener(
+            "submit",
+            async function (event) {
 
-            // VERY IMPORTANT
-            // Prevent the browser from refreshing the page
-            event.preventDefault();
-            event.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
 
-            console.log("FORM SUBMISSION STOPPED");
+                const name =
+                    document
+                        .getElementById("name")
+                        .value
+                        .trim();
 
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
 
-            // Get form values
-            const name =
-                document.getElementById("name").value.trim();
+                const message =
+                    document
+                        .getElementById("message")
+                        .value
+                        .trim();
 
-            const email =
-                document.getElementById("email").value.trim();
-
-            const message =
-                document.getElementById("message").value.trim();
-
-
-            // Check fields
-            if (!name || !email || !message) {
-
-                status.textContent =
-                    "Please fill out all fields.";
-
-                return;
-            }
-
-
-            // Show sending message
-            status.textContent = "Sending...";
-
-
-            console.log("Sending contact form...");
-
-
-            try {
-
-                // Vercel API
-               const response = await fetch(
-    "https://ean-portfolio3025.vercel.app/api/send-email",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            name: name,
-                            email: email,
-                            message: message
-                        })
-                    }
-                );
-
-
-                console.log(
-                    "Response status:",
-                    response.status
-                );
-
-
-                // Read response
-                const text =
-                    await response.text();
-
-
-                console.log(
-                    "Server response:",
-                    text
-                );
-
-
-                // Convert response to JSON
-                let result;
-
-                try {
-
-                    result =
-                        JSON.parse(text);
-
-                } catch (error) {
-
-                    console.error(
-                        "Server did not return JSON:",
-                        text
-                    );
+                if (
+                    !name ||
+                    !email ||
+                    !message
+                ) {
 
                     status.textContent =
-                        "The email server returned an unexpected response.";
+                        "Please fill out all fields.";
 
                     return;
                 }
 
+                status.textContent =
+                    "Sending...";
 
-                // Successful email
-                if (
-                    response.ok &&
-                    result.success
-                ) {
+                try {
 
-                    status.textContent =
-                        "Message sent successfully!";
+                    const response =
+                        await fetch(
+                            "https://ean-portfolio3025.vercel.app/api/send-email",
+                            {
+                                method: "POST",
 
-                    form.reset();
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
 
-                } else {
-
-                    status.textContent =
-                        "Something went wrong: " +
-                        (
-                            result.error ||
-                            "Unknown server error."
+                                body:
+                                    JSON.stringify({
+                                        name: name,
+                                        email: email,
+                                        message: message
+                                    })
+                            }
                         );
+
+                    const text =
+                        await response.text();
+
+                    let result;
+
+                    try {
+
+                        result =
+                            JSON.parse(text);
+
+                    } catch (error) {
+
+                        console.error(
+                            "Server did not return JSON:",
+                            text
+                        );
+
+                        status.textContent =
+                            "The email server returned an unexpected response.";
+
+                        return;
+                    }
+
+                    if (
+                        response.ok &&
+                        result.success
+                    ) {
+
+                        status.textContent =
+                            "Message sent successfully!";
+
+                        form.reset();
+
+                    } else {
+
+                        status.textContent =
+                            "Something went wrong: " +
+                            (
+                                result.error ||
+                                "Unknown server error."
+                            );
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Request error:",
+                        error
+                    );
+
+                    status.textContent =
+                        "Could not connect to the email server.";
 
                 }
 
-            } catch (error) {
-
-                console.error(
-                    "Request error:",
-                    error
-                );
-
-                status.textContent =
-                    "Could not connect to the email server.";
-
             }
-
-        });
-
-    } else {
-
-        console.error(
-            "CONTACT FORM OR STATUS ELEMENT NOT FOUND"
         );
 
     }
 
 
-    // ==================================================
-    // PAGE TRANSITIONS
-    // ==================================================
-
     const overlay =
-        document.getElementById("page-overlay");
-
-    const fadeButtons =
-        document.querySelectorAll(".fade-link");
-
-
-    fadeButtons.forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                const targetUrl =
-                    this.getAttribute("href");
-
-
-                if (overlay) {
-
-                    overlay.classList.add("active");
-
-                }
-
-
-                setTimeout(function () {
-
-                    window.location.href =
-                        targetUrl;
-
-                }, 500);
-
-            }
+        document.getElementById(
+            "page-overlay"
         );
 
-    });
+    const fadeButtons =
+        document.querySelectorAll(
+            ".fade-link"
+        );
 
+    fadeButtons.forEach(
+        function (button) {
 
-    // ==================================================
-    // PAGE SHOW
-    // ==================================================
+            button.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    const targetUrl =
+                        this.getAttribute(
+                            "href"
+                        );
+
+                    if (overlay) {
+
+                        overlay.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                targetUrl;
+
+                        },
+                        500
+                    );
+
+                }
+            );
+
+        }
+    );
+
 
     window.addEventListener(
         "pageshow",
@@ -215,37 +192,198 @@ document.addEventListener("DOMContentLoaded", function () {
                 overlay
             ) {
 
-                overlay.classList.remove("active");
+                overlay.classList.remove(
+                    "active"
+                );
 
             }
 
         }
     );
 
+
+    updateClock();
+
+    setInterval(
+        updateClock,
+        1000
+    );
+
+
+    sendVisitorHeartbeat();
+
+    setInterval(
+        sendVisitorHeartbeat,
+        30000
+    );
+
+    sendVisitorLocation();
+
+setInterval(
+    sendVisitorLocation,
+    60000
+);
 });
 
+
 function updateClock() {
-    const now = new Date();
 
-    const time = now.toLocaleTimeString("en-US", {
-        timeZone: "America/New_York",
-        hour: "numeric",
-        minute: "2-digit",
-        second: "2-digit"
-    });
+    const now =
+        new Date();
 
-    const date = now.toLocaleDateString("en-US", {
-        timeZone: "America/New_York",
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric"
-    });
+    const time =
+        now.toLocaleTimeString(
+            "en-US",
+            {
+                timeZone:
+                    "America/New_York",
 
-    document.getElementById("clockTime").textContent = time;
-    document.getElementById("clockDate").textContent = date;
+                hour:
+                    "numeric",
+
+                minute:
+                    "2-digit",
+
+                second:
+                    "2-digit"
+            }
+        );
+
+    const date =
+        now.toLocaleDateString(
+            "en-US",
+            {
+                timeZone:
+                    "America/New_York",
+
+                weekday:
+                    "long",
+
+                month:
+                    "long",
+
+                day:
+                    "numeric",
+
+                year:
+                    "numeric"
+            }
+        );
+
+    const clockTime =
+        document.getElementById(
+            "clockTime"
+        );
+
+    const clockDate =
+        document.getElementById(
+            "clockDate"
+        );
+
+    if (clockTime) {
+
+        clockTime.textContent =
+            time;
+
+    }
+
+    if (clockDate) {
+
+        clockDate.textContent =
+            date;
+
+    }
+
 }
 
-updateClock();
-setInterval(updateClock, 1000);
 
+async function sendVisitorHeartbeat() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/visitor",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache:
+                        "no-store"
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Visitor API returned HTTP ${response.status}`
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            data &&
+            data.success
+        ) {
+
+            console.log(
+                "Visitor heartbeat active."
+            );
+
+        } else {
+
+            console.warn(
+                "Visitor heartbeat was rejected."
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Visitor heartbeat failed:",
+            error
+        );
+
+    }
+
+}
+
+async function sendVisitorLocation() {
+
+    try {
+
+        await fetch(
+            "/api/visitor-locations",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                        "application/json",
+                    "Accept":
+                        "application/json"
+                },
+                cache: "no-store"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Visitor location tracking failed:",
+            error
+        );
+
+    }
+
+}

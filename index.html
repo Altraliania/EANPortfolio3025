@@ -3,7 +3,11 @@
 
 <head>
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link
+        rel="icon"
+        href="favicon.ico"
+        type="image/x-icon"
+    >
 
     <meta charset="UTF-8">
 
@@ -19,21 +23,19 @@
         href="style.css"
     >
 
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
 </head>
 
 
 <body>
 
-    <!-- ========================================
-         PAGE TRANSITION OVERLAY
-    ======================================== -->
-
     <div id="page-overlay"></div>
 
-
-    <!-- ========================================
-         FULL-SCREEN IMAGE LIGHTBOX
-    ======================================== -->
 
     <div id="lightbox-overlay">
 
@@ -50,16 +52,8 @@
     </div>
 
 
-    <!-- ========================================
-         MAIN PAGE CONTENT
-    ======================================== -->
-
     <div id="page-content">
 
-
-        <!-- ========================================
-             HERO / ABOUT
-        ======================================== -->
 
         <header
             class="hero-section"
@@ -110,10 +104,6 @@
         </header>
 
 
-        <!-- ========================================
-             LIVE CLOCK
-        ======================================== -->
-
         <div class="clock-card">
 
             <div class="clock-icon">
@@ -139,17 +129,10 @@
         </div>
 
 
-        <!-- ========================================
-             MAIN CONTENT
-        ======================================== -->
-
         <main
             class="skills-section"
             id="skills"
         >
-
-
-            <!-- CONTACT BUTTON -->
 
             <div
                 class="card-btn-container"
@@ -170,8 +153,6 @@
 
             </div>
 
-
-            <!-- RESUME BUTTON -->
 
             <div
                 class="card-btn-container"
@@ -199,10 +180,6 @@
             </div>
 
 
-            <!-- ========================================
-                 OVERVIEW
-            ======================================== -->
-
             <h2 style="margin-bottom: 20px;">
                 Overview
             </h2>
@@ -212,9 +189,6 @@
                 class="skills-grid"
                 style="margin-bottom: 60px;"
             >
-
-
-                <!-- ACADEMICS -->
 
                 <div class="skill-card">
 
@@ -239,8 +213,6 @@
 
                 </div>
 
-
-                <!-- PROJECTS -->
 
                 <div class="skill-card">
 
@@ -267,8 +239,6 @@
                 </div>
 
 
-                <!-- HISTORY -->
-
                 <div class="skill-card">
 
                     <h3>
@@ -292,8 +262,6 @@
 
                 </div>
 
-
-                <!-- WORK EXPERIENCE -->
 
                 <div class="skill-card">
 
@@ -321,19 +289,12 @@
             </div>
 
 
-            <!-- ========================================
-                 MY WORK
-            ======================================== -->
-
             <h2>
                 My Work
             </h2>
 
 
             <div class="skills-grid">
-
-
-                <!-- MODEL UN -->
 
                 <div class="skill-card">
 
@@ -359,8 +320,6 @@
                 </div>
 
 
-                <!-- GRAPHIC DESIGN -->
-
                 <div class="skill-card">
 
                     <h3>
@@ -384,8 +343,6 @@
 
                 </div>
 
-
-                <!-- FILMING -->
 
                 <div class="skill-card">
 
@@ -414,10 +371,6 @@
 
         </main>
 
-
-        <!-- ========================================
-             FOOTER
-        ======================================== -->
 
         <footer
             style="
@@ -458,10 +411,6 @@
     </div>
 
 
-    <!-- ========================================
-         BOTTOM-RIGHT CONTROLS
-    ======================================== -->
-
     <div class="bottom-controls">
 
         <button
@@ -481,10 +430,6 @@
 
     </div>
 
-
-    <!-- ========================================
-         WELCOME SCREEN
-    ======================================== -->
 
     <div id="welcomeScreen">
 
@@ -555,74 +500,68 @@
     </div>
 
 
-    <!-- ========================================
-         CREATOR DASHBOARD
-    ======================================== -->
+    <div id="creatorLoginOverlay">
 
-<!-- ========================================
-     CREATOR PASSWORD LOGIN
-======================================== -->
+        <div id="creatorLoginBox">
 
-<div id="creatorLoginOverlay">
-
-    <div id="creatorLoginBox">
-
-        <div class="creator-login-icon">
-            🔐
-        </div>
-
-        <h2>Creator Access</h2>
-
-        <p>Enter the password to access Creator Mode.</p>
-
-        <form id="creatorLoginForm">
-
-            <label for="creatorPassword">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="creatorPassword"
-                placeholder="Enter password"
-                autocomplete="off"
-                required
-            >
-
-            <p id="creatorLoginError"></p>
-
-            <div class="creator-login-buttons">
-
-                <button
-                    type="button"
-                    id="cancelCreatorLogin"
-                    class="creator-secondary-button"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="creator-primary-button"
-                >
-                    Unlock
-                </button>
-
+            <div class="creator-login-icon">
+                🔐
             </div>
 
-        </form>
+            <h2>
+                Creator Access
+            </h2>
+
+            <p>
+                Enter the password to access Creator Mode.
+            </p>
+
+            <form id="creatorLoginForm">
+
+                <label for="creatorPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="creatorPassword"
+                    placeholder="Enter password"
+                    autocomplete="off"
+                    required
+                >
+
+                <p id="creatorLoginError"></p>
+
+                <div class="creator-login-buttons">
+
+                    <button
+                        type="button"
+                        id="cancelCreatorLogin"
+                        class="creator-secondary-button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="creator-primary-button"
+                    >
+                        Unlock
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
-
-</div>
 
 
     <div id="creatorOverlay">
 
         <div id="creatorDashboard">
 
-
-            <!-- CREATOR HEADER -->
 
             <div class="creator-header">
 
@@ -651,8 +590,6 @@
 
             </div>
 
-
-            <!-- CREATOR STATS -->
 
             <div class="creator-stats">
 
@@ -709,7 +646,310 @@
             </div>
 
 
-            <!-- PROJECT MANAGEMENT -->
+            <div class="visitor-analytics-card">
+
+                <div class="visitor-analytics-header">
+
+                    <div>
+
+                        <span class="visitor-analytics-badge">
+                            LIVE ANALYTICS
+                        </span>
+
+                        <h2>
+                            Website Visitors
+                        </h2>
+
+                        <p>
+                            Real-time information about visitors on your portfolio.
+                        </p>
+
+                    </div>
+
+                    <div class="site-status-card">
+
+    <div class="site-status-header">
+
+        <div>
+
+            <span class="site-status-badge">
+                SYSTEM
+            </span>
+
+            <h2>
+                Site Status
+            </h2>
+
+            <p>
+                Live health information for your portfolio.
+            </p>
+
+        </div>
+
+        <div class="site-status-live">
+            <span></span>
+            Live
+        </div>
+
+    </div>
+
+
+    <div class="site-status-grid">
+
+        <div class="site-status-item">
+
+            <div class="site-status-icon">
+                🌐
+            </div>
+
+            <div>
+
+                <span>
+                    Website
+                </span>
+
+                <strong
+                    id="siteStatusWebsite"
+                    class="status-good"
+                >
+                    Checking...
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="site-status-item">
+
+            <div class="site-status-icon">
+                ⚡
+            </div>
+
+            <div>
+
+                <span>
+                    Visitor API
+                </span>
+
+                <strong
+                    id="siteStatusAPI"
+                    class="status-good"
+                >
+                    Checking...
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="site-status-item">
+
+            <div class="site-status-icon">
+                🗄️
+            </div>
+
+            <div>
+
+                <span>
+                    Database
+                </span>
+
+                <strong
+                    id="siteStatusDatabase"
+                    class="status-good"
+                >
+                    Checking...
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="site-status-item">
+
+            <div class="site-status-icon">
+                📊
+            </div>
+
+            <div>
+
+                <span>
+                    Analytics
+                </span>
+
+                <strong
+                    id="siteStatusAnalytics"
+                    class="status-good"
+                >
+                    Checking...
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="site-status-item">
+
+            <div class="site-status-icon">
+                ☁️
+            </div>
+
+            <div>
+
+                <span>
+                    Hosting
+                </span>
+
+                <strong>
+                    Vercel
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="site-status-footer">
+
+        <span>
+            System monitor
+        </span>
+
+        <span id="siteStatusLastChecked">
+            Checking...
+        </span>
+
+    </div>
+
+</div>
+
+                    <div class="visitor-status-indicator">
+
+                        <span></span>
+
+                        Tracking Active
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-analytics-grid">
+
+                    <div class="visitor-analytics-stat">
+
+                        <div class="visitor-stat-icon online">
+                            🟢
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Currently Online
+                            </span>
+
+                            <strong id="onlineVisitorCount">
+                                —
+                            </strong>
+
+                            <small>
+                                Active visitors right now
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="visitor-analytics-stat">
+
+                        <div class="visitor-stat-icon total">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Visitors
+                            </span>
+
+                            <strong id="totalVisitorCount">
+                                —
+                            </strong>
+
+                            <small>
+                                Unique visitors counted
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-map-section">
+
+                    <div class="visitor-map-header">
+
+                        <div>
+
+                            <h3>
+                                Visitor Locations
+                            </h3>
+
+                            <p>
+                                Approximate locations based on network-level geolocation.
+                            </p>
+
+                        </div>
+
+                        <span id="visitorMapCount">
+                            0 locations
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="visitorMap"
+                        class="visitor-map"
+                    ></div>
+
+
+                    <div class="visitor-map-legend">
+
+                        <span class="visitor-map-dot"></span>
+
+                        <span>
+                            Approximate visitor location
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-analytics-footer">
+
+                    <span>
+                        🔄 Automatically updated every 15 seconds
+                    </span>
+
+                    <span id="visitorLastUpdated">
+                        Waiting for data...
+                    </span>
+
+                </div>
+
+            </div>
+
 
             <div class="creator-section">
 
@@ -743,10 +983,6 @@
 
             </div>
 
-
-            <!-- ========================================
-                 PROJECT EDITOR
-            ======================================== -->
 
             <div
                 id="projectEditor"
@@ -879,8 +1115,6 @@
             </div>
 
 
-            <!-- CREATOR FOOTER -->
-
             <div class="creator-footer">
 
                 <span>
@@ -901,30 +1135,32 @@
     </div>
 
 
-    <!-- ========================================
-         LIGHTBOX SCRIPT
-    ======================================== -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""
+    ></script>
+
 
     <script>
 
         const profileImages =
             document.querySelectorAll(
-                '.profile-container .profile-img'
+                ".profile-container .profile-img"
             );
 
         const lightbox =
             document.getElementById(
-                'lightbox-overlay'
+                "lightbox-overlay"
             );
 
         const lightboxImg =
             document.getElementById(
-                'lightbox-img'
+                "lightbox-img"
             );
 
         const lightboxBackBtn =
             document.getElementById(
-                'lightbox-back-btn'
+                "lightbox-back-btn"
             );
 
 
@@ -932,14 +1168,14 @@
             img => {
 
                 img.addEventListener(
-                    'click',
+                    "click",
                     () => {
 
                         lightboxImg.src =
                             img.src;
 
                         lightbox.classList.add(
-                            'visible'
+                            "visible"
                         );
 
                     }
@@ -950,11 +1186,11 @@
 
 
         lightboxBackBtn.addEventListener(
-            'click',
+            "click",
             () => {
 
                 lightbox.classList.remove(
-                    'visible'
+                    "visible"
                 );
 
             }
@@ -962,15 +1198,16 @@
 
 
         lightbox.addEventListener(
-            'click',
+            "click",
             event => {
 
                 if (
-                    event.target === lightbox
+                    event.target ===
+                    lightbox
                 ) {
 
                     lightbox.classList.remove(
-                        'visible'
+                        "visible"
                     );
 
                 }
@@ -981,15 +1218,11 @@
     </script>
 
 
-    <!-- ========================================
-         DARK MODE
-    ======================================== -->
-
     <script>
 
         const toggleButton =
             document.getElementById(
-                'dark-mode-toggle'
+                "dark-mode-toggle"
             );
 
         const body =
@@ -998,52 +1231,52 @@
 
         if (
             localStorage.getItem(
-                'darkMode'
-            ) === 'enabled'
+                "darkMode"
+            ) === "enabled"
         ) {
 
             body.classList.add(
-                'dark-mode'
+                "dark-mode"
             );
 
             toggleButton.textContent =
-                '☀️ Light Mode';
+                "☀️ Light Mode";
 
         }
 
 
         toggleButton.addEventListener(
-            'click',
+            "click",
             () => {
 
                 body.classList.toggle(
-                    'dark-mode'
+                    "dark-mode"
                 );
 
 
                 if (
                     body.classList.contains(
-                        'dark-mode'
+                        "dark-mode"
                     )
                 ) {
 
                     localStorage.setItem(
-                        'darkMode',
-                        'enabled'
+                        "darkMode",
+                        "enabled"
                     );
 
                     toggleButton.textContent =
-                        '☀️ Light Mode';
+                        "☀️ Light Mode";
 
                 } else {
 
                     localStorage.setItem(
-                        'darkMode',
-                        'disabled'
+                        "darkMode",
+                        "disabled"
                     );
 
                     toggleButton.textContent =
-                        '🌙 Dark Mode';
+                        "🌙 Dark Mode";
 
                 }
 
@@ -1053,20 +1286,16 @@
     </script>
 
 
-    <!-- ========================================
-         PAGE TRANSITIONS
-    ======================================== -->
-
     <script>
 
         const overlay =
             document.getElementById(
-                'page-overlay'
+                "page-overlay"
             );
 
         const fadeButtons =
             document.querySelectorAll(
-                '.fade-link'
+                ".fade-link"
             );
 
 
@@ -1074,21 +1303,21 @@
             button => {
 
                 button.addEventListener(
-                    'click',
+                    "click",
                     function (event) {
 
                         event.preventDefault();
 
                         const targetUrl =
                             this.getAttribute(
-                                'href'
+                                "href"
                             );
 
 
                         if (overlay) {
 
                             overlay.classList.add(
-                                'active'
+                                "active"
                             );
 
                         }
@@ -1112,7 +1341,7 @@
 
 
         window.addEventListener(
-            'pageshow',
+            "pageshow",
             event => {
 
                 if (
@@ -1121,7 +1350,7 @@
                 ) {
 
                     overlay.classList.remove(
-                        'active'
+                        "active"
                     );
 
                 }
@@ -1132,23 +1361,9 @@
     </script>
 
 
-    <!-- ========================================
-         MAIN SCRIPT
-    ======================================== -->
-
     <script src="script.js"></script>
 
-
-    <!-- ========================================
-         WELCOME ANIMATION SCRIPT
-    ======================================== -->
-
     <script src="welcome.js"></script>
-
-
-    <!-- ========================================
-         CREATOR MODE SCRIPT
-    ======================================== -->
 
     <script src="creator.js"></script>
 
