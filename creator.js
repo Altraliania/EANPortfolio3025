@@ -1,473 +1,27 @@
 (function () {
     "use strict";
 
-    const CREATOR_PASSWORD = "Altraliania2011";
+    const STORAGE_KEY = "portfolioProjects";
+    const TIMELINE_TABLE = "timeline";
     const EASTER_EGG_PASSWORD = "Altrarunner";
 
-const STORAGE_KEY = "portfolioProjects";
-
-let passwordScreen = null;
-let gameScreen = null;
-let visitorStatsTimer = null;
-let visitorMap = null;
-let visitorMarkers = [];
-let visitorLocationTimer = null;
-let siteStatusTimer = null;
-
-
-async function updateSiteStatus() {
-
-    const website =
-        get("siteStatusWebsite");
-
-    const api =
-        get("siteStatusAPI");
-
-    const database =
-        get("siteStatusDatabase");
-
-    const analytics =
-        get("siteStatusAnalytics");
-
-    const lastChecked =
-        get("siteStatusLastChecked");
-
-    if (!website) {
-        return;
-    }
-
-    setStatus(
-        website,
-        "Checking...",
-        "status-checking"
-    );
-
-    setStatus(
-        api,
-        "Checking...",
-        "status-checking"
-    );
-
-    setStatus(
-        database,
-        "Checking...",
-        "status-checking"
-    );
-
-    setStatus(
-        analytics,
-        "Checking...",
-        "status-checking"
-    );
-
-    try {
-
-        const response =
-            await fetch(
-                "/api/site-status",
-                {
-                    method: "GET",
-                    cache: "no-store",
-                    headers: {
-                        "Accept":
-                            "application/json"
-                    }
-                }
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-        }
-
-        const data =
-            await response.json();
-
-        if (!data.success) {
-            throw new Error(
-                data.error ||
-                "Status unavailable"
-            );
-        }
-
-        setStatus(
-            website,
-            data.website,
-            data.website === "Online"
-                ? "status-good"
-                : "status-bad"
-        );
-
-        setStatus(
-            api,
-            data.visitorApi,
-            data.visitorApi === "Operational"
-                ? "status-good"
-                : "status-bad"
-        );
-
-        setStatus(
-            database,
-            data.database,
-            data.database === "Connected"
-                ? "status-good"
-                : "status-bad"
-        );
-
-        setStatus(
-            analytics,
-            data.analytics,
-            data.analytics === "Tracking"
-                ? "status-good"
-                : "status-bad"
-        );
-
-        if (lastChecked) {
-
-            lastChecked.textContent =
-                "Last checked " +
-                new Date().toLocaleTimeString(
-                    "en-US",
-                    {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        second: "2-digit"
-                    }
-                );
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Site status check failed:",
-            error
-        );
-
-        setStatus(
-            website,
-            "Offline",
-            "status-bad"
-        );
-
-        setStatus(
-            api,
-            "Offline",
-            "status-bad"
-        );
-
-        setStatus(
-            database,
-            "Unavailable",
-            "status-bad"
-        );
-
-        setStatus(
-            analytics,
-            "Unavailable",
-            "status-bad"
-        );
-
-        if (lastChecked) {
-
-            lastChecked.textContent =
-                "Status check failed";
-
-        }
-
-    }
-}
-
-function setStatus(
-    element,
-    text,
-    className
-) {
-
-    if (!element) {
-        return;
-    }
-
-    element.textContent =
-        text;
-
-    element.classList.remove(
-        "status-good",
-        "status-bad",
-        "status-checking"
-    );
-
-    element.classList.add(
-        className
-    );
-}
-
-function startSiteStatusPolling() {
-
-    stopSiteStatusPolling();
-
-    updateSiteStatus();
-
-    siteStatusTimer =
-        setInterval(
-            updateSiteStatus,
-            30000
-        );
-}
-
-function stopSiteStatusPolling() {
-
-    if (siteStatusTimer) {
-
-        clearInterval(
-            siteStatusTimer
-        );
-
-        siteStatusTimer = null;
-    }
-}
-
-    async function updateVisitorMap() {
-
-    const mapElement =
-        get("visitorMap");
-
-    const mapCount =
-        get("visitorMapCount");
-
-    if (!mapElement) {
-        return;
-    }
-
-    if (
-        typeof L === "undefined"
-    ) {
-
-        console.error(
-            "Leaflet is not loaded."
-        );
-
-        return;
-    }
-
-    if (!visitorMap) {
-
-        visitorMap =
-            L.map(
-                "visitorMap",
-                {
-                    worldCopyJump: true,
-                    minZoom: 2,
-                    maxZoom: 6
-                }
-            );
-
-        L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {
-                attribution:
-                    "&copy; OpenStreetMap contributors"
-            }
-        ).addTo(
-            visitorMap
-        );
-
-        visitorMap.setView(
-            [20, 0],
-            2
-        );
-    }
-
-    try {
-
-        const response =
-            await fetch(
-                "/api/visitor-locations",
-                {
-                    method: "GET",
-                    cache: "no-store",
-                    headers: {
-                        "Accept":
-                            "application/json"
-                    }
-                }
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                `Location API returned HTTP ${response.status}`
-            );
-        }
-
-        const data =
-            await response.json();
-
-        if (
-            !data ||
-            data.success !== true
-        ) {
-            throw new Error(
-                data?.error ||
-                "Location data unavailable"
-            );
-        }
-
-        visitorMarkers.forEach(
-            marker => {
-                visitorMap.removeLayer(
-                    marker
-                );
-            }
-        );
-
-        visitorMarkers = [];
-
-        const locations =
-            Array.isArray(
-                data.locations
-            )
-                ? data.locations
-                : [];
-
-        locations.forEach(
-            location => {
-
-                const latitude =
-                    Number(
-                        location.latitude
-                    );
-
-                const longitude =
-                    Number(
-                        location.longitude
-                    );
-
-                if (
-                    !Number.isFinite(
-                        latitude
-                    ) ||
-                    !Number.isFinite(
-                        longitude
-                    )
-                ) {
-                    return;
-                }
-
-                const marker =
-                    L.circleMarker(
-                        [
-                            latitude,
-                            longitude
-                        ],
-                        {
-                            radius: 7,
-                            fillColor: "#007bff",
-                            color: "#ffffff",
-                            weight: 2,
-                            opacity: 1,
-                            fillOpacity: 0.85
-                        }
-                    );
-
-                const locationParts =
-                    [
-                        location.city,
-                        location.region,
-                        location.country
-                    ].filter(
-                        Boolean
-                    );
-
-                const label =
-                    locationParts.length
-                        ? locationParts.join(
-                            ", "
-                        )
-                        : "Approximate location";
-
-                marker.bindPopup(
-                    `
-                        <strong>
-                            Visitor
-                        </strong>
-                        <br>
-                        ${escape(label)}
-                    `
-                );
-
-                marker.addTo(
-                    visitorMap
-                );
-
-                visitorMarkers.push(
-                    marker
-                );
-            }
-        );
-
-        if (mapCount) {
-
-            mapCount.textContent =
-                locations.length === 1
-                    ? "1 location"
-                    : `${locations.length} locations`;
-
-        }
-
-        setTimeout(
-            () => {
-
-                visitorMap.invalidateSize();
-
-            },
-            100
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Could not load visitor map:",
-            error
-        );
-
-        if (mapCount) {
-            mapCount.textContent =
-                "Unavailable";
-        }
-
-    }
-}
-
-function startVisitorLocationPolling() {
-
-    stopVisitorLocationPolling();
-
-    updateVisitorMap();
-
-    visitorLocationTimer =
-        setInterval(
-            updateVisitorMap,
-            15000
-        );
-}
-
-function stopVisitorLocationPolling() {
-
-    if (visitorLocationTimer) {
-
-        clearInterval(
-            visitorLocationTimer
-        );
-
-        visitorLocationTimer =
-            null;
-    }
-}
+    let passwordScreen = null;
+    let gameScreen = null;
+
+    let visitorStatsTimer = null;
+    let visitorMap = null;
+    let visitorMarkers = [];
+    let visitorLocationTimer = null;
+    let siteStatusTimer = null;
+
+    let timelineData = [];
 
     function ready(callback) {
         if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", callback);
+            document.addEventListener(
+                "DOMContentLoaded",
+                callback
+            );
         } else {
             callback();
         }
@@ -477,14 +31,52 @@ function stopVisitorLocationPolling() {
         return document.getElementById(id);
     }
 
+    function escape(value) {
+        const element =
+            document.createElement("div");
+
+        element.textContent =
+            value || "";
+
+        return element.innerHTML;
+    }
+
+    function getSupabase() {
+        if (
+            window.supabaseClient &&
+            window.supabaseClient.auth
+        ) {
+            return window.supabaseClient;
+        }
+
+        try {
+            if (
+                typeof supabaseClient !==
+                "undefined"
+            ) {
+                return supabaseClient;
+            }
+        } catch (error) {
+            console.error(
+                "Supabase lookup failed:",
+                error
+            );
+        }
+
+        return null;
+    }
+
     function createStyle() {
+
         if (get("creatorInjectedStyles")) {
             return;
         }
 
-        const style = document.createElement("style");
+        const style =
+            document.createElement("style");
 
-        style.id = "creatorInjectedStyles";
+        style.id =
+            "creatorInjectedStyles";
 
         style.textContent = `
             #creatorModeButton {
@@ -511,7 +103,9 @@ function stopVisitorLocationPolling() {
                 opacity: 0 !important;
                 visibility: hidden !important;
                 pointer-events: none !important;
-                transition: opacity .35s ease, visibility .35s ease !important;
+                transition:
+                    opacity .35s ease,
+                    visibility .35s ease !important;
             }
 
             #creatorPasswordScreen.creator-password-visible {
@@ -546,10 +140,13 @@ function stopVisitorLocationPolling() {
                 box-shadow: 0 35px 100px rgba(0,0,0,.5) !important;
                 transform: translateY(30px) scale(.96) !important;
                 opacity: 0 !important;
-                transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s ease !important;
+                transition:
+                    transform .45s cubic-bezier(.2,.8,.2,1),
+                    opacity .35s ease !important;
             }
 
-            #creatorPasswordScreen.creator-password-visible .creator-password-card {
+            #creatorPasswordScreen.creator-password-visible
+            .creator-password-card {
                 transform: translateY(0) scale(1) !important;
                 opacity: 1 !important;
             }
@@ -592,7 +189,7 @@ function stopVisitorLocationPolling() {
             }
 
             .creator-password-field {
-                margin-bottom: 12px !important;
+                margin-bottom: 14px !important;
             }
 
             .creator-password-field label {
@@ -603,15 +200,11 @@ function stopVisitorLocationPolling() {
                 color: var(--heading-color, #222222) !important;
             }
 
-            .creator-password-input-wrapper {
-                position: relative !important;
-                width: 100% !important;
-            }
-
+            #creatorEmailInput,
             #creatorPasswordInput {
                 width: 100% !important;
                 height: 50px !important;
-                padding: 0 52px 0 15px !important;
+                padding: 0 15px !important;
                 border: 1px solid var(--border-color, #e2e8f0) !important;
                 border-radius: 10px !important;
                 background: var(--bg-color, #f8f9fa) !important;
@@ -620,12 +213,24 @@ function stopVisitorLocationPolling() {
                 font-family: inherit !important;
                 font-size: 15px !important;
                 box-sizing: border-box !important;
-                transition: border-color .2s ease, box-shadow .2s ease !important;
+                transition:
+                    border-color .2s ease,
+                    box-shadow .2s ease !important;
             }
 
+            #creatorPasswordInput {
+                padding-right: 52px !important;
+            }
+
+            #creatorEmailInput:focus,
             #creatorPasswordInput:focus {
                 border-color: #007bff !important;
                 box-shadow: 0 0 0 3px rgba(0,123,255,.12) !important;
+            }
+
+            .creator-password-input-wrapper {
+                position: relative !important;
+                width: 100% !important;
             }
 
             #creatorPasswordToggle {
@@ -667,7 +272,9 @@ function stopVisitorLocationPolling() {
                 font-family: inherit !important;
                 font-weight: 700 !important;
                 font-size: 13px !important;
-                transition: transform .2s ease, filter .2s ease !important;
+                transition:
+                    transform .2s ease,
+                    filter .2s ease !important;
             }
 
             .creator-password-actions button:hover {
@@ -688,6 +295,12 @@ function stopVisitorLocationPolling() {
 
             .creator-password-submit:hover {
                 filter: brightness(1.08) !important;
+            }
+
+            .creator-password-submit:disabled {
+                opacity: .6 !important;
+                cursor: wait !important;
+                transform: none !important;
             }
 
             .creator-password-footer {
@@ -723,7 +336,9 @@ function stopVisitorLocationPolling() {
                 opacity: 0 !important;
                 visibility: hidden !important;
                 pointer-events: none !important;
-                transition: opacity .35s ease, visibility .35s ease !important;
+                transition:
+                    opacity .35s ease,
+                    visibility .35s ease !important;
             }
 
             #easterEggGame.easter-game-visible {
@@ -751,7 +366,9 @@ function stopVisitorLocationPolling() {
                 box-shadow: 0 40px 120px rgba(0,0,0,.65) !important;
                 transform: scale(.92) translateY(25px) !important;
                 opacity: 0 !important;
-                transition: transform .45s ease, opacity .35s ease !important;
+                transition:
+                    transform .45s ease,
+                    opacity .35s ease !important;
             }
 
             #easterEggGame.easter-game-visible .easter-game-card {
@@ -836,18 +453,6 @@ function stopVisitorLocationPolling() {
                 font-size: 11px !important;
             }
 
-            .visitor-loading {
-                opacity: 0.65;
-            }
-
-            .visitor-error {
-                color: #dc3545 !important;
-            }
-
-            .visitor-live {
-                color: #198754 !important;
-            }
-
             @media (max-width: 600px) {
                 #creatorModeButton {
                     right: 12px !important;
@@ -879,7 +484,6 @@ function stopVisitorLocationPolling() {
         }
 
         button = document.createElement("button");
-
         button.id = "creatorModeButton";
         button.type = "button";
         button.textContent = "⚙️ Creator Mode";
@@ -918,9 +522,23 @@ function stopVisitorLocationPolling() {
                 </h1>
 
                 <p class="creator-password-subtitle">
-                    This area is restricted to the portfolio creator.
-                    Enter your password to continue.
+                    Sign in to access your portfolio dashboard.
                 </p>
+
+                <div class="creator-password-field">
+
+                    <label for="creatorEmailInput">
+                        Email
+                    </label>
+
+                    <input
+                        id="creatorEmailInput"
+                        type="email"
+                        placeholder="your@email.com"
+                        autocomplete="username"
+                    >
+
+                </div>
 
                 <div class="creator-password-field">
 
@@ -934,7 +552,7 @@ function stopVisitorLocationPolling() {
                             id="creatorPasswordInput"
                             type="password"
                             placeholder="Enter your password"
-                            autocomplete="off"
+                            autocomplete="current-password"
                         >
 
                         <button
@@ -980,7 +598,9 @@ function stopVisitorLocationPolling() {
             </div>
         `;
 
-        document.body.appendChild(passwordScreen);
+        document.body.appendChild(
+            passwordScreen
+        );
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -990,7 +610,10 @@ function stopVisitorLocationPolling() {
             });
         });
 
-        const input =
+        const emailInput =
+            get("creatorEmailInput");
+
+        const passwordInput =
             get("creatorPasswordInput");
 
         const submit =
@@ -1003,26 +626,29 @@ function stopVisitorLocationPolling() {
             get("creatorPasswordToggle");
 
         setTimeout(() => {
-            input.focus();
+            emailInput.focus();
         }, 300);
 
-        function login() {
-            const value =
-                input.value.trim();
+        async function login() {
+            const email =
+                emailInput.value.trim();
+
+            const password =
+                passwordInput.value;
 
             const error =
                 get("creatorPasswordError");
 
-            if (!value) {
+            if (!email || !password) {
                 error.textContent =
-                    "Please enter your password.";
+                    "Enter your email and password.";
 
-                shake(input);
+                shake(passwordInput);
 
                 return;
             }
 
-            if (value === EASTER_EGG_PASSWORD) {
+            if (password === EASTER_EGG_PASSWORD) {
                 closePasswordScreen(
                     launchGame
                 );
@@ -1030,24 +656,78 @@ function stopVisitorLocationPolling() {
                 return;
             }
 
-            if (value === CREATOR_PASSWORD) {
-                closePasswordScreen(
-                    openDashboard
+            const client =
+                getSupabase();
+
+            if (!client) {
+                error.textContent =
+                    "Authentication system is unavailable.";
+
+                console.error(
+                    "Supabase client is missing."
                 );
 
                 return;
             }
 
             error.textContent =
-                "Incorrect password.";
+                "Signing in...";
 
-            input.value = "";
+            submit.disabled =
+                true;
 
-            shake(input);
+            try {
+                const {
+                    data,
+                    error: loginError
+                } =
+                    await client.auth.signInWithPassword({
+                        email,
+                        password
+                    });
 
-            setTimeout(() => {
-                input.focus();
-            }, 100);
+                if (loginError) {
+                    console.error(
+                        "Creator login failed:",
+                        loginError
+                    );
+
+                    error.textContent =
+                        loginError.message ||
+                        "Incorrect email or password.";
+
+                    passwordInput.value =
+                        "";
+
+                    shake(passwordInput);
+
+                    return;
+                }
+
+                if (!data || !data.session) {
+                    error.textContent =
+                        "Login could not be completed.";
+
+                    return;
+                }
+
+                closePasswordScreen(
+                    openDashboard
+                );
+
+            } catch (errorObject) {
+                console.error(
+                    "Authentication error:",
+                    errorObject
+                );
+
+                error.textContent =
+                    "Could not connect to authentication.";
+
+            } finally {
+                submit.disabled =
+                    false;
+            }
         }
 
         submit.addEventListener(
@@ -1055,7 +735,21 @@ function stopVisitorLocationPolling() {
             login
         );
 
-        input.addEventListener(
+        emailInput.addEventListener(
+            "keydown",
+            event => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    login();
+                }
+
+                if (event.key === "Escape") {
+                    closePasswordScreen();
+                }
+            }
+        );
+
+        passwordInput.addEventListener(
             "keydown",
             event => {
                 if (event.key === "Enter") {
@@ -1079,20 +773,24 @@ function stopVisitorLocationPolling() {
         toggle.addEventListener(
             "click",
             () => {
-                if (input.type === "password") {
-                    input.type = "text";
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
                     toggle.textContent = "🙈";
                 } else {
-                    input.type = "password";
+                    passwordInput.type = "password";
                     toggle.textContent = "👁";
                 }
 
-                input.focus();
+                passwordInput.focus();
             }
         );
     }
 
     function shake(element) {
+        if (!element) {
+            return;
+        }
+
         element.classList.remove(
             "creator-password-shake"
         );
@@ -1135,10 +833,7 @@ function stopVisitorLocationPolling() {
         }, 350);
     }
 
-    function openDashboard() {
-
-        startSiteStatusPolling();
-
+    async function openDashboard() {
         const overlay =
             get("creatorOverlay");
 
@@ -1159,15 +854,28 @@ function stopVisitorLocationPolling() {
 
         updateDashboard();
         updateVisitorStats();
-startVisitorStatsPolling();
+        startVisitorStatsPolling();
 
-startVisitorLocationPolling();
+        updateVisitorMap();
+        startVisitorLocationPolling();
+
+        updateSiteStatus();
+        startSiteStatusPolling();
+
+        await renderCreatorTimeline();
+
+        setTimeout(() => {
+            if (visitorMap) {
+                visitorMap.invalidateSize();
+            }
+        }, 150);
     }
 
     function closeDashboard() {
-
+        stopVisitorStatsPolling();
+        stopVisitorLocationPolling();
         stopSiteStatusPolling();
-        
+
         const overlay =
             get("creatorOverlay");
 
@@ -1181,9 +889,426 @@ startVisitorLocationPolling();
 
         document.body.style.overflow =
             "";
+    }
 
-        stopVisitorStatsPolling();
-stopVisitorLocationPolling();
+    async function updateSiteStatus() {
+        const website =
+            get("siteStatusWebsite");
+
+        const api =
+            get("siteStatusAPI");
+
+        const database =
+            get("siteStatusDatabase");
+
+        const analytics =
+            get("siteStatusAnalytics");
+
+        const lastChecked =
+            get("siteStatusLastChecked");
+
+        if (!website) {
+            return;
+        }
+
+        setStatus(
+            website,
+            "Checking...",
+            "status-checking"
+        );
+
+        setStatus(
+            api,
+            "Checking...",
+            "status-checking"
+        );
+
+        setStatus(
+            database,
+            "Checking...",
+            "status-checking"
+        );
+
+        setStatus(
+            analytics,
+            "Checking...",
+            "status-checking"
+        );
+
+        try {
+            const response =
+                await fetch(
+                    "/api/site-status",
+                    {
+                        method: "GET",
+                        cache: "no-store",
+                        headers: {
+                            Accept:
+                                "application/json"
+                        }
+                    }
+                );
+
+            if (!response.ok) {
+                throw new Error(
+                    `HTTP ${response.status}`
+                );
+            }
+
+            const data =
+                await response.json();
+
+            if (!data.success) {
+                throw new Error(
+                    data.error ||
+                    "Status unavailable"
+                );
+            }
+
+            setStatus(
+                website,
+                data.website,
+                data.website === "Online"
+                    ? "status-good"
+                    : "status-bad"
+            );
+
+            setStatus(
+                api,
+                data.visitorApi,
+                data.visitorApi === "Operational"
+                    ? "status-good"
+                    : "status-bad"
+            );
+
+            setStatus(
+                database,
+                data.database,
+                data.database === "Connected"
+                    ? "status-good"
+                    : "status-bad"
+            );
+
+            setStatus(
+                analytics,
+                data.analytics,
+                data.analytics === "Tracking"
+                    ? "status-good"
+                    : "status-bad"
+            );
+
+            if (lastChecked) {
+                lastChecked.textContent =
+                    "Last checked " +
+                    new Date().toLocaleTimeString(
+                        "en-US",
+                        {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        }
+                    );
+            }
+
+        } catch (errorObject) {
+            console.error(
+                "Site status check failed:",
+                errorObject
+            );
+
+            setStatus(
+                website,
+                "Offline",
+                "status-bad"
+            );
+
+            setStatus(
+                api,
+                "Offline",
+                "status-bad"
+            );
+
+            setStatus(
+                database,
+                "Unavailable",
+                "status-bad"
+            );
+
+            setStatus(
+                analytics,
+                "Unavailable",
+                "status-bad"
+            );
+
+            if (lastChecked) {
+                lastChecked.textContent =
+                    "Status check failed";
+            }
+        }
+    }
+
+    function setStatus(
+        element,
+        text,
+        className
+    ) {
+        if (!element) {
+            return;
+        }
+
+        element.textContent =
+            text;
+
+        element.classList.remove(
+            "status-good",
+            "status-bad",
+            "status-checking"
+        );
+
+        element.classList.add(
+            className
+        );
+    }
+
+    function startSiteStatusPolling() {
+        stopSiteStatusPolling();
+
+        siteStatusTimer =
+            setInterval(
+                updateSiteStatus,
+                30000
+            );
+    }
+
+    function stopSiteStatusPolling() {
+        if (siteStatusTimer) {
+            clearInterval(
+                siteStatusTimer
+            );
+
+            siteStatusTimer =
+                null;
+        }
+    }
+
+    async function updateVisitorMap() {
+        const mapElement =
+            get("visitorMap");
+
+        const mapCount =
+            get("visitorMapCount");
+
+        if (!mapElement) {
+            return;
+        }
+
+        if (typeof L === "undefined") {
+            console.error(
+                "Leaflet is not loaded."
+            );
+
+            return;
+        }
+
+        if (!visitorMap) {
+            visitorMap =
+                L.map(
+                    "visitorMap",
+                    {
+                        worldCopyJump: true,
+                        minZoom: 2,
+                        maxZoom: 6
+                    }
+                );
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(
+                visitorMap
+            );
+
+            visitorMap.setView(
+                [20, 0],
+                2
+            );
+        }
+
+        try {
+            const response =
+                await fetch(
+                    "/api/visitor-locations",
+                    {
+                        method: "GET",
+                        cache: "no-store",
+                        headers: {
+                            Accept:
+                                "application/json"
+                        }
+                    }
+                );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Location API returned HTTP ${response.status}`
+                );
+            }
+
+            const data =
+                await response.json();
+
+            if (
+                !data ||
+                data.success !== true
+            ) {
+                throw new Error(
+                    data?.error ||
+                    "Location data unavailable"
+                );
+            }
+
+            visitorMarkers.forEach(
+                marker => {
+                    visitorMap.removeLayer(
+                        marker
+                    );
+                }
+            );
+
+            visitorMarkers =
+                [];
+
+            const locations =
+                Array.isArray(data.locations)
+                    ? data.locations
+                    : [];
+
+            locations.forEach(
+                location => {
+                    const latitude =
+                        Number(
+                            location.latitude
+                        );
+
+                    const longitude =
+                        Number(
+                            location.longitude
+                        );
+
+                    if (
+                        !Number.isFinite(
+                            latitude
+                        ) ||
+                        !Number.isFinite(
+                            longitude
+                        )
+                    ) {
+                        return;
+                    }
+
+                    const marker =
+                        L.circleMarker(
+                            [
+                                latitude,
+                                longitude
+                            ],
+                            {
+                                radius: 7,
+                                fillColor:
+                                    "#007bff",
+                                color:
+                                    "#ffffff",
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity:
+                                    0.85
+                            }
+                        );
+
+                    const locationParts =
+                        [
+                            location.city,
+                            location.region,
+                            location.country
+                        ].filter(
+                            Boolean
+                        );
+
+                    const label =
+                        locationParts.length
+                            ? locationParts.join(
+                                ", "
+                            )
+                            : "Approximate location";
+
+                    marker.bindPopup(
+                        `
+                            <strong>
+                                Visitor
+                            </strong>
+                            <br>
+                            ${escape(label)}
+                        `
+                    );
+
+                    marker.addTo(
+                        visitorMap
+                    );
+
+                    visitorMarkers.push(
+                        marker
+                    );
+                }
+            );
+
+            if (mapCount) {
+                mapCount.textContent =
+                    locations.length === 1
+                        ? "1 location"
+                        : `${locations.length} locations`;
+            }
+
+            setTimeout(() => {
+                if (visitorMap) {
+                    visitorMap.invalidateSize();
+                }
+            }, 100);
+
+        } catch (errorObject) {
+            console.error(
+                "Could not load visitor map:",
+                errorObject
+            );
+
+            if (mapCount) {
+                mapCount.textContent =
+                    "Unavailable";
+            }
+        }
+    }
+
+    function startVisitorLocationPolling() {
+        stopVisitorLocationPolling();
+
+        visitorLocationTimer =
+            setInterval(
+                updateVisitorMap,
+                15000
+            );
+    }
+
+    function stopVisitorLocationPolling() {
+        if (visitorLocationTimer) {
+            clearInterval(
+                visitorLocationTimer
+            );
+
+            visitorLocationTimer =
+                null;
+        }
     }
 
     async function updateVisitorStats() {
@@ -1193,20 +1318,11 @@ stopVisitorLocationPolling();
         const totalElement =
             get("totalVisitorCount");
 
-        if (!onlineElement && !totalElement) {
+        if (
+            !onlineElement &&
+            !totalElement
+        ) {
             return;
-        }
-
-        if (onlineElement) {
-            onlineElement.classList.add(
-                "visitor-loading"
-            );
-        }
-
-        if (totalElement) {
-            totalElement.classList.add(
-                "visitor-loading"
-            );
         }
 
         try {
@@ -1217,7 +1333,7 @@ stopVisitorLocationPolling();
                         method: "GET",
                         cache: "no-store",
                         headers: {
-                            "Accept":
+                            Accept:
                                 "application/json"
                         }
                     }
@@ -1257,14 +1373,6 @@ stopVisitorLocationPolling();
                     Number.isFinite(online)
                         ? online
                         : "0";
-
-                onlineElement.classList.remove(
-                    "visitor-error"
-                );
-
-                onlineElement.classList.add(
-                    "visitor-live"
-                );
             }
 
             if (totalElement) {
@@ -1272,51 +1380,40 @@ stopVisitorLocationPolling();
                     Number.isFinite(total)
                         ? total
                         : "0";
-
-                totalElement.classList.remove(
-                    "visitor-error"
-                );
             }
 
-        } catch (error) {
+            const lastUpdated =
+                get(
+                    "visitorLastUpdated"
+                );
+
+            if (lastUpdated) {
+                lastUpdated.textContent =
+                    "Updated " +
+                    new Date().toLocaleTimeString(
+                        "en-US",
+                        {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        }
+                    );
+            }
+
+        } catch (errorObject) {
             console.error(
                 "Could not load visitor statistics:",
-                error
+                errorObject
             );
 
             if (onlineElement) {
                 onlineElement.textContent =
                     "—";
-
-                onlineElement.classList.add(
-                    "visitor-error"
-                );
-
-                onlineElement.classList.remove(
-                    "visitor-live"
-                );
             }
 
             if (totalElement) {
                 totalElement.textContent =
                     "—";
-
-                totalElement.classList.add(
-                    "visitor-error"
-                );
-            }
-
-        } finally {
-            if (onlineElement) {
-                onlineElement.classList.remove(
-                    "visitor-loading"
-                );
-            }
-
-            if (totalElement) {
-                totalElement.classList.remove(
-                    "visitor-loading"
-                );
             }
         }
     }
@@ -1337,7 +1434,8 @@ stopVisitorLocationPolling();
                 visitorStatsTimer
             );
 
-            visitorStatsTimer = null;
+            visitorStatsTimer =
+                null;
         }
     }
 
@@ -1350,22 +1448,36 @@ stopVisitorLocationPolling();
         if (!saved) {
             const defaults = [
                 {
-                    id: "website-development",
-                    name: "Website Development",
-                    description: "Instead of using a web service, I actually made this website with JavaScript with the help of AI. Since joining the AllStarCode* Program, I have learned to code with JavaScript.",
-                    tech: "HTML, CSS, JavaScript",
-                    github: "",
-                    live: "",
-                    active: true
+                    id:
+                        "website-development",
+                    name:
+                        "Website Development",
+                    description:
+                        "Instead of using a web service, I actually made this website with JavaScript with the help of AI. Since joining the AllStarCode* Program, I have learned to code with JavaScript.",
+                    tech:
+                        "HTML, CSS, JavaScript",
+                    github:
+                        "",
+                    live:
+                        "",
+                    active:
+                        true
                 },
                 {
-                    id: "cookbook",
-                    name: "Cookbook",
-                    description: "Since my oldest sister came back from the State of Alaska and made her own cookbook, I have learned how to cook and make my own recipes from inspiration from YouTubers and my own sister.",
-                    tech: "Cooking, Recipe Development",
-                    github: "",
-                    live: "",
-                    active: true
+                    id:
+                        "cookbook",
+                    name:
+                        "Cookbook",
+                    description:
+                        "Since my oldest sister came back from the State of Alaska and made her own cookbook, I have learned how to cook and make my own recipes from inspiration from YouTubers and my own sister.",
+                    tech:
+                        "Cooking, Recipe Development",
+                    github:
+                        "",
+                    live:
+                        "",
+                    active:
+                        true
                 }
             ];
 
@@ -1378,7 +1490,9 @@ stopVisitorLocationPolling();
         }
 
         try {
-            return JSON.parse(saved);
+            return JSON.parse(
+                saved
+            );
         } catch {
             return [];
         }
@@ -1398,7 +1512,8 @@ stopVisitorLocationPolling();
         const active =
             projects.filter(
                 project =>
-                    project.active === true
+                    project.active ===
+                    true
             );
 
         const count =
@@ -1418,15 +1533,6 @@ stopVisitorLocationPolling();
         }
 
         renderProjects();
-
-        if (
-            get("creatorOverlay") &&
-            get("creatorOverlay").classList.contains(
-                "visible"
-            )
-        ) {
-            updateVisitorStats();
-        }
     }
 
     function renderProjects() {
@@ -1440,7 +1546,8 @@ stopVisitorLocationPolling();
         const projects =
             getProjects();
 
-        container.innerHTML = "";
+        container.innerHTML =
+            "";
 
         if (!projects.length) {
             container.innerHTML = `
@@ -1456,123 +1563,131 @@ stopVisitorLocationPolling();
             return;
         }
 
-        projects.forEach(project => {
-            const card =
-                document.createElement("div");
+        projects.forEach(
+            project => {
+                const card =
+                    document.createElement(
+                        "div"
+                    );
 
-            card.className =
-                "creator-project-card";
+                card.className =
+                    "creator-project-card";
 
-            card.innerHTML = `
-                <div class="creator-project-info">
+                card.innerHTML = `
+                    <div class="creator-project-info">
 
-                    <div class="creator-project-title">
+                        <div class="creator-project-title">
 
-                        <h3>
-                            ${escape(project.name)}
-                        </h3>
+                            <h3>
+                                ${escape(project.name)}
+                            </h3>
+
+                            ${
+                                project.active
+                                    ? `<span class="active-badge">ACTIVE</span>`
+                                    : `<span class="active-badge" style="background:#777">INACTIVE</span>`
+                            }
+
+                        </div>
+
+                        <p>
+                            ${escape(project.description)}
+                        </p>
 
                         ${
-                            project.active
-                                ? `<span class="active-badge">ACTIVE</span>`
-                                : `<span class="active-badge" style="background:#777">INACTIVE</span>`
+                            project.tech
+                                ? `<small>🛠️ ${escape(project.tech)}</small>`
+                                : ""
                         }
 
                     </div>
 
-                    <p>
-                        ${escape(project.description)}
-                    </p>
+                    <div class="creator-project-actions">
 
-                    ${
-                        project.tech
-                            ? `<small>🛠️ ${escape(project.tech)}</small>`
-                            : ""
-                    }
+                        <button
+                            type="button"
+                            data-edit="${escape(project.id)}"
+                        >
+                            ✏️ Edit
+                        </button>
 
-                </div>
+                        <button
+                            type="button"
+                            data-toggle="${escape(project.id)}"
+                        >
+                            ${
+                                project.active
+                                    ? "⏸ Disable"
+                                    : "▶ Activate"
+                            }
+                        </button>
 
-                <div class="creator-project-actions">
+                        <button
+                            type="button"
+                            data-delete="${escape(project.id)}"
+                        >
+                            🗑️ Delete
+                        </button>
 
-                    <button
-                        type="button"
-                        data-edit="${escape(project.id)}"
-                    >
-                        ✏️ Edit
-                    </button>
+                    </div>
+                `;
 
-                    <button
-                        type="button"
-                        data-toggle="${escape(project.id)}"
-                    >
-                        ${
-                            project.active
-                                ? "⏸ Disable"
-                                : "▶ Activate"
+                container.appendChild(
+                    card
+                );
+            }
+        );
+
+        container
+            .querySelectorAll(
+                "[data-edit]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            editProject(
+                                button.dataset.edit
+                            );
                         }
-                    </button>
-
-                    <button
-                        type="button"
-                        data-delete="${escape(project.id)}"
-                    >
-                        🗑️ Delete
-                    </button>
-
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
+                    );
+                }
+            );
 
         container
-            .querySelectorAll("[data-edit]")
-            .forEach(button => {
-                button.addEventListener(
-                    "click",
-                    () => {
-                        editProject(
-                            button.dataset.edit
-                        );
-                    }
-                );
-            });
+            .querySelectorAll(
+                "[data-toggle]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            toggleProject(
+                                button.dataset.toggle
+                            );
+                        }
+                    );
+                }
+            );
 
         container
-            .querySelectorAll("[data-toggle]")
-            .forEach(button => {
-                button.addEventListener(
-                    "click",
-                    () => {
-                        toggleProject(
-                            button.dataset.toggle
-                        );
-                    }
-                );
-            });
-
-        container
-            .querySelectorAll("[data-delete]")
-            .forEach(button => {
-                button.addEventListener(
-                    "click",
-                    () => {
-                        deleteProject(
-                            button.dataset.delete
-                        );
-                    }
-                );
-            });
-    }
-
-    function escape(value) {
-        const element =
-            document.createElement("div");
-
-        element.textContent =
-            value || "";
-
-        return element.innerHTML;
+            .querySelectorAll(
+                "[data-delete]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            deleteProject(
+                                button.dataset.delete
+                            );
+                        }
+                    );
+                }
+            );
     }
 
     function editProject(id) {
@@ -1582,7 +1697,8 @@ stopVisitorLocationPolling();
         const project =
             projects.find(
                 item =>
-                    item.id === id
+                    item.id ===
+                    id
             );
 
         if (!project) {
@@ -1624,9 +1740,12 @@ stopVisitorLocationPolling();
             "visible"
         );
 
-        setTimeout(() => {
-            get("projectName").focus();
-        }, 100);
+        setTimeout(
+            () => {
+                get("projectName").focus();
+            },
+            100
+        );
     }
 
     function addProject() {
@@ -1642,7 +1761,8 @@ stopVisitorLocationPolling();
 
         form.reset();
 
-        get("projectId").value = "";
+        get("projectId").value =
+            "";
 
         get("editorTitle").textContent =
             "Add Project";
@@ -1651,9 +1771,12 @@ stopVisitorLocationPolling();
             "visible"
         );
 
-        setTimeout(() => {
-            get("projectName").focus();
-        }, 100);
+        setTimeout(
+            () => {
+                get("projectName").focus();
+            },
+            100
+        );
     }
 
     function closeEditor() {
@@ -1679,7 +1802,8 @@ stopVisitorLocationPolling();
             get("projectId");
 
         if (id) {
-            id.value = "";
+            id.value =
+                "";
         }
     }
 
@@ -1687,24 +1811,38 @@ stopVisitorLocationPolling();
         event.preventDefault();
 
         const name =
-            get("projectName").value.trim();
+            get("projectName")
+                .value
+                .trim();
 
         const description =
-            get("projectDescription").value.trim();
+            get("projectDescription")
+                .value
+                .trim();
 
         const tech =
-            get("projectTech").value.trim();
+            get("projectTech")
+                .value
+                .trim();
 
         const github =
-            get("projectGithub").value.trim();
+            get("projectGithub")
+                .value
+                .trim();
 
         const live =
-            get("projectLive").value.trim();
+            get("projectLive")
+                .value
+                .trim();
 
         const active =
-            get("projectActive").checked;
+            get("projectActive")
+                .checked;
 
-        if (!name || !description) {
+        if (
+            !name ||
+            !description
+        ) {
             alert(
                 "Please fill in the project name and description."
             );
@@ -1716,13 +1854,15 @@ stopVisitorLocationPolling();
             getProjects();
 
         const existingId =
-            get("projectId").value;
+            get("projectId")
+                .value;
 
         if (existingId) {
             const index =
                 projects.findIndex(
                     project =>
-                        project.id === existingId
+                        project.id ===
+                        existingId
                 );
 
             if (index !== -1) {
@@ -1736,13 +1876,17 @@ stopVisitorLocationPolling();
                     active
                 };
             }
+
         } else {
             let id =
                 name
                     .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, "-");
+                    .replace(
+                        /[^a-z0-9]+/g,
+                        "-"
+                    );
 
-            let originalId =
+            const originalId =
                 id;
 
             let number =
@@ -1751,7 +1895,8 @@ stopVisitorLocationPolling();
             while (
                 projects.some(
                     project =>
-                        project.id === id
+                        project.id ===
+                        id
                 )
             ) {
                 id =
@@ -1773,10 +1918,11 @@ stopVisitorLocationPolling();
             });
         }
 
-        saveProjects(projects);
+        saveProjects(
+            projects
+        );
 
         closeEditor();
-
         updateDashboard();
     }
 
@@ -1787,7 +1933,8 @@ stopVisitorLocationPolling();
         const project =
             projects.find(
                 item =>
-                    item.id === id
+                    item.id ===
+                    id
             );
 
         if (!project) {
@@ -1805,7 +1952,8 @@ stopVisitorLocationPolling();
         saveProjects(
             projects.filter(
                 item =>
-                    item.id !== id
+                    item.id !==
+                    id
             )
         );
 
@@ -1819,7 +1967,8 @@ stopVisitorLocationPolling();
         const project =
             projects.find(
                 item =>
-                    item.id === id
+                    item.id ===
+                    id
             );
 
         if (!project) {
@@ -1829,9 +1978,939 @@ stopVisitorLocationPolling();
         project.active =
             !project.active;
 
-        saveProjects(projects);
+        saveProjects(
+            projects
+        );
 
         updateDashboard();
+    }
+
+    async function loadTimeline() {
+        const client =
+            getSupabase();
+
+        if (!client) {
+            console.error(
+                "Supabase client is unavailable."
+            );
+
+            timelineData =
+                [];
+
+            return [];
+        }
+
+        try {
+            const {
+                data,
+                error
+            } =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .select("*")
+                    .order(
+                        "position",
+                        {
+                            ascending:
+                                true
+                        }
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            timelineData =
+                Array.isArray(data)
+                    ? data
+                    : [];
+
+            return timelineData;
+
+        } catch (errorObject) {
+            console.error(
+                "Could not load timeline:",
+                errorObject
+            );
+
+            timelineData =
+                [];
+
+            return [];
+        }
+    }
+
+    async function renderCreatorTimeline() {
+        const container =
+            get("creatorTimeline");
+
+        if (!container) {
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="empty-projects">
+                <span>🗓️</span>
+                <h3>Loading Timeline</h3>
+                <p>
+                    Loading shared timeline data...
+                </p>
+            </div>
+        `;
+
+        const timeline =
+            await loadTimeline();
+
+        container.innerHTML =
+            "";
+
+        if (!timeline.length) {
+            container.innerHTML = `
+                <div class="empty-projects">
+                    <span>🗓️</span>
+                    <h3>No Milestones</h3>
+                    <p>
+                        Add your first timeline milestone.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        timeline.forEach(
+            (
+                item,
+                index
+            ) => {
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "creator-timeline-card";
+
+                card.innerHTML = `
+                    <div class="creator-timeline-info">
+
+                        <div class="creator-timeline-top">
+
+                            <span class="creator-timeline-year">
+                                ${escape(item.year)}
+                            </span>
+
+                            ${
+                                item.active
+                                    ? `<span class="active-badge">PUBLISHED</span>`
+                                    : `<span class="timeline-hidden-badge">HIDDEN</span>`
+                            }
+
+                            <span class="timeline-position-badge">
+                                ${
+                                    item.side === "right"
+                                        ? "RIGHT"
+                                        : "LEFT"
+                                }
+                            </span>
+
+                        </div>
+
+                        <h3>
+                            ${escape(item.title)}
+                        </h3>
+
+                        <p>
+                            ${escape(item.description)}
+                        </p>
+
+                        <div class="creator-timeline-meta">
+                            Position ${index + 1} of ${timeline.length}
+                        </div>
+
+                    </div>
+
+                    <div class="creator-timeline-actions">
+
+                        <button
+                            type="button"
+                            data-up="${item.id}"
+                        >
+                            ↑
+                        </button>
+
+                        <button
+                            type="button"
+                            data-down="${item.id}"
+                        >
+                            ↓
+                        </button>
+
+                        <button
+                            type="button"
+                            data-edit-timeline="${item.id}"
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            type="button"
+                            data-toggle-timeline="${item.id}"
+                        >
+                            ${
+                                item.active
+                                    ? "Hide"
+                                    : "Publish"
+                            }
+                        </button>
+
+                        <button
+                            type="button"
+                            data-delete-timeline="${item.id}"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+                `;
+
+                container.appendChild(
+                    card
+                );
+            }
+        );
+
+        container
+            .querySelectorAll(
+                "[data-up]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            moveTimelineItem(
+                                Number(
+                                    button.dataset.up
+                                ),
+                                -1
+                            );
+                        }
+                    );
+                }
+            );
+
+        container
+            .querySelectorAll(
+                "[data-down]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            moveTimelineItem(
+                                Number(
+                                    button.dataset.down
+                                ),
+                                1
+                            );
+                        }
+                    );
+                }
+            );
+
+        container
+            .querySelectorAll(
+                "[data-edit-timeline]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            openEditTimeline(
+                                Number(
+                                    button.dataset.editTimeline
+                                )
+                            );
+                        }
+                    );
+                }
+            );
+
+        container
+            .querySelectorAll(
+                "[data-toggle-timeline]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            toggleTimelineItem(
+                                Number(
+                                    button.dataset.toggleTimeline
+                                )
+                            );
+                        }
+                    );
+                }
+            );
+
+        container
+            .querySelectorAll(
+                "[data-delete-timeline]"
+            )
+            .forEach(
+                button => {
+                    button.addEventListener(
+                        "click",
+                        () => {
+                            deleteTimeline(
+                                Number(
+                                    button.dataset.deleteTimeline
+                                )
+                            );
+                        }
+                    );
+                }
+            );
+    }
+
+    function openAddTimeline() {
+        const editor =
+            get("timelineEditor");
+
+        const form =
+            get("timelineForm");
+
+        if (!editor || !form) {
+            return;
+        }
+
+        form.reset();
+
+        get("timelineId").value =
+            "";
+
+        get("timelineEditorTitle").textContent =
+            "Add Milestone";
+
+        get("timelineSide").value =
+            "left";
+
+        get("timelineActive").value =
+            "true";
+
+        editor.classList.add(
+            "visible"
+        );
+
+        setTimeout(
+            () => {
+                get("timelineYear").focus();
+            },
+            100
+        );
+    }
+
+    function openEditTimeline(id) {
+        const item =
+            timelineData.find(
+                milestone =>
+                    Number(
+                        milestone.id
+                    ) ===
+                    Number(id)
+            );
+
+        if (!item) {
+            return;
+        }
+
+        const editor =
+            get("timelineEditor");
+
+        if (!editor) {
+            return;
+        }
+
+        get("timelineEditorTitle").textContent =
+            "Edit Milestone";
+
+        get("timelineId").value =
+            item.id;
+
+        get("timelineYear").value =
+            item.year || "";
+
+        get("timelineTitle").value =
+            item.title || "";
+
+        get("timelineDescription").value =
+            item.description || "";
+
+        get("timelineDetails").value =
+            item.details || "";
+
+        get("timelineSide").value =
+            item.side || "left";
+
+        get("timelineActive").value =
+            item.active
+                ? "true"
+                : "false";
+
+        editor.classList.add(
+            "visible"
+        );
+
+        setTimeout(
+            () => {
+                get("timelineYear").focus();
+            },
+            100
+        );
+    }
+
+    function closeTimelineEditor() {
+        const editor =
+            get("timelineEditor");
+
+        if (!editor) {
+            return;
+        }
+
+        editor.classList.remove(
+            "visible"
+        );
+
+        const form =
+            get("timelineForm");
+
+        if (form) {
+            form.reset();
+        }
+
+        get("timelineId").value =
+            "";
+    }
+
+    async function saveTimelineItem(event) {
+        event.preventDefault();
+
+        const client =
+            getSupabase();
+
+        if (!client) {
+            alert(
+                "Supabase is not available."
+            );
+
+            return;
+        }
+
+        const year =
+            get("timelineYear")
+                .value
+                .trim();
+
+        const title =
+            get("timelineTitle")
+                .value
+                .trim();
+
+        const description =
+            get("timelineDescription")
+                .value
+                .trim();
+
+        const details =
+            get("timelineDetails")
+                .value
+                .trim();
+
+        const side =
+            get("timelineSide")
+                .value;
+
+        const active =
+            get("timelineActive")
+                .value ===
+            "true";
+
+        const existingId =
+            get("timelineId")
+                .value;
+
+        if (
+            !year ||
+            !title ||
+            !description ||
+            !details
+        ) {
+            alert(
+                "Please fill in all timeline fields."
+            );
+
+            return;
+        }
+
+        const submitButton =
+            get("timelineForm")
+                .querySelector(
+                    'button[type="submit"]'
+                );
+
+        if (submitButton) {
+            submitButton.disabled =
+                true;
+
+            submitButton.textContent =
+                "Saving...";
+        }
+
+        try {
+            if (existingId) {
+
+                const {
+                    error
+                } =
+                    await client
+                        .from(
+                            TIMELINE_TABLE
+                        )
+                        .update({
+                            year,
+                            title,
+                            description,
+                            details,
+                            side,
+                            active,
+                            updated_at:
+                                new Date().toISOString()
+                        })
+                        .eq(
+                            "id",
+                            Number(
+                                existingId
+                            )
+                        );
+
+                if (error) {
+                    throw error;
+                }
+
+            } else {
+
+                const currentTimeline =
+                    await loadTimeline();
+
+                const highestPosition =
+                    currentTimeline.reduce(
+                        (
+                            highest,
+                            item
+                        ) => {
+                            const position =
+                                Number(
+                                    item.position
+                                ) || 0;
+
+                            return Math.max(
+                                highest,
+                                position
+                            );
+                        },
+                        0
+                    );
+
+                const {
+                    error
+                } =
+                    await client
+                        .from(
+                            TIMELINE_TABLE
+                        )
+                        .insert({
+                            year,
+                            title,
+                            description,
+                            details,
+                            side,
+                            active,
+                            position:
+                                highestPosition +
+                                1
+                        });
+
+                if (error) {
+                    throw error;
+                }
+            }
+
+            closeTimelineEditor();
+
+            await renderCreatorTimeline();
+
+        } catch (errorObject) {
+            console.error(
+                "Could not save timeline item:",
+                errorObject
+            );
+
+            alert(
+                errorObject.message ||
+                "Could not save timeline milestone."
+            );
+
+        } finally {
+            if (submitButton) {
+                submitButton.disabled =
+                    false;
+
+                submitButton.textContent =
+                    "Save Milestone";
+            }
+        }
+    }
+
+    async function deleteTimeline(id) {
+        const client =
+            getSupabase();
+
+        if (!client) {
+            return;
+        }
+
+        const item =
+            timelineData.find(
+                milestone =>
+                    Number(
+                        milestone.id
+                    ) ===
+                    Number(id)
+            );
+
+        if (!item) {
+            return;
+        }
+
+        if (
+            !window.confirm(
+                `Delete "${item.title}" from the timeline?`
+            )
+        ) {
+            return;
+        }
+
+        try {
+            const {
+                error
+            } =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .delete()
+                    .eq(
+                        "id",
+                        Number(id)
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            await loadTimeline();
+            await normalizeTimelinePositions();
+            await renderCreatorTimeline();
+
+        } catch (errorObject) {
+            console.error(
+                "Could not delete timeline item:",
+                errorObject
+            );
+
+            alert(
+                errorObject.message ||
+                "Could not delete timeline milestone."
+            );
+        }
+    }
+
+    async function toggleTimelineItem(id) {
+        const client =
+            getSupabase();
+
+        if (!client) {
+            return;
+        }
+
+        const item =
+            timelineData.find(
+                milestone =>
+                    Number(
+                        milestone.id
+                    ) ===
+                    Number(id)
+            );
+
+        if (!item) {
+            return;
+        }
+
+        try {
+            const {
+                error
+            } =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .update({
+                        active:
+                            !item.active,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        Number(id)
+                    );
+
+            if (error) {
+                throw error;
+            }
+
+            await renderCreatorTimeline();
+
+        } catch (errorObject) {
+            console.error(
+                "Could not update timeline status:",
+                errorObject
+            );
+
+            alert(
+                errorObject.message ||
+                "Could not update timeline milestone."
+            );
+        }
+    }
+
+    async function moveTimelineItem(
+        id,
+        direction
+    ) {
+        const client =
+            getSupabase();
+
+        if (!client) {
+            return;
+        }
+
+        const timeline =
+            [...timelineData]
+                .sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            a.position
+                        ) -
+                        Number(
+                            b.position
+                        )
+                );
+
+        const index =
+            timeline.findIndex(
+                item =>
+                    Number(
+                        item.id
+                    ) ===
+                    Number(id)
+            );
+
+        if (index === -1) {
+            return;
+        }
+
+        const target =
+            index +
+            direction;
+
+        if (
+            target < 0 ||
+            target >= timeline.length
+        ) {
+            return;
+        }
+
+        const current =
+            timeline[index];
+
+        const swap =
+            timeline[target];
+
+        const currentPosition =
+            Number(
+                current.position
+            );
+
+        const swapPosition =
+            Number(
+                swap.position
+            );
+
+        try {
+            const temporaryPosition =
+                -Math.abs(
+                    currentPosition
+                ) - 1000000;
+
+            const firstUpdate =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .update({
+                        position:
+                            temporaryPosition
+                    })
+                    .eq(
+                        "id",
+                        Number(
+                            current.id
+                        )
+                    );
+
+            if (firstUpdate.error) {
+                throw firstUpdate.error;
+            }
+
+            const secondUpdate =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .update({
+                        position:
+                            currentPosition,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        Number(
+                            swap.id
+                        )
+                    );
+
+            if (secondUpdate.error) {
+                throw secondUpdate.error;
+            }
+
+            const thirdUpdate =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .update({
+                        position:
+                            swapPosition,
+                        updated_at:
+                            new Date().toISOString()
+                    )
+                    .eq(
+                        "id",
+                        Number(
+                            current.id
+                        )
+                    );
+
+            if (thirdUpdate.error) {
+                throw thirdUpdate.error;
+            }
+
+            await renderCreatorTimeline();
+
+        } catch (errorObject) {
+            console.error(
+                "Could not reorder timeline:",
+                errorObject
+            );
+
+            alert(
+                errorObject.message ||
+                "Could not reorder timeline."
+            );
+
+            await renderCreatorTimeline();
+        }
+    }
+
+    async function normalizeTimelinePositions() {
+        const client =
+            getSupabase();
+
+        if (!client) {
+            return;
+        }
+
+        const timeline =
+            [...timelineData]
+                .sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        Number(
+                            a.position
+                        ) -
+                        Number(
+                            b.position
+                        )
+                );
+
+        for (
+            let index = 0;
+            index < timeline.length;
+            index++
+        ) {
+            const {
+                error
+            } =
+                await client
+                    .from(
+                        TIMELINE_TABLE
+                    )
+                    .update({
+                        position:
+                            index + 1,
+                        updated_at:
+                            new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        Number(
+                            timeline[index].id
+                        )
+                    );
+
+            if (error) {
+                console.error(
+                    "Timeline position update failed:",
+                    error
+                );
+            }
+        }
+
+        await loadTimeline();
     }
 
     function launchGame() {
@@ -1840,7 +2919,9 @@ stopVisitorLocationPolling();
         }
 
         gameScreen =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         gameScreen.id =
             "easterEggGame";
@@ -1872,6 +2953,7 @@ stopVisitorLocationPolling();
                 </p>
 
                 <div class="easter-game-stats">
+
                     <span>
                         Score:
                         <strong id="easterScore">
@@ -1885,6 +2967,7 @@ stopVisitorLocationPolling();
                             0
                         </strong>
                     </span>
+
                 </div>
 
                 <canvas
@@ -1922,7 +3005,9 @@ stopVisitorLocationPolling();
             get("easterCanvas");
 
         const ctx =
-            canvas.getContext("2d");
+            canvas.getContext(
+                "2d"
+            );
 
         const start =
             get("startEasterGame");
@@ -2025,34 +3110,42 @@ stopVisitorLocationPolling();
         function spawn() {
             const size =
                 20 +
-                Math.random() * 30;
+                Math.random() *
+                30;
 
             blocks.push({
                 x:
                     Math.random() *
-                    (canvas.width - size),
-
+                    (
+                        canvas.width -
+                        size
+                    ),
                 y:
                     -size,
-
-                width: size,
-                height: size,
-
+                width:
+                    size,
+                height:
+                    size,
                 speed:
                     2 +
-                    Math.random() * 2.5
+                    Math.random() *
+                    2.5
             });
         }
 
         function hit(a, b) {
             return (
                 a.x <
-                    b.x + b.width &&
-                a.x + a.width >
+                    b.x +
+                    b.width &&
+                a.x +
+                    a.width >
                     b.x &&
                 a.y <
-                    b.y + b.height &&
-                a.y + a.height >
+                    b.y +
+                    b.height &&
+                a.y +
+                    a.height >
                     b.y
             );
         }
@@ -2106,10 +3199,13 @@ stopVisitorLocationPolling();
                 blocks.filter(
                     block =>
                         block.y <
-                        canvas.height + 60
+                        canvas.height +
+                        60
                 );
 
-            for (const block of blocks) {
+            for (
+                const block of blocks
+            ) {
                 if (
                     hit(
                         player,
@@ -2125,7 +3221,8 @@ stopVisitorLocationPolling();
 
             scoreDisplay.textContent =
                 Math.floor(
-                    score / 10
+                    score /
+                    10
                 );
         }
 
@@ -2182,7 +3279,8 @@ stopVisitorLocationPolling();
 
                 ctx.fillText(
                     "GAME OVER",
-                    canvas.width / 2,
+                    canvas.width /
+                        2,
                     165
                 );
 
@@ -2191,7 +3289,8 @@ stopVisitorLocationPolling();
 
                 ctx.fillText(
                     `Score: ${Math.floor(score / 10)}`,
-                    canvas.width / 2,
+                    canvas.width /
+                        2,
                     200
                 );
             }
@@ -2221,7 +3320,8 @@ stopVisitorLocationPolling();
 
             const finalScore =
                 Math.floor(
-                    score / 10
+                    score /
+                    10
                 );
 
             if (
@@ -2275,7 +3375,8 @@ stopVisitorLocationPolling();
                     true;
 
                 if (
-                    event.key === "Escape"
+                    event.key ===
+                    "Escape"
                 ) {
                     if (gameScreen) {
                         close.click();
@@ -2305,8 +3406,10 @@ stopVisitorLocationPolling();
 
         ctx.fillText(
             "READY?",
-            canvas.width / 2,
-            canvas.height / 2
+            canvas.width /
+                2,
+            canvas.height /
+                2
         );
     }
 
@@ -2321,7 +3424,7 @@ stopVisitorLocationPolling();
 
         creatorButton.addEventListener(
             "click",
-            function (event) {
+            event => {
                 event.preventDefault();
                 event.stopPropagation();
                 createPasswordScreen();
@@ -2388,6 +3491,46 @@ stopVisitorLocationPolling();
             );
         }
 
+        const addTimelineButton =
+            get("addTimelineButton");
+
+        if (addTimelineButton) {
+            addTimelineButton.addEventListener(
+                "click",
+                openAddTimeline
+            );
+        }
+
+        const closeTimelineButton =
+            get("closeTimelineEditor");
+
+        if (closeTimelineButton) {
+            closeTimelineButton.addEventListener(
+                "click",
+                closeTimelineEditor
+            );
+        }
+
+        const cancelTimeline =
+            get("cancelTimelineEditor");
+
+        if (cancelTimeline) {
+            cancelTimeline.addEventListener(
+                "click",
+                closeTimelineEditor
+            );
+        }
+
+        const timelineForm =
+            get("timelineForm");
+
+        if (timelineForm) {
+            timelineForm.addEventListener(
+                "submit",
+                saveTimelineItem
+            );
+        }
+
         const overlay =
             get("creatorOverlay");
 
@@ -2405,85 +3548,79 @@ stopVisitorLocationPolling();
             );
         }
 
-        window.addEventListener(
-            "storage",
-            event => {
-                if (
-                    event.key ===
-                    STORAGE_KEY
-                ) {
-                    updateDashboard();
-                }
-            }
-        );
-
         document.addEventListener(
             "keydown",
             event => {
                 if (
-                    event.key ===
+                    event.key !==
                     "Escape"
                 ) {
-                    const password =
-                        get(
-                            "creatorPasswordScreen"
-                        );
+                    return;
+                }
 
-                    if (password) {
-                        closePasswordScreen();
-                        return;
-                    }
+                const password =
+                    get(
+                        "creatorPasswordScreen"
+                    );
 
-                    const editor =
-                        get(
-                            "projectEditor"
-                        );
+                if (password) {
+                    closePasswordScreen();
+                    return;
+                }
 
-                    if (
-                        editor &&
-                        editor.classList.contains(
-                            "visible"
-                        )
-                    ) {
-                        closeEditor();
-                        return;
-                    }
+                const timelineEditorElement =
+                    get(
+                        "timelineEditor"
+                    );
 
-                    const creator =
-                        get(
-                            "creatorOverlay"
-                        );
+                if (
+                    timelineEditorElement &&
+                    timelineEditorElement.classList.contains(
+                        "visible"
+                    )
+                ) {
+                    closeTimelineEditor();
+                    return;
+                }
 
-                    if (
-                        creator &&
-                        creator.classList.contains(
-                            "visible"
-                        )
-                    ) {
-                        closeDashboard();
-                    }
+                const editor =
+                    get(
+                        "projectEditor"
+                    );
+
+                if (
+                    editor &&
+                    editor.classList.contains(
+                        "visible"
+                    )
+                ) {
+                    closeEditor();
+                    return;
+                }
+
+                const creator =
+                    get(
+                        "creatorOverlay"
+                    );
+
+                if (
+                    creator &&
+                    creator.classList.contains(
+                        "visible"
+                    )
+                ) {
+                    closeDashboard();
                 }
             }
         );
 
-        updateDashboard();
+        console.log(
+            "Creator system ready."
+        );
     }
 
-    ready(setup);
+    ready(
+        setup
+    );
+
 })();
-
-const lastUpdated =
-    get("visitorLastUpdated");
-
-if (lastUpdated) {
-    lastUpdated.textContent =
-        "Updated " +
-        new Date().toLocaleTimeString(
-            "en-US",
-            {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        );
-}

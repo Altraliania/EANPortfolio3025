@@ -389,6 +389,7 @@
                 href="https://www.instagram.com/emanuelaltra/"
                 target="_blank"
                 class="footer-logo-link"
+                rel="noopener noreferrer"
             >
 
                 <img
@@ -513,24 +514,50 @@
             </h2>
 
             <p>
-                Enter the password to access Creator Mode.
+                Sign in to manage your portfolio.
             </p>
 
             <form id="creatorLoginForm">
 
-                <label for="creatorPassword">
-                    Password
+                <label for="creatorEmail">
+                    Email
                 </label>
 
                 <input
-                    type="password"
-                    id="creatorPassword"
-                    placeholder="Enter password"
-                    autocomplete="off"
+                    type="email"
+                    id="creatorEmail"
+                    placeholder="your@email.com"
+                    autocomplete="username"
                     required
                 >
 
-                <p id="creatorLoginError"></p>
+
+                <label for="creatorPasswordInput">
+                    Password
+                </label>
+
+                <div class="creator-password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="creatorPasswordInput"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="creatorPasswordToggle"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+
+                <p id="creatorPasswordError"></p>
+
 
                 <div class="creator-login-buttons">
 
@@ -544,6 +571,7 @@
 
                     <button
                         type="submit"
+                        id="creatorPasswordSubmit"
                         class="creator-primary-button"
                     >
                         Unlock
@@ -665,169 +693,6 @@
                         </p>
 
                     </div>
-
-                    <div class="site-status-card">
-
-    <div class="site-status-header">
-
-        <div>
-
-            <span class="site-status-badge">
-                SYSTEM
-            </span>
-
-            <h2>
-                Site Status
-            </h2>
-
-            <p>
-                Live health information for your portfolio.
-            </p>
-
-        </div>
-
-        <div class="site-status-live">
-            <span></span>
-            Live
-        </div>
-
-    </div>
-
-
-    <div class="site-status-grid">
-
-        <div class="site-status-item">
-
-            <div class="site-status-icon">
-                🌐
-            </div>
-
-            <div>
-
-                <span>
-                    Website
-                </span>
-
-                <strong
-                    id="siteStatusWebsite"
-                    class="status-good"
-                >
-                    Checking...
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="site-status-item">
-
-            <div class="site-status-icon">
-                ⚡
-            </div>
-
-            <div>
-
-                <span>
-                    Visitor API
-                </span>
-
-                <strong
-                    id="siteStatusAPI"
-                    class="status-good"
-                >
-                    Checking...
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="site-status-item">
-
-            <div class="site-status-icon">
-                🗄️
-            </div>
-
-            <div>
-
-                <span>
-                    Database
-                </span>
-
-                <strong
-                    id="siteStatusDatabase"
-                    class="status-good"
-                >
-                    Checking...
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="site-status-item">
-
-            <div class="site-status-icon">
-                📊
-            </div>
-
-            <div>
-
-                <span>
-                    Analytics
-                </span>
-
-                <strong
-                    id="siteStatusAnalytics"
-                    class="status-good"
-                >
-                    Checking...
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="site-status-item">
-
-            <div class="site-status-icon">
-                ☁️
-            </div>
-
-            <div>
-
-                <span>
-                    Hosting
-                </span>
-
-                <strong>
-                    Vercel
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="site-status-footer">
-
-        <span>
-            System monitor
-        </span>
-
-        <span id="siteStatusLastChecked">
-            Checking...
-        </span>
-
-    </div>
-
-</div>
 
                     <div class="visitor-status-indicator">
 
@@ -951,6 +816,173 @@
             </div>
 
 
+            <div class="site-status-card">
+
+                <div class="site-status-header">
+
+                    <div>
+
+                        <span class="site-status-badge">
+                            SYSTEM
+                        </span>
+
+                        <h2>
+                            Site Status
+                        </h2>
+
+                        <p>
+                            Live health information for your portfolio.
+                        </p>
+
+                    </div>
+
+                    <div class="site-status-live">
+
+                        <span></span>
+
+                        Live
+
+                    </div>
+
+                </div>
+
+
+                <div class="site-status-grid">
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            🌐
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Website
+                            </span>
+
+                            <strong
+                                id="siteStatusWebsite"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Visitor API
+                            </span>
+
+                            <strong
+                                id="siteStatusAPI"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            🗄️
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Database
+                            </span>
+
+                            <strong
+                                id="siteStatusDatabase"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Analytics
+                            </span>
+
+                            <strong
+                                id="siteStatusAnalytics"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            ☁️
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Hosting
+                            </span>
+
+                            <strong class="status-good">
+                                Vercel
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="site-status-footer">
+
+                    <span>
+                        System monitor
+                    </span>
+
+                    <span id="siteStatusLastChecked">
+                        Checking...
+                    </span>
+
+                </div>
+
+            </div>
+
+
             <div class="creator-section">
 
                 <div class="creator-section-header">
@@ -980,6 +1012,38 @@
 
 
                 <div id="creatorProjects"></div>
+
+            </div>
+
+
+            <div class="creator-section">
+
+                <div class="creator-section-header">
+
+                    <div>
+
+                        <h2>
+                            Timeline
+                        </h2>
+
+                        <p>
+                            Manage the milestones displayed on your History page.
+                        </p>
+
+                    </div>
+
+                    <button
+                        id="addTimelineButton"
+                        class="creator-primary-button"
+                        type="button"
+                    >
+                        + Add Milestone
+                    </button>
+
+                </div>
+
+
+                <div id="creatorTimeline"></div>
 
             </div>
 
@@ -1115,6 +1179,155 @@
             </div>
 
 
+            <div
+                id="timelineEditor"
+                class="project-editor"
+            >
+
+                <div class="editor-header">
+
+                    <h2 id="timelineEditorTitle">
+                        Add Milestone
+                    </h2>
+
+                    <button
+                        id="closeTimelineEditor"
+                        type="button"
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+
+                <form id="timelineForm">
+
+                    <input
+                        type="hidden"
+                        id="timelineId"
+                    >
+
+
+                    <label>
+
+                        Year / Date
+
+                        <input
+                            type="text"
+                            id="timelineYear"
+                            placeholder="2026"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Title
+
+                        <input
+                            type="text"
+                            id="timelineTitle"
+                            placeholder="Shawnigan Lake School"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Short Description
+
+                        <textarea
+                            id="timelineDescription"
+                            placeholder="A short description shown on the timeline card..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+
+                        Detailed Information
+
+                        <textarea
+                            id="timelineDetails"
+                            placeholder="More information shown when the user hovers over the milestone..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+
+                        Position
+
+                        <select
+                            id="timelineSide"
+                        >
+
+                            <option value="left">
+                                Left
+                            </option>
+
+                            <option value="right">
+                                Right
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+
+                        Status
+
+                        <select
+                            id="timelineActive"
+                        >
+
+                            <option value="true">
+                                Published
+                            </option>
+
+                            <option value="false">
+                                Hidden
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <div class="editor-buttons">
+
+                        <button
+                            type="button"
+                            id="cancelTimelineEditor"
+                            class="creator-secondary-button"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="creator-primary-button"
+                        >
+                            Save Milestone
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
             <div class="creator-footer">
 
                 <span>
@@ -1140,6 +1353,26 @@
         crossorigin=""
     ></script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL =
+        "https://dgjncqahzvuasffgktfi.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "YOUR_PUBLISHABLE_KEY";
+
+    window.supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+</script>
+
+<script src="script.js"></script>
+<script src="welcome.js"></script>
+<script src="creator.js"></script>
 
     <script>
 

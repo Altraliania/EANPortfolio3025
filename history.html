@@ -1,95 +1,741 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link
+        rel="icon"
+        href="favicon.ico"
+        type="image/x-icon"
+    >
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>History of Emanuel</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
-<body>
-    <!-- Animation Overlay -->
-    <div id="page-overlay"></div>
 
-    <!-- Container wrapper that slides down and fades in -->
-    <div id="page-content">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        <!-- Header Banner Area -->
-        <header class="project-header" style="background-color: #222;">
-            <div class="header-overlay-text">
-                <h1>History of Emanuel</h1>
-                <p>Learn about my background and family history</p>
-            </div>
-        </header>
+    <script>
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
 
-        <!-- Split Content Layout -->
-        <div class="project-container">
-            <!-- Main Writing / Details -->
-            <main class="project-story" style="flex: 100%; max-width: 600px; margin: 0 auto;">
-                <h2>From the Start...</h2>
-                <p>
-                    Around 1980-1990, my dad met and married my mom. My dad was Born in Ethopia but has an Eritrea Background. My mom was born in Eritrea and also has an Eritrean Background. In 2002, my dad left Eritrea to the United States of America because he used to work in the United Nations Mission to Eritrea. My dad other that working has spent years discussing with the United States Immgrations & Customs and the department of Homeland Security to get citizenship in the United States. It was rough, but eventually in 2005 he got aslyumm in the United States. And in 2007, he has gotten his citizenship including my family in the United States. The rest of my family moved from Eritrea to the US in 2009.
-                </p>
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-                <h2>My Journey</h2>
+async function loadTimeline() {
 
-                <p>
-                    In October 25, 2011 I was Born in New Jersey, United States of America. I have lived in New Jersey for all my life. I been to a couple nearby schools in NJ untill i got into Forest Street School in 2019 for 2nd Grade.
-                    I have been to Forest Street School (FSS/FSCS) until 7th Grade  in 2025. I then, with the help of my Oldest Sister, signed of for a Scholarship program to Shawnigan Lake School in Canada. Which went I learned that can be possible, I was schocked and excited. I then, in 2025, got accepted to Shawnigan Lake School in Canada. I am now a Freshmen Student at Shawnigan Lake School in Canada and hopeful to get in.
-                </p>
-                <p>
-                    After Some time, forms, governmental documents, and millions of prayers, I got in! The School Accepted me in and the Government of Canada gave me my visa to go to School in Canada. I was so excited and at the same time scared of going to a new school. But eventually, I got around my fears. I packed up my suitcase, said bye to my parents, and headed out to Canada to pursuit my highschool education. I finished my first year there at 8th Grade and now moving to 9th Grade. I'm proud of going to new places and to continue my dreams.
-                </p>
+    const container =
+        document.getElementById("publicTimeline");
 
-                <h2>My Future</h2>
-
-                <p>
-                    My dream in the future is to be a United States Diplomat as an Ambassoder to ethier thee United Nations or The north anlantic treaty organization (NATO). I want to be a diplomat because I want to contribute into world politics because I have an intrest of politces and dipolmacy since 12 Years old and seeing a bunch of news and history.
-                </p>
-
-                <a href="index.html" class="back-home-btn fade-link">← Back to Homepage</a>
-        <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
+    if (!container) {
+        return;
     }
 
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("timeline")
+        .select("*")
+        .eq("active", true)
+        .order("position", {
+            ascending: true
+        });
 
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
+    if (error) {
+
+        console.error(
+            "Timeline could not load:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="empty-projects">
+                <h3>Timeline unavailable</h3>
+                <p>Please try again later.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        '<div class="timeline-line"></div>';
+
+    data.forEach(
+        (item, index) => {
+
+            const element =
+                document.createElement("div");
+
+            element.className =
+                `timeline-item timeline-${item.side}`;
+
+            element.innerHTML = `
+                <div class="timeline-dot">
+                    <span>${index + 1}</span>
+                </div>
+
+                <div class="timeline-card">
+
+                    <span class="timeline-year">
+                        ${escapeHTML(item.year)}
+                    </span>
+
+                    <h3>
+                        ${escapeHTML(item.title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(item.description)}
+                    </p>
+
+                </div>
+
+                <div class="timeline-popup">
+
+                    <span class="timeline-popup-label">
+                        ${escapeHTML(item.year)}
+                    </span>
+
+                    <h4>
+                        ${escapeHTML(item.title)}
+                    </h4>
+
+                    <p>
+                        ${escapeHTML(item.details)}
+                    </p>
+
+                </div>
+            `;
+
+            container.appendChild(
+                element
+            );
         }
-    });
+    );
+}
+
+function escapeHTML(value) {
+
+    const element =
+        document.createElement("div");
+
+    element.textContent =
+        value || "";
+
+    return element.innerHTML;
+}
+
+loadTimeline();
 </script>
 
+<body>
 
-    <!-- Script to enable the back-button fade transition -->
+    <div id="page-overlay"></div>
+
+    <div id="page-content">
+
+        <header
+            class="project-header"
+            style="background-color: #222;"
+        >
+
+            <div class="header-overlay-text">
+
+                <h1>
+                    History of Emanuel
+                </h1>
+
+                <p>
+                    Learn about my background and family history
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <div class="project-container">
+
+            <main
+                class="project-story"
+                style="
+                    flex: 100%;
+                    max-width: 900px;
+                    margin: 0 auto;
+                "
+            >
+
+                <h2>
+                    From the Start...
+                </h2>
+
+                <p>
+                    Around 1980-1990, my dad met and married my mom.
+                    My dad was born in Ethiopia but has an Eritrean
+                    background. My mom was born in Eritrea and also
+                    has an Eritrean background. In 2002, my dad left
+                    Eritrea for the United States of America because
+                    he used to work in the United Nations Mission to
+                    Eritrea. Other than working, my dad spent years
+                    discussing with the United States Immigration and
+                    Customs Enforcement and the Department of Homeland
+                    Security to get citizenship in the United States.
+                    It was rough, but eventually in 2005 he got asylum
+                    in the United States. In 2007, he got his citizenship,
+                    including my family in the United States. The rest
+                    of my family moved from Eritrea to the US in 2009.
+                </p>
+
+
+                <h2>
+                    My Journey
+                </h2>
+
+                <p>
+                    On October 25, 2011, I was born in New Jersey,
+                    United States of America. I have lived in New Jersey
+                    for all my life. I went to a couple of nearby schools
+                    in NJ until I got into Forest Street School in 2019
+                    for 2nd Grade. I attended Forest Street School
+                    (FSS/FSCS) until 7th Grade in 2025. I then, with the
+                    help of my oldest sister, signed up for a scholarship
+                    program to Shawnigan Lake School in Canada. When I
+                    learned that it could be possible, I was shocked and
+                    excited. I then, in 2025, got accepted to Shawnigan
+                    Lake School in Canada. I am now a freshman student
+                    at Shawnigan Lake School in Canada and hopeful to
+                    continue my education there.
+                </p>
+
+                <p>
+                    After some time, forms, governmental documents,
+                    and millions of prayers, I got in. The school
+                    accepted me and the Government of Canada gave me
+                    my visa to go to school in Canada. I was so excited
+                    and at the same time scared of going to a new school.
+                    But eventually, I got around my fears. I packed up
+                    my suitcase, said goodbye to my parents, and headed
+                    out to Canada to pursue my high school education.
+                    I finished my first year there at 8th Grade and am
+                    now moving to 9th Grade. I'm proud of going to new
+                    places and continuing my dreams.
+                </p>
+
+
+                <section
+                    class="timeline-section"
+                    id="timeline"
+                >
+
+                    <div class="timeline-header">
+
+                        <span class="timeline-badge">
+                            MY JOURNEY
+                        </span>
+
+                        <h2>
+                            Interactive Timeline
+                        </h2>
+
+                        <p>
+                            Hover over a milestone to learn more about
+                            the events that shaped my journey.
+                        </p>
+
+                    </div>
+
+
+                    <div class="timeline">
+
+                        <div class="timeline-line"></div>
+
+
+                        <div class="timeline-item timeline-left">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    1
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    2009
+                                </span>
+
+                                <h3>
+                                    Family Moves to the United States
+                                </h3>
+
+                                <p>
+                                    My family continued its journey
+                                    to the United States.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    2009
+                                </span>
+
+                                <h4>
+                                    A New Chapter
+                                </h4>
+
+                                <p>
+                                    The rest of my family moved from
+                                    Eritrea to the United States,
+                                    continuing our family's journey
+                                    and beginning a new chapter.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item timeline-right">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    2
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    2011
+                                </span>
+
+                                <h3>
+                                    My Birth
+                                </h3>
+
+                                <p>
+                                    I was born in New Jersey.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    OCTOBER 25, 2011
+                                </span>
+
+                                <h4>
+                                    The Beginning of My Story
+                                </h4>
+
+                                <p>
+                                    I was born in New Jersey,
+                                    United States of America,
+                                    where I have lived for my
+                                    entire life.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item timeline-left">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    3
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    2019
+                                </span>
+
+                                <h3>
+                                    Forest Street School
+                                </h3>
+
+                                <p>
+                                    I began 2nd Grade at FSS.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    2019
+                                </span>
+
+                                <h4>
+                                    Forest Street School
+                                </h4>
+
+                                <p>
+                                    In 2019, I started 2nd Grade at
+                                    Forest Street School, beginning
+                                    an important part of my school
+                                    journey in New Jersey.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item timeline-right">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    4
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    2025
+                                </span>
+
+                                <h3>
+                                    Shawnigan Lake School
+                                </h3>
+
+                                <p>
+                                    I was accepted into Shawnigan Lake School.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    2025
+                                </span>
+
+                                <h4>
+                                    A Major Opportunity
+                                </h4>
+
+                                <p>
+                                    With the help of my oldest sister,
+                                    I applied for a scholarship opportunity
+                                    at Shawnigan Lake School in Canada.
+                                    I was eventually accepted and began
+                                    preparing for a completely new
+                                    chapter of my education.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item timeline-left">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    5
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    2025
+                                </span>
+
+                                <h3>
+                                    Moving to Canada
+                                </h3>
+
+                                <p>
+                                    I received my visa and traveled to Canada.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    2025
+                                </span>
+
+                                <h4>
+                                    Starting Somewhere New
+                                </h4>
+
+                                <p>
+                                    After completing the required forms,
+                                    documents, and visa process, I traveled
+                                    to Canada to begin my high school
+                                    education at Shawnigan Lake School.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline-item timeline-right">
+
+                            <div class="timeline-dot">
+                                <span>
+                                    6
+                                </span>
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <span class="timeline-year">
+                                    NOW
+                                </span>
+
+                                <h3>
+                                    Continuing My Journey
+                                </h3>
+
+                                <p>
+                                    Continuing my education and dreams.
+                                </p>
+
+                            </div>
+
+                            <div class="timeline-popup">
+
+                                <span class="timeline-popup-label">
+                                    PRESENT
+                                </span>
+
+                                <h4>
+                                    Looking Forward
+                                </h4>
+
+                                <p>
+                                    I am continuing my education at
+                                    Shawnigan Lake School while working
+                                    on independent projects, exploring
+                                    Model UN, developing technical skills,
+                                    and planning for my future.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <h2>
+                    My Future
+                </h2>
+
+                <p>
+                    My dream in the future is to be a United States
+                    diplomat as an ambassador to either the United
+                    Nations or the North Atlantic Treaty Organization
+                    (NATO). I want to be a diplomat because I want to
+                    contribute to world politics because I have had an
+                    interest in politics and diplomacy since I was
+                    12 years old and enjoy following news and history.
+                </p>
+
+
+                <a
+                    href="index.html"
+                    class="back-home-btn fade-link"
+                >
+                    ← Back to Homepage
+                </a>
+
+            </main>
+
+        </div>
+
+    </div>
+
+
+    <div class="bottom-controls">
+
+        <button
+            id="dark-mode-toggle"
+            class="card-btn"
+            type="button"
+        >
+            🌙 Dark Mode
+        </button>
+
+    </div>
+
+
     <script>
-        const overlay = document.getElementById('page-overlay');
-        const fadeButtons = document.querySelectorAll('.fade-link');
 
-        fadeButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const targetUrl = this.getAttribute('href');
-                if (overlay) overlay.classList.add('active');
-                setTimeout(() => { window.location.href = targetUrl; }, 500);
-            });
-        });
+        const toggleButton =
+            document.getElementById(
+                "dark-mode-toggle"
+            );
 
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted && overlay) overlay.classList.remove('active');
-        });
+        const body =
+            document.body;
+
+
+        if (
+            localStorage.getItem(
+                "darkMode"
+            ) === "enabled"
+        ) {
+
+            body.classList.add(
+                "dark-mode"
+            );
+
+            toggleButton.textContent =
+                "☀️ Light Mode";
+
+        }
+
+
+        toggleButton.addEventListener(
+            "click",
+            () => {
+
+                body.classList.toggle(
+                    "dark-mode"
+                );
+
+
+                if (
+                    body.classList.contains(
+                        "dark-mode"
+                    )
+                ) {
+
+                    localStorage.setItem(
+                        "darkMode",
+                        "enabled"
+                    );
+
+                    toggleButton.textContent =
+                        "☀️ Light Mode";
+
+                } else {
+
+                    localStorage.setItem(
+                        "darkMode",
+                        "disabled"
+                    );
+
+                    toggleButton.textContent =
+                        "🌙 Dark Mode";
+
+                }
+
+            }
+        );
+
     </script>
+
+
+    <script>
+
+        const overlay =
+            document.getElementById(
+                "page-overlay"
+            );
+
+        const fadeButtons =
+            document.querySelectorAll(
+                ".fade-link"
+            );
+
+
+        fadeButtons.forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+                        const targetUrl =
+                            this.getAttribute(
+                                "href"
+                            );
+
+
+                        if (overlay) {
+
+                            overlay.classList.add(
+                                "active"
+                            );
+
+                        }
+
+
+                        setTimeout(
+                            () => {
+
+                                window.location.href =
+                                    targetUrl;
+
+                            },
+                            500
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        window.addEventListener(
+            "pageshow",
+            event => {
+
+                if (
+                    event.persisted &&
+                    overlay
+                ) {
+
+                    overlay.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+
 </body>
+
 </html>
