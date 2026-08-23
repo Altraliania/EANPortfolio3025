@@ -9,10 +9,11 @@
     let gameScreen = null;
 
     let visitorStatsTimer = null;
-    let visitorMap = null;
-    let visitorMarkers = [];
     let visitorLocationTimer = null;
     let siteStatusTimer = null;
+
+    let visitorMap = null;
+    let visitorMarkers = [];
 
     let timelineData = [];
 
@@ -36,7 +37,7 @@
             document.createElement("div");
 
         element.textContent =
-            value || "";
+            value ?? "";
 
         return element.innerHTML;
     }
@@ -49,25 +50,10 @@
             return window.supabaseClient;
         }
 
-        try {
-            if (
-                typeof supabaseClient !==
-                "undefined"
-            ) {
-                return supabaseClient;
-            }
-        } catch (error) {
-            console.error(
-                "Supabase lookup failed:",
-                error
-            );
-        }
-
         return null;
     }
 
     function createStyle() {
-
         if (get("creatorInjectedStyles")) {
             return;
         }
@@ -86,7 +72,6 @@
                 left: auto !important;
                 top: auto !important;
                 z-index: 2147483647 !important;
-                pointer-events: auto !important;
                 cursor: pointer !important;
             }
 
@@ -145,8 +130,7 @@
                     opacity .35s ease !important;
             }
 
-            #creatorPasswordScreen.creator-password-visible
-            .creator-password-card {
+            #creatorPasswordScreen.creator-password-visible .creator-password-card {
                 transform: translateY(0) scale(1) !important;
                 opacity: 1 !important;
             }
@@ -213,9 +197,6 @@
                 font-family: inherit !important;
                 font-size: 15px !important;
                 box-sizing: border-box !important;
-                transition:
-                    border-color .2s ease,
-                    box-shadow .2s ease !important;
             }
 
             #creatorPasswordInput {
@@ -244,7 +225,6 @@
                 border-radius: 7px !important;
                 cursor: pointer !important;
                 font-size: 16px !important;
-                z-index: 3 !important;
             }
 
             #creatorPasswordToggle:hover {
@@ -272,13 +252,6 @@
                 font-family: inherit !important;
                 font-weight: 700 !important;
                 font-size: 13px !important;
-                transition:
-                    transform .2s ease,
-                    filter .2s ease !important;
-            }
-
-            .creator-password-actions button:hover {
-                transform: translateY(-1px) !important;
             }
 
             .creator-password-cancel {
@@ -293,14 +266,9 @@
                 color: white !important;
             }
 
-            .creator-password-submit:hover {
-                filter: brightness(1.08) !important;
-            }
-
             .creator-password-submit:disabled {
                 opacity: .6 !important;
                 cursor: wait !important;
-                transform: none !important;
             }
 
             .creator-password-footer {
@@ -310,7 +278,6 @@
                 border-top: 1px solid var(--border-color, #e2e8f0) !important;
                 color: #888 !important;
                 font-size: 10px !important;
-                letter-spacing: .5px !important;
             }
 
             .creator-password-shake {
@@ -364,16 +331,6 @@
                 color: white !important;
                 border: 1px solid #333 !important;
                 box-shadow: 0 40px 120px rgba(0,0,0,.65) !important;
-                transform: scale(.92) translateY(25px) !important;
-                opacity: 0 !important;
-                transition:
-                    transform .45s ease,
-                    opacity .35s ease !important;
-            }
-
-            #easterEggGame.easter-game-visible .easter-game-card {
-                transform: scale(1) translateY(0) !important;
-                opacity: 1 !important;
             }
 
             .easter-game-close {
@@ -402,12 +359,10 @@
 
             .easter-game-card h1 {
                 margin: 0 0 8px 0 !important;
-                font-size: 28px !important;
                 color: white !important;
             }
 
             .easter-game-card p {
-                margin: 0 0 20px 0 !important;
                 color: #aaa !important;
             }
 
@@ -416,7 +371,6 @@
                 justify-content: space-between !important;
                 margin-bottom: 12px !important;
                 color: #aaa !important;
-                font-size: 13px !important;
             }
 
             .easter-game-stats strong {
@@ -452,43 +406,34 @@
                 color: #777 !important;
                 font-size: 11px !important;
             }
-
-            @media (max-width: 600px) {
-                #creatorModeButton {
-                    right: 12px !important;
-                    bottom: 12px !important;
-                }
-
-                .creator-password-card {
-                    padding: 25px !important;
-                }
-
-                .creator-password-card h1 {
-                    font-size: 25px !important;
-                }
-
-                .easter-game-card {
-                    padding: 20px !important;
-                }
-            }
         `;
 
         document.head.appendChild(style);
     }
 
     function getOrCreateCreatorButton() {
-        let button = get("creatorModeButton");
+        let button =
+            get("creatorModeButton");
 
         if (button) {
             return button;
         }
 
-        button = document.createElement("button");
-        button.id = "creatorModeButton";
-        button.type = "button";
-        button.textContent = "⚙️ Creator Mode";
+        button =
+            document.createElement("button");
 
-        document.body.appendChild(button);
+        button.id =
+            "creatorModeButton";
+
+        button.type =
+            "button";
+
+        button.textContent =
+            "⚙️ Creator Mode";
+
+        document.body.appendChild(
+            button
+        );
 
         return button;
     }
@@ -648,7 +593,10 @@
                 return;
             }
 
-            if (password === EASTER_EGG_PASSWORD) {
+            if (
+                password ===
+                EASTER_EGG_PASSWORD
+            ) {
                 closePasswordScreen(
                     launchGame
                 );
@@ -670,11 +618,11 @@
                 return;
             }
 
-            error.textContent =
-                "Signing in...";
-
             submit.disabled =
                 true;
+
+            error.textContent =
+                "Signing in...";
 
             try {
                 const {
@@ -704,7 +652,10 @@
                     return;
                 }
 
-                if (!data || !data.session) {
+                if (
+                    !data ||
+                    !data.session
+                ) {
                     error.textContent =
                         "Login could not be completed.";
 
@@ -765,20 +716,27 @@
 
         cancel.addEventListener(
             "click",
-            () => {
-                closePasswordScreen();
-            }
+            closePasswordScreen
         );
 
         toggle.addEventListener(
             "click",
             () => {
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    toggle.textContent = "🙈";
+                if (
+                    passwordInput.type ===
+                    "password"
+                ) {
+                    passwordInput.type =
+                        "text";
+
+                    toggle.textContent =
+                        "🙈";
                 } else {
-                    passwordInput.type = "password";
-                    toggle.textContent = "👁";
+                    passwordInput.type =
+                        "password";
+
+                    toggle.textContent =
+                        "👁";
                 }
 
                 passwordInput.focus();
@@ -853,22 +811,23 @@
             "hidden";
 
         updateDashboard();
-        updateVisitorStats();
+
+        await Promise.allSettled([
+            updateVisitorStats(),
+            updateVisitorMap(),
+            updateSiteStatus(),
+            renderCreatorTimeline()
+        ]);
+
         startVisitorStatsPolling();
-
-        updateVisitorMap();
         startVisitorLocationPolling();
-
-        updateSiteStatus();
         startSiteStatusPolling();
-
-        await renderCreatorTimeline();
 
         setTimeout(() => {
             if (visitorMap) {
                 visitorMap.invalidateSize();
             }
-        }, 150);
+        }, 200);
     }
 
     function closeDashboard() {
@@ -895,6 +854,10 @@
         const website =
             get("siteStatusWebsite");
 
+        if (!website) {
+            return;
+        }
+
         const api =
             get("siteStatusAPI");
 
@@ -906,10 +869,6 @@
 
         const lastChecked =
             get("siteStatusLastChecked");
-
-        if (!website) {
-            return;
-        }
 
         setStatus(
             website,
@@ -941,11 +900,7 @@
                     "/api/site-status",
                     {
                         method: "GET",
-                        cache: "no-store",
-                        headers: {
-                            Accept:
-                                "application/json"
-                        }
+                        cache: "no-store"
                     }
                 );
 
@@ -967,7 +922,8 @@
 
             setStatus(
                 website,
-                data.website,
+                data.website ||
+                "Unknown",
                 data.website === "Online"
                     ? "status-good"
                     : "status-bad"
@@ -975,7 +931,8 @@
 
             setStatus(
                 api,
-                data.visitorApi,
+                data.visitorApi ||
+                "Unknown",
                 data.visitorApi === "Operational"
                     ? "status-good"
                     : "status-bad"
@@ -983,7 +940,8 @@
 
             setStatus(
                 database,
-                data.database,
+                data.database ||
+                "Unknown",
                 data.database === "Connected"
                     ? "status-good"
                     : "status-bad"
@@ -991,7 +949,8 @@
 
             setStatus(
                 analytics,
-                data.analytics,
+                data.analytics ||
+                "Unknown",
                 data.analytics === "Tracking"
                     ? "status-good"
                     : "status-bad"
@@ -1010,10 +969,10 @@
                     );
             }
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Site status check failed:",
-                errorObject
+                error
             );
 
             setStatus(
@@ -1024,7 +983,7 @@
 
             setStatus(
                 api,
-                "Offline",
+                "Unavailable",
                 "status-bad"
             );
 
@@ -1091,6 +1050,134 @@
         }
     }
 
+    async function updateVisitorStats() {
+        const onlineElement =
+            get("onlineVisitorCount");
+
+        const totalElement =
+            get("totalVisitorCount");
+
+        if (
+            !onlineElement &&
+            !totalElement
+        ) {
+            return;
+        }
+
+        try {
+            const response =
+                await fetch(
+                    "/api/visitor-stats",
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
+
+            if (!response.ok) {
+                throw new Error(
+                    `Visitor API returned HTTP ${response.status}`
+                );
+            }
+
+            const data =
+                await response.json();
+
+            if (
+                !data ||
+                data.success !== true
+            ) {
+                throw new Error(
+                    data?.error ||
+                    "Visitor statistics unavailable"
+                );
+            }
+
+            const online =
+                Number(
+                    data.onlineVisitors
+                );
+
+            const total =
+                Number(
+                    data.totalVisitors
+                );
+
+            if (onlineElement) {
+                onlineElement.textContent =
+                    Number.isFinite(
+                        online
+                    )
+                        ? online
+                        : "0";
+            }
+
+            if (totalElement) {
+                totalElement.textContent =
+                    Number.isFinite(
+                        total
+                    )
+                        ? total
+                        : "0";
+            }
+
+            const lastUpdated =
+                get(
+                    "visitorLastUpdated"
+                );
+
+            if (lastUpdated) {
+                lastUpdated.textContent =
+                    "Updated " +
+                    new Date().toLocaleTimeString(
+                        "en-US",
+                        {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            second: "2-digit"
+                        }
+                    );
+            }
+
+        } catch (error) {
+            console.error(
+                "Could not load visitor statistics:",
+                error
+            );
+
+            if (onlineElement) {
+                onlineElement.textContent =
+                    "—";
+            }
+
+            if (totalElement) {
+                totalElement.textContent =
+                    "—";
+            }
+        }
+    }
+
+    function startVisitorStatsPolling() {
+        stopVisitorStatsPolling();
+
+        visitorStatsTimer =
+            setInterval(
+                updateVisitorStats,
+                15000
+            );
+    }
+
+    function stopVisitorStatsPolling() {
+        if (visitorStatsTimer) {
+            clearInterval(
+                visitorStatsTimer
+            );
+
+            visitorStatsTimer =
+                null;
+        }
+    }
+
     async function updateVisitorMap() {
         const mapElement =
             get("visitorMap");
@@ -1102,7 +1189,10 @@
             return;
         }
 
-        if (typeof L === "undefined") {
+        if (
+            typeof L ===
+            "undefined"
+        ) {
             console.error(
                 "Leaflet is not loaded."
             );
@@ -1143,11 +1233,7 @@
                     "/api/visitor-locations",
                     {
                         method: "GET",
-                        cache: "no-store",
-                        headers: {
-                            Accept:
-                                "application/json"
-                        }
+                        cache: "no-store"
                     }
                 );
 
@@ -1182,7 +1268,9 @@
                 [];
 
             const locations =
-                Array.isArray(data.locations)
+                Array.isArray(
+                    data.locations
+                )
                     ? data.locations
                     : [];
 
@@ -1228,20 +1316,15 @@
                             }
                         );
 
-                    const locationParts =
-                        [
-                            location.city,
-                            location.region,
-                            location.country
-                        ].filter(
-                            Boolean
-                        );
+                    const parts = [
+                        location.city,
+                        location.region,
+                        location.country
+                    ].filter(Boolean);
 
                     const label =
-                        locationParts.length
-                            ? locationParts.join(
-                                ", "
-                            )
+                        parts.length
+                            ? parts.join(", ")
                             : "Approximate location";
 
                     marker.bindPopup(
@@ -1277,10 +1360,10 @@
                 }
             }, 100);
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not load visitor map:",
-                errorObject
+                error
             );
 
             if (mapCount) {
@@ -1311,134 +1394,6 @@
         }
     }
 
-    async function updateVisitorStats() {
-        const onlineElement =
-            get("onlineVisitorCount");
-
-        const totalElement =
-            get("totalVisitorCount");
-
-        if (
-            !onlineElement &&
-            !totalElement
-        ) {
-            return;
-        }
-
-        try {
-            const response =
-                await fetch(
-                    "/api/visitor-stats",
-                    {
-                        method: "GET",
-                        cache: "no-store",
-                        headers: {
-                            Accept:
-                                "application/json"
-                        }
-                    }
-                );
-
-            if (!response.ok) {
-                throw new Error(
-                    `Visitor API returned HTTP ${response.status}`
-                );
-            }
-
-            const data =
-                await response.json();
-
-            if (
-                !data ||
-                data.success !== true
-            ) {
-                throw new Error(
-                    data?.error ||
-                    "Visitor statistics unavailable"
-                );
-            }
-
-            const online =
-                Number(
-                    data.onlineVisitors
-                );
-
-            const total =
-                Number(
-                    data.totalVisitors
-                );
-
-            if (onlineElement) {
-                onlineElement.textContent =
-                    Number.isFinite(online)
-                        ? online
-                        : "0";
-            }
-
-            if (totalElement) {
-                totalElement.textContent =
-                    Number.isFinite(total)
-                        ? total
-                        : "0";
-            }
-
-            const lastUpdated =
-                get(
-                    "visitorLastUpdated"
-                );
-
-            if (lastUpdated) {
-                lastUpdated.textContent =
-                    "Updated " +
-                    new Date().toLocaleTimeString(
-                        "en-US",
-                        {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            second: "2-digit"
-                        }
-                    );
-            }
-
-        } catch (errorObject) {
-            console.error(
-                "Could not load visitor statistics:",
-                errorObject
-            );
-
-            if (onlineElement) {
-                onlineElement.textContent =
-                    "—";
-            }
-
-            if (totalElement) {
-                totalElement.textContent =
-                    "—";
-            }
-        }
-    }
-
-    function startVisitorStatsPolling() {
-        stopVisitorStatsPolling();
-
-        visitorStatsTimer =
-            setInterval(
-                updateVisitorStats,
-                15000
-            );
-    }
-
-    function stopVisitorStatsPolling() {
-        if (visitorStatsTimer) {
-            clearInterval(
-                visitorStatsTimer
-            );
-
-            visitorStatsTimer =
-                null;
-        }
-    }
-
     function getProjects() {
         const saved =
             localStorage.getItem(
@@ -1456,12 +1411,9 @@
                         "Instead of using a web service, I actually made this website with JavaScript with the help of AI. Since joining the AllStarCode* Program, I have learned to code with JavaScript.",
                     tech:
                         "HTML, CSS, JavaScript",
-                    github:
-                        "",
-                    live:
-                        "",
-                    active:
-                        true
+                    github: "",
+                    live: "",
+                    active: true
                 },
                 {
                     id:
@@ -1472,27 +1424,30 @@
                         "Since my oldest sister came back from the State of Alaska and made her own cookbook, I have learned how to cook and make my own recipes from inspiration from YouTubers and my own sister.",
                     tech:
                         "Cooking, Recipe Development",
-                    github:
-                        "",
-                    live:
-                        "",
-                    active:
-                        true
+                    github: "",
+                    live: "",
+                    active: true
                 }
             ];
 
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify(defaults)
+                JSON.stringify(
+                    defaults
+                )
             );
 
             return defaults;
         }
 
         try {
-            return JSON.parse(
-                saved
-            );
+            const parsed =
+                JSON.parse(saved);
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
         } catch {
             return [];
         }
@@ -1501,7 +1456,9 @@
     function saveProjects(projects) {
         localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(projects)
+            JSON.stringify(
+                projects
+            )
         );
     }
 
@@ -1691,11 +1648,8 @@
     }
 
     function editProject(id) {
-        const projects =
-            getProjects();
-
         const project =
-            projects.find(
+            getProjects().find(
                 item =>
                     item.id ===
                     id
@@ -1740,12 +1694,9 @@
             "visible"
         );
 
-        setTimeout(
-            () => {
-                get("projectName").focus();
-            },
-            100
-        );
+        setTimeout(() => {
+            get("projectName").focus();
+        }, 100);
     }
 
     function addProject() {
@@ -1771,12 +1722,9 @@
             "visible"
         );
 
-        setTimeout(
-            () => {
-                get("projectName").focus();
-            },
-            100
-        );
+        setTimeout(() => {
+            get("projectName").focus();
+        }, 100);
     }
 
     function closeEditor() {
@@ -1798,13 +1746,8 @@
             form.reset();
         }
 
-        const id =
-            get("projectId");
-
-        if (id) {
-            id.value =
-                "";
-        }
+        get("projectId").value =
+            "";
     }
 
     function saveProject(event) {
@@ -1839,10 +1782,7 @@
             get("projectActive")
                 .checked;
 
-        if (
-            !name ||
-            !description
-        ) {
+        if (!name || !description) {
             alert(
                 "Please fill in the project name and description."
             );
@@ -1876,7 +1816,6 @@
                     active
                 };
             }
-
         } else {
             let id =
                 name
@@ -1990,10 +1929,6 @@
             getSupabase();
 
         if (!client) {
-            console.error(
-                "Supabase client is unavailable."
-            );
-
             timelineData =
                 [];
 
@@ -2029,10 +1964,10 @@
 
             return timelineData;
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not load timeline:",
-                errorObject
+                error
             );
 
             timelineData =
@@ -2110,7 +2045,8 @@
 
                             <span class="timeline-position-badge">
                                 ${
-                                    item.side === "right"
+                                    item.side ===
+                                    "right"
                                         ? "RIGHT"
                                         : "LEFT"
                                 }
@@ -2127,7 +2063,10 @@
                         </p>
 
                         <div class="creator-timeline-meta">
-                            Position ${index + 1} of ${timeline.length}
+                            Position
+                            ${index + 1}
+                            of
+                            ${timeline.length}
                         </div>
 
                     </div>
@@ -2309,12 +2248,9 @@
             "visible"
         );
 
-        setTimeout(
-            () => {
-                get("timelineYear").focus();
-            },
-            100
-        );
+        setTimeout(() => {
+            get("timelineYear").focus();
+        }, 100);
     }
 
     function openEditTimeline(id) {
@@ -2368,12 +2304,9 @@
             "visible"
         );
 
-        setTimeout(
-            () => {
-                get("timelineYear").focus();
-            },
-            100
-        );
+        setTimeout(() => {
+            get("timelineYear").focus();
+        }, 100);
     }
 
     function closeTimelineEditor() {
@@ -2515,14 +2448,11 @@
                             highest,
                             item
                         ) => {
-                            const position =
-                                Number(
-                                    item.position
-                                ) || 0;
-
                             return Math.max(
                                 highest,
-                                position
+                                Number(
+                                    item.position
+                                ) || 0
                             );
                         },
                         0
@@ -2556,14 +2486,14 @@
 
             await renderCreatorTimeline();
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not save timeline item:",
-                errorObject
+                error
             );
 
             alert(
-                errorObject.message ||
+                error.message ||
                 "Could not save timeline milestone."
             );
 
@@ -2626,17 +2556,19 @@
             }
 
             await loadTimeline();
+
             await normalizeTimelinePositions();
+
             await renderCreatorTimeline();
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not delete timeline item:",
-                errorObject
+                error
             );
 
             alert(
-                errorObject.message ||
+                error.message ||
                 "Could not delete timeline milestone."
             );
         }
@@ -2688,14 +2620,14 @@
 
             await renderCreatorTimeline();
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not update timeline status:",
-                errorObject
+                error
             );
 
             alert(
-                errorObject.message ||
+                error.message ||
                 "Could not update timeline milestone."
             );
         }
@@ -2713,19 +2645,11 @@
         }
 
         const timeline =
-            [...timelineData]
-                .sort(
-                    (
-                        a,
-                        b
-                    ) =>
-                        Number(
-                            a.position
-                        ) -
-                        Number(
-                            b.position
-                        )
-                );
+            [...timelineData].sort(
+                (a, b) =>
+                    Number(a.position) -
+                    Number(b.position)
+            );
 
         const index =
             timeline.findIndex(
@@ -2773,7 +2697,7 @@
                     currentPosition
                 ) - 1000000;
 
-            const firstUpdate =
+            let result =
                 await client
                     .from(
                         TIMELINE_TABLE
@@ -2789,11 +2713,11 @@
                         )
                     );
 
-            if (firstUpdate.error) {
-                throw firstUpdate.error;
+            if (result.error) {
+                throw result.error;
             }
 
-            const secondUpdate =
+            result =
                 await client
                     .from(
                         TIMELINE_TABLE
@@ -2811,11 +2735,11 @@
                         )
                     );
 
-            if (secondUpdate.error) {
-                throw secondUpdate.error;
+            if (result.error) {
+                throw result.error;
             }
 
-            const thirdUpdate =
+            result =
                 await client
                     .from(
                         TIMELINE_TABLE
@@ -2833,20 +2757,20 @@
                         )
                     );
 
-            if (thirdUpdate.error) {
-                throw thirdUpdate.error;
+            if (result.error) {
+                throw result.error;
             }
 
             await renderCreatorTimeline();
 
-        } catch (errorObject) {
+        } catch (error) {
             console.error(
                 "Could not reorder timeline:",
-                errorObject
+                error
             );
 
             alert(
-                errorObject.message ||
+                error.message ||
                 "Could not reorder timeline."
             );
 
@@ -2863,19 +2787,11 @@
         }
 
         const timeline =
-            [...timelineData]
-                .sort(
-                    (
-                        a,
-                        b
-                    ) =>
-                        Number(
-                            a.position
-                        ) -
-                        Number(
-                            b.position
-                        )
-                );
+            [...timelineData].sort(
+                (a, b) =>
+                    Number(a.position) -
+                    Number(b.position)
+            );
 
         for (
             let index = 0;
@@ -3021,11 +2937,11 @@
         const bestDisplay =
             get("easterBest");
 
-        let player;
+        let player = null;
         let blocks = [];
         let score = 0;
         let running = false;
-        let frame;
+        let frame = null;
         let keys = {};
 
         let best =
@@ -3058,7 +2974,10 @@
                 x += 25
             ) {
                 ctx.beginPath();
-                ctx.moveTo(x, 0);
+                ctx.moveTo(
+                    x,
+                    0
+                );
                 ctx.lineTo(
                     x,
                     canvas.height
@@ -3072,7 +2991,10 @@
                 y += 25
             ) {
                 ctx.beginPath();
-                ctx.moveTo(0, y);
+                ctx.moveTo(
+                    0,
+                    y
+                );
                 ctx.lineTo(
                     canvas.width,
                     y
@@ -3150,7 +3072,7 @@
             );
         }
 
-        function update() {
+        function updateGame() {
             if (
                 keys.ArrowLeft ||
                 keys.a
@@ -3226,7 +3148,7 @@
                 );
         }
 
-        function draw() {
+        function drawGame() {
             drawBackground();
 
             if (!player) {
@@ -3279,8 +3201,7 @@
 
                 ctx.fillText(
                     "GAME OVER",
-                    canvas.width /
-                        2,
+                    canvas.width / 2,
                     165
                 );
 
@@ -3288,9 +3209,10 @@
                     "16px Arial";
 
                 ctx.fillText(
-                    `Score: ${Math.floor(score / 10)}`,
-                    canvas.width /
-                        2,
+                    `Score: ${Math.floor(
+                        score / 10
+                    )}`,
+                    canvas.width / 2,
                     200
                 );
             }
@@ -3298,12 +3220,12 @@
 
         function loop() {
             if (!running) {
-                draw();
+                drawGame();
                 return;
             }
 
-            update();
-            draw();
+            updateGame();
+            drawGame();
 
             frame =
                 requestAnimationFrame(
@@ -3312,7 +3234,8 @@
         }
 
         function gameOver() {
-            running = false;
+            running =
+                false;
 
             cancelAnimationFrame(
                 frame
@@ -3320,8 +3243,7 @@
 
             const finalScore =
                 Math.floor(
-                    score /
-                    10
+                    score / 10
                 );
 
             if (
@@ -3340,7 +3262,7 @@
                     best;
             }
 
-            draw();
+            drawGame();
         }
 
         start.addEventListener(
@@ -3351,7 +3273,8 @@
         close.addEventListener(
             "click",
             () => {
-                running = false;
+                running =
+                    false;
 
                 cancelAnimationFrame(
                     frame
@@ -3371,6 +3294,10 @@
         document.addEventListener(
             "keydown",
             event => {
+                if (!gameScreen) {
+                    return;
+                }
+
                 keys[event.key] =
                     true;
 
@@ -3378,9 +3305,7 @@
                     event.key ===
                     "Escape"
                 ) {
-                    if (gameScreen) {
-                        close.click();
-                    }
+                    close.click();
                 }
             }
         );
@@ -3406,10 +3331,8 @@
 
         ctx.fillText(
             "READY?",
-            canvas.width /
-                2,
-            canvas.height /
-                2
+            canvas.width / 2,
+            canvas.height / 2
         );
     }
 
@@ -3419,10 +3342,14 @@
         const creatorButton =
             getOrCreateCreatorButton();
 
-        creatorButton.onclick =
-            null;
+        creatorButton.replaceWith(
+            creatorButton.cloneNode(true)
+        );
 
-        creatorButton.addEventListener(
+        const freshCreatorButton =
+            get("creatorModeButton");
+
+        freshCreatorButton.addEventListener(
             "click",
             event => {
                 event.preventDefault();
@@ -3451,23 +3378,23 @@
             );
         }
 
-        const add =
+        const addProjectButton =
             get("addProjectButton");
 
-        if (add) {
-            add.addEventListener(
+        if (addProjectButton) {
+            addProjectButton.addEventListener(
                 "click",
                 addProject
             );
         }
 
-        const closeEditorButton =
+        const closeEditor =
             get("closeEditor");
 
-        if (closeEditorButton) {
-            closeEditorButton.addEventListener(
+        if (closeEditor) {
+            closeEditor.addEventListener(
                 "click",
-                closeEditor
+                closeEditorWindow
             );
         }
 
@@ -3477,15 +3404,15 @@
         if (cancelEditor) {
             cancelEditor.addEventListener(
                 "click",
-                closeEditor
+                closeEditorWindow
             );
         }
 
-        const form =
+        const projectForm =
             get("projectForm");
 
-        if (form) {
-            form.addEventListener(
+        if (projectForm) {
+            projectForm.addEventListener(
                 "submit",
                 saveProject
             );
@@ -3568,14 +3495,14 @@
                     return;
                 }
 
-                const timelineEditorElement =
+                const timelineEditor =
                     get(
                         "timelineEditor"
                     );
 
                 if (
-                    timelineEditorElement &&
-                    timelineEditorElement.classList.contains(
+                    timelineEditor &&
+                    timelineEditor.classList.contains(
                         "visible"
                     )
                 ) {
@@ -3583,18 +3510,18 @@
                     return;
                 }
 
-                const editor =
+                const projectEditor =
                     get(
                         "projectEditor"
                     );
 
                 if (
-                    editor &&
-                    editor.classList.contains(
+                    projectEditor &&
+                    projectEditor.classList.contains(
                         "visible"
                     )
                 ) {
-                    closeEditor();
+                    closeEditorWindow();
                     return;
                 }
 
@@ -3614,13 +3541,36 @@
             }
         );
 
+        updateDashboard();
+
         console.log(
             "Creator system ready."
         );
     }
 
-    ready(
-        setup
-    );
+    function closeEditorWindow() {
+        const editor =
+            get("projectEditor");
+
+        if (!editor) {
+            return;
+        }
+
+        editor.classList.remove(
+            "visible"
+        );
+
+        const form =
+            get("projectForm");
+
+        if (form) {
+            form.reset();
+        }
+
+        get("projectId").value =
+            "";
+    }
+
+    ready(setup);
 
 })();
