@@ -3,12 +3,6 @@
 
 <head>
 
-    <link
-        rel="icon"
-        href="favicon.ico"
-        type="image/x-icon"
-    >
-
     <meta charset="UTF-8">
 
     <meta
@@ -17,6 +11,12 @@
     >
 
     <title>Emanuel Negussie | Portfolio</title>
+
+    <link
+        rel="icon"
+        href="favicon.ico"
+        type="image/x-icon"
+    >
 
     <link
         rel="stylesheet"
@@ -29,17 +29,27 @@
         crossorigin=""
     >
 
+    <link
+    rel="stylesheet"
+    href="creator.css"
+    >
+
 </head>
 
 
 <body>
 
+    <!-- PAGE TRANSITION OVERLAY -->
     <div id="page-overlay"></div>
 
 
+    <!-- PROFILE IMAGE LIGHTBOX -->
     <div id="lightbox-overlay">
 
-        <button id="lightbox-back-btn">
+        <button
+            id="lightbox-back-btn"
+            type="button"
+        >
             ⬅ Back to Profile
         </button>
 
@@ -52,9 +62,11 @@
     </div>
 
 
+    <!-- MAIN PAGE -->
     <div id="page-content">
 
 
+        <!-- HERO -->
         <header
             class="hero-section"
             id="about"
@@ -64,19 +76,19 @@
 
                 <img
                     src="EmanuelAFAF1.jpg"
-                    alt="Header Picture Left"
+                    alt="Emanuel"
                     class="profile-img side-img"
                 >
 
                 <img
                     src="2026 02 22.jpg"
-                    alt="My Profile Picture"
+                    alt="Emanuel Negussie"
                     class="profile-img"
                 >
 
                 <img
                     src="EmanuelAFAF2.jpg"
-                    alt="Header Picture Right"
+                    alt="Emanuel"
                     class="profile-img side-img"
                 >
 
@@ -97,13 +109,14 @@
                 Hello everyone! Welcome to my Digital Home!
                 I am a Shawnigan Lake School Freshmen Student
                 who lives in New Jersey in the United States
-                of America. This website is an all about me
+                of America. This website is all about me
                 and my work.
             </p>
 
         </header>
 
 
+        <!-- CLOCK -->
         <div class="clock-card">
 
             <div class="clock-icon">
@@ -129,11 +142,14 @@
         </div>
 
 
+        <!-- MAIN CONTENT -->
         <main
             class="skills-section"
             id="skills"
         >
 
+
+            <!-- CONTACT -->
             <div
                 class="card-btn-container"
                 style="
@@ -154,6 +170,7 @@
             </div>
 
 
+            <!-- RESUME -->
             <div
                 class="card-btn-container"
                 style="
@@ -180,6 +197,7 @@
             </div>
 
 
+            <!-- OVERVIEW -->
             <h2 style="margin-bottom: 20px;">
                 Overview
             </h2>
@@ -190,6 +208,8 @@
                 style="margin-bottom: 60px;"
             >
 
+
+                <!-- ACADEMICS -->
                 <div class="skill-card">
 
                     <h3>
@@ -214,6 +234,7 @@
                 </div>
 
 
+                <!-- PROJECTS -->
                 <div class="skill-card">
 
                     <h3>
@@ -239,6 +260,7 @@
                 </div>
 
 
+                <!-- HISTORY -->
                 <div class="skill-card">
 
                     <h3>
@@ -263,6 +285,7 @@
                 </div>
 
 
+                <!-- WORK EXPERIENCE -->
                 <div class="skill-card">
 
                     <h3>
@@ -289,6 +312,7 @@
             </div>
 
 
+            <!-- MY WORK -->
             <h2>
                 My Work
             </h2>
@@ -296,6 +320,8 @@
 
             <div class="skills-grid">
 
+
+                <!-- MODEL UN -->
                 <div class="skill-card">
 
                     <h3>
@@ -320,6 +346,7 @@
                 </div>
 
 
+                <!-- GRAPHIC DESIGN -->
                 <div class="skill-card">
 
                     <h3>
@@ -344,6 +371,7 @@
                 </div>
 
 
+                <!-- FILMING -->
                 <div class="skill-card">
 
                     <h3>
@@ -372,6 +400,7 @@
         </main>
 
 
+        <!-- FOOTER -->
         <footer
             style="
                 text-align: center;
@@ -384,6 +413,7 @@
             <p>
                 Created by Emanuel Negussie
             </p>
+
 
             <a
                 href="https://www.instagram.com/emanuelaltra/"
@@ -412,6 +442,10 @@
     </div>
 
 
+    <!-- =====================================================
+         BOTTOM CONTROLS
+    ====================================================== -->
+
     <div class="bottom-controls">
 
         <button
@@ -422,15 +456,22 @@
             🌙 Dark Mode
         </button>
 
+
+        <!-- THIS NOW OPENS Creator.html -->
         <button
             id="creatorModeButton"
+            class="card-btn"
             type="button"
         >
-            ⚙️ Creator Mode
+            Creator Mode
         </button>
 
     </div>
 
+
+    <!-- =====================================================
+         WELCOME SCREEN
+    ====================================================== -->
 
     <div id="welcomeScreen">
 
@@ -470,11 +511,13 @@
 
                     <div id="bootMessages"></div>
 
+
                     <div class="progress-container">
 
                         <div id="progressBar"></div>
 
                     </div>
+
 
                     <div class="progress-text">
 
@@ -501,852 +544,9 @@
     </div>
 
 
-    <div id="creatorLoginOverlay">
-
-        <div id="creatorLoginBox">
-
-            <div class="creator-login-icon">
-                🔐
-            </div>
-
-            <h2>
-                Creator Access
-            </h2>
-
-            <p>
-                Sign in to manage your portfolio.
-            </p>
-
-            <form id="creatorLoginForm">
-
-                <label for="creatorEmail">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="creatorEmail"
-                    placeholder="your@email.com"
-                    autocomplete="username"
-                    required
-                >
-
-
-                <label for="creatorPasswordInput">
-                    Password
-                </label>
-
-                <div class="creator-password-input-wrapper">
-
-                    <input
-                        type="password"
-                        id="creatorPasswordInput"
-                        placeholder="Enter password"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                    <button
-                        type="button"
-                        id="creatorPasswordToggle"
-                    >
-                        👁
-                    </button>
-
-                </div>
-
-
-                <p id="creatorPasswordError"></p>
-
-
-                <div class="creator-login-buttons">
-
-                    <button
-                        type="button"
-                        id="cancelCreatorLogin"
-                        class="creator-secondary-button"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        type="submit"
-                        id="creatorPasswordSubmit"
-                        class="creator-primary-button"
-                    >
-                        Unlock
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
-    <div id="creatorOverlay">
-
-        <div id="creatorDashboard">
-
-
-            <div class="creator-header">
-
-                <div>
-
-                    <span class="creator-badge">
-                        CREATOR
-                    </span>
-
-                    <h1>
-                        Emanuel's Dashboard
-                    </h1>
-
-                    <p>
-                        Manage your portfolio
-                    </p>
-
-                </div>
-
-                <button
-                    id="closeCreator"
-                    type="button"
-                >
-                    ✕
-                </button>
-
-            </div>
-
-
-            <div class="creator-stats">
-
-                <div class="creator-stat">
-
-                    <span>
-                        📁
-                    </span>
-
-                    <strong id="projectCount">
-                        0
-                    </strong>
-
-                    <small>
-                        Projects
-                    </small>
-
-                </div>
-
-
-                <div class="creator-stat">
-
-                    <span>
-                        🛠️
-                    </span>
-
-                    <strong id="activeProjectCount">
-                        0
-                    </strong>
-
-                    <small>
-                        Active
-                    </small>
-
-                </div>
-
-
-                <div class="creator-stat">
-
-                    <span>
-                        🌐
-                    </span>
-
-                    <strong>
-                        ONLINE
-                    </strong>
-
-                    <small>
-                        Portfolio
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <div class="visitor-analytics-card">
-
-                <div class="visitor-analytics-header">
-
-                    <div>
-
-                        <span class="visitor-analytics-badge">
-                            LIVE ANALYTICS
-                        </span>
-
-                        <h2>
-                            Website Visitors
-                        </h2>
-
-                        <p>
-                            Real-time information about visitors on your portfolio.
-                        </p>
-
-                    </div>
-
-                    <div class="visitor-status-indicator">
-
-                        <span></span>
-
-                        Tracking Active
-
-                    </div>
-
-                </div>
-
-
-                <div class="visitor-analytics-grid">
-
-                    <div class="visitor-analytics-stat">
-
-                        <div class="visitor-stat-icon online">
-                            🟢
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Currently Online
-                            </span>
-
-                            <strong id="onlineVisitorCount">
-                                —
-                            </strong>
-
-                            <small>
-                                Active visitors right now
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="visitor-analytics-stat">
-
-                        <div class="visitor-stat-icon total">
-                            👥
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Total Visitors
-                            </span>
-
-                            <strong id="totalVisitorCount">
-                                —
-                            </strong>
-
-                            <small>
-                                Unique visitors counted
-                            </small>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="visitor-map-section">
-
-                    <div class="visitor-map-header">
-
-                        <div>
-
-                            <h3>
-                                Visitor Locations
-                            </h3>
-
-                            <p>
-                                Approximate locations based on network-level geolocation.
-                            </p>
-
-                        </div>
-
-                        <span id="visitorMapCount">
-                            0 locations
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        id="visitorMap"
-                        class="visitor-map"
-                    ></div>
-
-
-                    <div class="visitor-map-legend">
-
-                        <span class="visitor-map-dot"></span>
-
-                        <span>
-                            Approximate visitor location
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="visitor-analytics-footer">
-
-                    <span>
-                        🔄 Automatically updated every 15 seconds
-                    </span>
-
-                    <span id="visitorLastUpdated">
-                        Waiting for data...
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="site-status-card">
-
-                <div class="site-status-header">
-
-                    <div>
-
-                        <span class="site-status-badge">
-                            SYSTEM
-                        </span>
-
-                        <h2>
-                            Site Status
-                        </h2>
-
-                        <p>
-                            Live health information for your portfolio.
-                        </p>
-
-                    </div>
-
-                    <div class="site-status-live">
-
-                        <span></span>
-
-                        Live
-
-                    </div>
-
-                </div>
-
-
-                <div class="site-status-grid">
-
-                    <div class="site-status-item">
-
-                        <div class="site-status-icon">
-                            🌐
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Website
-                            </span>
-
-                            <strong
-                                id="siteStatusWebsite"
-                                class="status-checking"
-                            >
-                                Checking...
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="site-status-item">
-
-                        <div class="site-status-icon">
-                            ⚡
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Visitor API
-                            </span>
-
-                            <strong
-                                id="siteStatusAPI"
-                                class="status-checking"
-                            >
-                                Checking...
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="site-status-item">
-
-                        <div class="site-status-icon">
-                            🗄️
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Database
-                            </span>
-
-                            <strong
-                                id="siteStatusDatabase"
-                                class="status-checking"
-                            >
-                                Checking...
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="site-status-item">
-
-                        <div class="site-status-icon">
-                            📊
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Analytics
-                            </span>
-
-                            <strong
-                                id="siteStatusAnalytics"
-                                class="status-checking"
-                            >
-                                Checking...
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="site-status-item">
-
-                        <div class="site-status-icon">
-                            ☁️
-                        </div>
-
-                        <div>
-
-                            <span>
-                                Hosting
-                            </span>
-
-                            <strong class="status-good">
-                                Vercel
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="site-status-footer">
-
-                    <span>
-                        System monitor
-                    </span>
-
-                    <span id="siteStatusLastChecked">
-                        Checking...
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="creator-section">
-
-                <div class="creator-section-header">
-
-                    <div>
-
-                        <h2>
-                            Projects
-                        </h2>
-
-                        <p>
-                            Manage the projects displayed
-                            on your portfolio.
-                        </p>
-
-                    </div>
-
-                    <button
-                        id="addProjectButton"
-                        class="creator-primary-button"
-                        type="button"
-                    >
-                        + Add Project
-                    </button>
-
-                </div>
-
-
-                <div id="creatorProjects"></div>
-
-            </div>
-
-
-            <div class="creator-section">
-
-                <div class="creator-section-header">
-
-                    <div>
-
-                        <h2>
-                            Timeline
-                        </h2>
-
-                        <p>
-                            Manage the milestones displayed on your History page.
-                        </p>
-
-                    </div>
-
-                    <button
-                        id="addTimelineButton"
-                        class="creator-primary-button"
-                        type="button"
-                    >
-                        + Add Milestone
-                    </button>
-
-                </div>
-
-
-                <div id="creatorTimeline"></div>
-
-            </div>
-
-
-            <div
-                id="projectEditor"
-                class="project-editor"
-            >
-
-                <div class="editor-header">
-
-                    <h2 id="editorTitle">
-                        Add Project
-                    </h2>
-
-                    <button
-                        id="closeEditor"
-                        type="button"
-                    >
-                        ✕
-                    </button>
-
-                </div>
-
-
-                <form id="projectForm">
-
-                    <input
-                        type="hidden"
-                        id="projectId"
-                    >
-
-
-                    <label>
-
-                        Project Name
-
-                        <input
-                            type="text"
-                            id="projectName"
-                            placeholder="MUN Together"
-                            required
-                        >
-
-                    </label>
-
-
-                    <label>
-
-                        Description
-
-                        <textarea
-                            id="projectDescription"
-                            placeholder="Describe your project..."
-                            required
-                        ></textarea>
-
-                    </label>
-
-
-                    <label>
-
-                        Technologies
-
-                        <input
-                            type="text"
-                            id="projectTech"
-                            placeholder="HTML, CSS, JavaScript, Supabase"
-                        >
-
-                    </label>
-
-
-                    <label>
-
-                        GitHub URL
-
-                        <input
-                            type="url"
-                            id="projectGithub"
-                            placeholder="https://github.com/..."
-                        >
-
-                    </label>
-
-
-                    <label>
-
-                        Live Demo URL
-
-                        <input
-                            type="url"
-                            id="projectLive"
-                            placeholder="https://..."
-                        >
-
-                    </label>
-
-
-                    <label class="checkbox-label">
-
-                        <input
-                            type="checkbox"
-                            id="projectActive"
-                        >
-
-                        Currently Building
-
-                    </label>
-
-
-                    <div class="editor-buttons">
-
-                        <button
-                            type="button"
-                            id="cancelEditor"
-                            class="creator-secondary-button"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="creator-primary-button"
-                        >
-                            Save Project
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div
-                id="timelineEditor"
-                class="project-editor"
-            >
-
-                <div class="editor-header">
-
-                    <h2 id="timelineEditorTitle">
-                        Add Milestone
-                    </h2>
-
-                    <button
-                        id="closeTimelineEditor"
-                        type="button"
-                    >
-                        ✕
-                    </button>
-
-                </div>
-
-
-                <form id="timelineForm">
-
-                    <input
-                        type="hidden"
-                        id="timelineId"
-                    >
-
-
-                    <label>
-
-                        Year / Date
-
-                        <input
-                            type="text"
-                            id="timelineYear"
-                            placeholder="2026"
-                            required
-                        >
-
-                    </label>
-
-
-                    <label>
-
-                        Title
-
-                        <input
-                            type="text"
-                            id="timelineTitle"
-                            placeholder="Shawnigan Lake School"
-                            required
-                        >
-
-                    </label>
-
-
-                    <label>
-
-                        Short Description
-
-                        <textarea
-                            id="timelineDescription"
-                            placeholder="A short description shown on the timeline card..."
-                            required
-                        ></textarea>
-
-                    </label>
-
-
-                    <label>
-
-                        Detailed Information
-
-                        <textarea
-                            id="timelineDetails"
-                            placeholder="More information shown when the user hovers over the milestone..."
-                            required
-                        ></textarea>
-
-                    </label>
-
-
-                    <label>
-
-                        Position
-
-                        <select
-                            id="timelineSide"
-                        >
-
-                            <option value="left">
-                                Left
-                            </option>
-
-                            <option value="right">
-                                Right
-                            </option>
-
-                        </select>
-
-                    </label>
-
-
-                    <label>
-
-                        Status
-
-                        <select
-                            id="timelineActive"
-                        >
-
-                            <option value="true">
-                                Published
-                            </option>
-
-                            <option value="false">
-                                Hidden
-                            </option>
-
-                        </select>
-
-                    </label>
-
-
-                    <div class="editor-buttons">
-
-                        <button
-                            type="button"
-                            id="cancelTimelineEditor"
-                            class="creator-secondary-button"
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="creator-primary-button"
-                        >
-                            Save Milestone
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div class="creator-footer">
-
-                <span>
-                    Creator Mode • Portfolio Manager
-                </span>
-
-                <button
-                    id="exitCreator"
-                    type="button"
-                >
-                    Exit Creator Mode
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+    <!-- =====================================================
+         LEAFLET
+    ====================================================== -->
 
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -1354,217 +554,102 @@
     ></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- =====================================================
+         WEBSITE JAVASCRIPT
+    ====================================================== -->
 
-<script>
-    const SUPABASE_URL =
-        "https://dgjncqahzvuasffgktfi.supabase.co";
+    <script src="script.js"></script>
 
-    const SUPABASE_PUBLISHABLE_KEY =
-        "YOUR_PUBLISHABLE_KEY";
+    <script src="welcome.js"></script>
 
-    window.supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        );
-</script>
 
-<script src="script.js"></script>
-<script src="welcome.js"></script>
-<script src="creator.js"></script>
+    <!-- =====================================================
+         PROFILE IMAGE LIGHTBOX
+    ====================================================== -->
 
     <script>
 
-        const profileImages =
-            document.querySelectorAll(
-                ".profile-container .profile-img"
-            );
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
 
-        const lightbox =
-            document.getElementById(
-                "lightbox-overlay"
-            );
+                const profileImages =
+                    document.querySelectorAll(
+                        ".profile-container .profile-img"
+                    );
 
-        const lightboxImg =
-            document.getElementById(
-                "lightbox-img"
-            );
+                const lightbox =
+                    document.getElementById(
+                        "lightbox-overlay"
+                    );
 
-        const lightboxBackBtn =
-            document.getElementById(
-                "lightbox-back-btn"
-            );
+                const lightboxImg =
+                    document.getElementById(
+                        "lightbox-img"
+                    );
+
+                const lightboxBackBtn =
+                    document.getElementById(
+                        "lightbox-back-btn"
+                    );
 
 
-        profileImages.forEach(
-            img => {
+                if (
+                    !lightbox ||
+                    !lightboxImg ||
+                    !lightboxBackBtn
+                ) {
+                    return;
+                }
 
-                img.addEventListener(
+
+                profileImages.forEach(
+                    function (img) {
+
+                        img.addEventListener(
+                            "click",
+                            function () {
+
+                                lightboxImg.src =
+                                    img.src;
+
+                                lightbox.classList.add(
+                                    "visible"
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                lightboxBackBtn.addEventListener(
                     "click",
-                    () => {
+                    function () {
 
-                        lightboxImg.src =
-                            img.src;
-
-                        lightbox.classList.add(
+                        lightbox.classList.remove(
                             "visible"
                         );
 
                     }
                 );
 
-            }
-        );
 
-
-        lightboxBackBtn.addEventListener(
-            "click",
-            () => {
-
-                lightbox.classList.remove(
-                    "visible"
-                );
-
-            }
-        );
-
-
-        lightbox.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target ===
-                    lightbox
-                ) {
-
-                    lightbox.classList.remove(
-                        "visible"
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
-
-
-    <script>
-
-        const toggleButton =
-            document.getElementById(
-                "dark-mode-toggle"
-            );
-
-        const body =
-            document.body;
-
-
-        if (
-            localStorage.getItem(
-                "darkMode"
-            ) === "enabled"
-        ) {
-
-            body.classList.add(
-                "dark-mode"
-            );
-
-            toggleButton.textContent =
-                "☀️ Light Mode";
-
-        }
-
-
-        toggleButton.addEventListener(
-            "click",
-            () => {
-
-                body.classList.toggle(
-                    "dark-mode"
-                );
-
-
-                if (
-                    body.classList.contains(
-                        "dark-mode"
-                    )
-                ) {
-
-                    localStorage.setItem(
-                        "darkMode",
-                        "enabled"
-                    );
-
-                    toggleButton.textContent =
-                        "☀️ Light Mode";
-
-                } else {
-
-                    localStorage.setItem(
-                        "darkMode",
-                        "disabled"
-                    );
-
-                    toggleButton.textContent =
-                        "🌙 Dark Mode";
-
-                }
-
-            }
-        );
-
-    </script>
-
-
-    <script>
-
-        const overlay =
-            document.getElementById(
-                "page-overlay"
-            );
-
-        const fadeButtons =
-            document.querySelectorAll(
-                ".fade-link"
-            );
-
-
-        fadeButtons.forEach(
-            button => {
-
-                button.addEventListener(
+                lightbox.addEventListener(
                     "click",
                     function (event) {
 
-                        event.preventDefault();
+                        if (
+                            event.target ===
+                            lightbox
+                        ) {
 
-                        const targetUrl =
-                            this.getAttribute(
-                                "href"
-                            );
-
-
-                        if (overlay) {
-
-                            overlay.classList.add(
-                                "active"
+                            lightbox.classList.remove(
+                                "visible"
                             );
 
                         }
-
-
-                        setTimeout(
-                            () => {
-
-                                window.location.href =
-                                    targetUrl;
-
-                            },
-                            500
-                        );
 
                     }
                 );
@@ -1572,21 +657,86 @@
             }
         );
 
+    </script>
 
-        window.addEventListener(
-            "pageshow",
-            event => {
 
-                if (
-                    event.persisted &&
-                    overlay
-                ) {
+    <!-- =====================================================
+         DARK MODE
+    ====================================================== -->
 
-                    overlay.classList.remove(
-                        "active"
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const toggleButton =
+                    document.getElementById(
+                        "dark-mode-toggle"
                     );
 
+                const body =
+                    document.body;
+
+
+                if (!toggleButton) {
+                    return;
                 }
+
+
+                if (
+                    localStorage.getItem(
+                        "darkMode"
+                    ) === "enabled"
+                ) {
+
+                    body.classList.add(
+                        "dark-mode"
+                    );
+
+                    toggleButton.textContent =
+                        "☀️ Light Mode";
+
+                }
+
+
+                toggleButton.addEventListener(
+                    "click",
+                    function () {
+
+                        body.classList.toggle(
+                            "dark-mode"
+                        );
+
+
+                        if (
+                            body.classList.contains(
+                                "dark-mode"
+                            )
+                        ) {
+
+                            localStorage.setItem(
+                                "darkMode",
+                                "enabled"
+                            );
+
+                            toggleButton.textContent =
+                                "☀️ Light Mode";
+
+                        } else {
+
+                            localStorage.setItem(
+                                "darkMode",
+                                "disabled"
+                            );
+
+                            toggleButton.textContent =
+                                "🌙 Dark Mode";
+
+                        }
+
+                    }
+                );
 
             }
         );
@@ -1594,11 +744,91 @@
     </script>
 
 
-    <script src="script.js"></script>
+    <!-- =====================================================
+         PAGE TRANSITIONS
+    ====================================================== -->
 
-    <script src="welcome.js"></script>
+    <script>
 
-    <script src="creator.js"></script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const overlay =
+                    document.getElementById(
+                        "page-overlay"
+                    );
+
+                const fadeButtons =
+                    document.querySelectorAll(
+                        ".fade-link"
+                    );
+
+
+                if (!overlay) {
+                    return;
+                }
+
+
+                fadeButtons.forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function (event) {
+
+                                event.preventDefault();
+
+
+                                const targetUrl =
+                                    this.getAttribute(
+                                        "href"
+                                    );
+
+
+                                overlay.classList.add(
+                                    "active"
+                                );
+
+
+                                setTimeout(
+                                    function () {
+
+                                        window.location.href =
+                                            targetUrl;
+
+                                    },
+                                    500
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                window.addEventListener(
+                    "pageshow",
+                    function (event) {
+
+                        if (
+                            event.persisted
+                        ) {
+
+                            overlay.classList.remove(
+                                "active"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
 
 
 </body>

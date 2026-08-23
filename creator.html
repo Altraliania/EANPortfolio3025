@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Creator Mode | Emanuel Negussie</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
+</head>
+
+
+<body class="creator-page">
+
+
+    <!-- =====================================================
+         CREATOR LOGIN
+    ====================================================== -->
+
+    <div
+        id="creatorLoginOverlay"
+        class="creator-login-overlay"
+    >
+
+        <div
+            id="creatorLoginBox"
+            class="creator-login-box"
+        >
+
+            <div class="creator-login-icon">
+                🔐
+            </div>
+
+
+            <h2>
+                Creator Access
+            </h2>
+
+
+            <p>
+                Sign in to manage your portfolio.
+            </p>
+
+
+            <form id="creatorLoginForm">
+
+                <label for="creatorEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="creatorEmail"
+                    placeholder="your@email.com"
+                    autocomplete="username"
+                    required
+                >
+
+
+                <label for="creatorPasswordInput">
+                    Password
+                </label>
+
+
+                <div class="creator-password-input-wrapper">
+
+                    <input
+                        type="password"
+                        id="creatorPasswordInput"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        id="creatorPasswordToggle"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+
+                <p id="creatorPasswordError"></p>
+
+
+                <div class="creator-login-buttons">
+
+                    <button
+                        type="button"
+                        id="cancelCreatorLogin"
+                        class="creator-secondary-button"
+                    >
+                        Back
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="creatorPasswordSubmit"
+                        class="creator-primary-button"
+                    >
+                        Unlock
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         CREATOR DASHBOARD
+    ====================================================== -->
+
+    <div
+        id="creatorOverlay"
+        class="creator-overlay"
+    >
+
+        <div id="creatorDashboard">
+
+
+            <!-- HEADER -->
+
+            <div class="creator-header">
+
+                <div>
+
+                    <span class="creator-badge">
+                        CREATOR
+                    </span>
+
+                    <h1>
+                        Emanuel's Dashboard
+                    </h1>
+
+                    <p>
+                        Manage your portfolio
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="closeCreator"
+                    type="button"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="creator-stats">
+
+
+                <div class="creator-stat">
+
+                    <span>📁</span>
+
+                    <strong id="projectCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Projects
+                    </small>
+
+                </div>
+
+
+                <div class="creator-stat">
+
+                    <span>🛠️</span>
+
+                    <strong id="activeProjectCount">
+                        0
+                    </strong>
+
+                    <small>
+                        Active
+                    </small>
+
+                </div>
+
+
+                <div class="creator-stat">
+
+                    <span>🌐</span>
+
+                    <strong id="onlineVisitorCount">
+                        —
+                    </strong>
+
+                    <small>
+                        Online Visitors
+                    </small>
+
+                </div>
+
+
+                <div class="creator-stat">
+
+                    <span>👥</span>
+
+                    <strong id="totalVisitorCount">
+                        —
+                    </strong>
+
+                    <small>
+                        Total Visitors
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- VISITOR ANALYTICS -->
+
+            <div class="visitor-analytics-card">
+
+                <div class="visitor-analytics-header">
+
+                    <div>
+
+                        <span class="visitor-analytics-badge">
+                            LIVE ANALYTICS
+                        </span>
+
+                        <h2>
+                            Website Visitors
+                        </h2>
+
+                        <p>
+                            Real-time information about visitors on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <div class="visitor-status-indicator">
+
+                        <span></span>
+
+                        Tracking Active
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-analytics-grid">
+
+                    <div class="visitor-analytics-stat">
+
+                        <div class="visitor-stat-icon online">
+                            🟢
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Currently Online
+                            </span>
+
+                            <strong id="analyticsOnlineCount">
+                                —
+                            </strong>
+
+                            <small>
+                                Active visitors right now
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="visitor-analytics-stat">
+
+                        <div class="visitor-stat-icon total">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total Visitors
+                            </span>
+
+                            <strong id="analyticsTotalCount">
+                                —
+                            </strong>
+
+                            <small>
+                                Unique visitors counted
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-map-section">
+
+                    <div class="visitor-map-header">
+
+                        <div>
+
+                            <h3>
+                                Visitor Locations
+                            </h3>
+
+                            <p>
+                                Approximate locations based on network-level geolocation.
+                            </p>
+
+                        </div>
+
+
+                        <span id="visitorMapCount">
+                            0 locations
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="visitorMap"
+                        class="visitor-map"
+                    ></div>
+
+
+                    <div class="visitor-map-legend">
+
+                        <span class="visitor-map-dot"></span>
+
+                        <span>
+                            Approximate visitor location
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-analytics-footer">
+
+                    <span>
+                        🔄 Automatically updated
+                    </span>
+
+                    <span id="visitorLastUpdated">
+                        Waiting for data...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SITE STATUS -->
+
+            <div class="site-status-card">
+
+                <div class="site-status-header">
+
+                    <div>
+
+                        <span class="site-status-badge">
+                            SYSTEM
+                        </span>
+
+                        <h2>
+                            Site Status
+                        </h2>
+
+                        <p>
+                            Live health information for your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <div class="site-status-live">
+
+                        <span></span>
+
+                        Live
+
+                    </div>
+
+                </div>
+
+
+                <div class="site-status-grid">
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            🌐
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Website
+                            </span>
+
+                            <strong
+                                id="siteStatusWebsite"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Visitor API
+                            </span>
+
+                            <strong
+                                id="siteStatusAPI"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            🗄️
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Database
+                            </span>
+
+                            <strong
+                                id="siteStatusDatabase"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Analytics
+                            </span>
+
+                            <strong
+                                id="siteStatusAnalytics"
+                                class="status-checking"
+                            >
+                                Checking...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="site-status-item">
+
+                        <div class="site-status-icon">
+                            ☁️
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Hosting
+                            </span>
+
+                            <strong class="status-good">
+                                Vercel
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="site-status-footer">
+
+                    <span>
+                        System monitor
+                    </span>
+
+                    <span id="siteStatusLastChecked">
+                        Checking...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROJECTS -->
+
+            <div class="creator-section">
+
+                <div class="creator-section-header">
+
+                    <div>
+
+                        <h2>
+                            Projects
+                        </h2>
+
+                        <p>
+                            Manage the projects displayed on your portfolio.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="addProjectButton"
+                        class="creator-primary-button"
+                        type="button"
+                    >
+                        + Add Project
+                    </button>
+
+                </div>
+
+
+                <div id="creatorProjects"></div>
+
+            </div>
+
+
+            <!-- TIMELINE -->
+
+            <div class="creator-section">
+
+                <div class="creator-section-header">
+
+                    <div>
+
+                        <h2>
+                            Timeline
+                        </h2>
+
+                        <p>
+                            Manage milestones displayed on your History page.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="addTimelineButton"
+                        class="creator-primary-button"
+                        type="button"
+                    >
+                        + Add Milestone
+                    </button>
+
+                </div>
+
+
+                <div id="creatorTimeline"></div>
+
+            </div>
+
+
+            <!-- PROJECT EDITOR -->
+
+            <div
+                id="projectEditor"
+                class="project-editor"
+            >
+
+                <div class="editor-header">
+
+                    <h2 id="editorTitle">
+                        Add Project
+                    </h2>
+
+
+                    <button
+                        id="closeEditor"
+                        type="button"
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+
+                <form id="projectForm">
+
+                    <input
+                        type="hidden"
+                        id="projectId"
+                    >
+
+
+                    <label>
+
+                        Project Name
+
+                        <input
+                            type="text"
+                            id="projectName"
+                            placeholder="MUN Together"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Description
+
+                        <textarea
+                            id="projectDescription"
+                            placeholder="Describe your project..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+
+                        Technologies
+
+                        <input
+                            type="text"
+                            id="projectTech"
+                            placeholder="HTML, CSS, JavaScript, Supabase"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        GitHub URL
+
+                        <input
+                            type="url"
+                            id="projectGithub"
+                            placeholder="https://github.com/..."
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Live Demo URL
+
+                        <input
+                            type="url"
+                            id="projectLive"
+                            placeholder="https://..."
+                        >
+
+                    </label>
+
+
+                    <label class="checkbox-label">
+
+                        <input
+                            type="checkbox"
+                            id="projectActive"
+                            checked
+                        >
+
+                        Currently Building
+
+                    </label>
+
+
+                    <div class="editor-buttons">
+
+                        <button
+                            type="button"
+                            id="cancelEditor"
+                            class="creator-secondary-button"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="creator-primary-button"
+                        >
+                            Save Project
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- TIMELINE EDITOR -->
+
+            <div
+                id="timelineEditor"
+                class="project-editor"
+            >
+
+                <div class="editor-header">
+
+                    <h2 id="timelineEditorTitle">
+                        Add Milestone
+                    </h2>
+
+
+                    <button
+                        id="closeTimelineEditor"
+                        type="button"
+                    >
+                        ✕
+                    </button>
+
+                </div>
+
+
+                <form id="timelineForm">
+
+                    <input
+                        type="hidden"
+                        id="timelineId"
+                    >
+
+
+                    <label>
+
+                        Year / Date
+
+                        <input
+                            type="text"
+                            id="timelineYear"
+                            placeholder="2026"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Title
+
+                        <input
+                            type="text"
+                            id="timelineTitle"
+                            placeholder="Shawnigan Lake School"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Short Description
+
+                        <textarea
+                            id="timelineDescription"
+                            placeholder="A short description..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+
+                        Detailed Information
+
+                        <textarea
+                            id="timelineDetails"
+                            placeholder="More information..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+
+                        Position
+
+                        <select id="timelineSide">
+
+                            <option value="left">
+                                Left
+                            </option>
+
+                            <option value="right">
+                                Right
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+
+                        Status
+
+                        <select id="timelineActive">
+
+                            <option value="true">
+                                Published
+                            </option>
+
+                            <option value="false">
+                                Hidden
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <div class="editor-buttons">
+
+                        <button
+                            type="button"
+                            id="cancelTimelineEditor"
+                            class="creator-secondary-button"
+                        >
+                            Cancel
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="creator-primary-button"
+                        >
+                            Save Milestone
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="creator-footer">
+
+                <span>
+                    Creator Mode • Portfolio Manager
+                </span>
+
+
+                <button
+                    id="exitCreator"
+                    type="button"
+                >
+                    Exit Creator Mode
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SCRIPTS
+    ====================================================== -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""
+    ></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        const SUPABASE_URL =
+            "https://dgjncqahzvuasffgktfi.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_8Tpq14BodbpexZUb607UUw_Qd5eYmVf";
+
+
+        window.supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+
+    </script>
+
+
+    <script src="creator.js"></script>
+
+</body>
+
+</html>
