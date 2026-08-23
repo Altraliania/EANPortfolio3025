@@ -411,13 +411,6 @@
         document.head.appendChild(style);
     }
 
-    function getOrCreateCreatorButton() {
-        let button =
-            get("creatorModeButton");
-
-        if (button) {
-            return button;
-        }
 
         button =
             document.createElement("button");
@@ -3339,24 +3332,29 @@
     function setup() {
         createStyle();
 
-        const creatorButton =
-            getOrCreateCreatorButton();
+const creatorButton =
+    get("creatorModeButton");
 
-        creatorButton.replaceWith(
-            creatorButton.cloneNode(true)
+if (!creatorButton) {
+    console.error(
+        "Creator Mode button was not found."
+    );
+    return;
+}
+
+creatorButton.addEventListener(
+    "click",
+    event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        console.log(
+            "Creator Mode button clicked."
         );
 
-        const freshCreatorButton =
-            get("creatorModeButton");
-
-        freshCreatorButton.addEventListener(
-            "click",
-            event => {
-                event.preventDefault();
-                event.stopPropagation();
-                createPasswordScreen();
-            }
-        );
+        createPasswordScreen();
+    }
+);
 
         const closeCreator =
             get("closeCreator");
