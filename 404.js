@@ -11,28 +11,56 @@ const volumeIcon = document.getElementById("volumeIcon");
 
 const progressBar = document.getElementById("progressBar");
 
-const currentTimeDisplay = document.getElementById("currentTime");
-const durationDisplay = document.getElementById("duration");
+const currentTimeDisplay =
+    document.getElementById("currentTime");
 
-const albumArt = document.getElementById("albumArt");
+const durationDisplay =
+    document.getElementById("duration");
 
-const issueBadge = document.getElementById("issueBadge");
-const issueTitle = document.getElementById("issueTitle");
+const albumArt =
+    document.getElementById("albumArt");
 
-const issueStatus = document.getElementById("issueStatus");
-const issueName = document.getElementById("issueName");
-const issueDescription = document.getElementById("issueDescription");
-const issueSuggestion = document.getElementById("issueSuggestion");
+const issueBadge =
+    document.getElementById("issueBadge");
 
-const mainTitle = document.getElementById("mainTitle");
-const mainSubtitle = document.getElementById("mainSubtitle");
-const pageTitle = document.getElementById("pageTitle");
+const issueTitle =
+    document.getElementById("issueTitle");
 
-const terminalResult = document.getElementById("terminalResult");
-const terminalIssue = document.getElementById("terminalIssue");
-const terminalStatus = document.getElementById("terminalStatus");
-const terminalSuggestion = document.getElementById("terminalSuggestion");
-const terminalDiagnosis = document.getElementById("terminalDiagnosis");
+const issueStatus =
+    document.getElementById("issueStatus");
+
+const issueName =
+    document.getElementById("issueName");
+
+const issueDescription =
+    document.getElementById("issueDescription");
+
+const issueSuggestion =
+    document.getElementById("issueSuggestion");
+
+const mainTitle =
+    document.getElementById("mainTitle");
+
+const mainSubtitle =
+    document.getElementById("mainSubtitle");
+
+const pageTitle =
+    document.getElementById("pageTitle");
+
+const terminalResult =
+    document.getElementById("terminalResult");
+
+const terminalIssue =
+    document.getElementById("terminalIssue");
+
+const terminalStatus =
+    document.getElementById("terminalStatus");
+
+const terminalSuggestion =
+    document.getElementById("terminalSuggestion");
+
+const terminalDiagnosis =
+    document.getElementById("terminalDiagnosis");
 
 
 // =========================
@@ -42,104 +70,173 @@ const terminalDiagnosis = document.getElementById("terminalDiagnosis");
 const issues = {
 
     incorrect: {
+
         title: "Incorrect Link",
-        description: "The requested page could not be found.",
-        suggestion: "Check the URL and try again.",
+
+        description:
+            "The requested page could not be found.",
+
+        suggestion:
+            "Check the URL and try again.",
+
         status: "NOT FOUND",
+
         badgeClass: "warning",
+
         pageTitle: "404 | Incorrect Link",
+
         heading: "Page Not Found",
+
         subtitle:
             "The link you followed doesn't appear to point to a valid page."
     },
 
+
     server: {
+
         title: "Server Issue",
-        description: "The server may be temporarily unavailable.",
-        suggestion: "Try refreshing the page in a moment.",
+
+        description:
+            "The server may be temporarily unavailable.",
+
+        suggestion:
+            "Try refreshing the page in a moment.",
+
         status: "SERVER ERROR",
+
         badgeClass: "warning",
+
         pageTitle: "404 | Server Issue",
+
         heading: "The Server Had a Problem",
+
         subtitle:
             "The requested page could not be reached correctly from the server."
     },
 
+
     updating: {
+
         title: "Page Being Updated",
-        description: "This page may currently be under maintenance.",
-        suggestion: "Come back shortly and try again.",
+
+        description:
+            "This page may currently be under maintenance.",
+
+        suggestion:
+            "Come back shortly and try again.",
+
         status: "UPDATING",
+
         badgeClass: "warning",
-        pageTitle: "404 | Page Being Updated",
-        heading: "This Page Is Being Updated",
+
+        pageTitle:
+            "404 | Page Being Updated",
+
+        heading:
+            "This Page Is Being Updated",
+
         subtitle:
             "The page may be temporarily unavailable while changes are being made."
     },
 
+
     offline: {
+
         title: "Wi-Fi / Internet Issue",
-        description: "Your browser appears to be offline.",
-        suggestion: "Reconnect to the internet and refresh.",
+
+        description:
+            "Your browser appears to be offline.",
+
+        suggestion:
+            "Reconnect to the internet and refresh.",
+
         status: "OFFLINE",
+
         badgeClass: "offline",
-        pageTitle: "404 | Internet Issue",
-        heading: "You're Offline",
+
+        pageTitle:
+            "404 | Internet Issue",
+
+        heading:
+            "You're Offline",
+
         subtitle:
             "Your browser currently reports that there is no internet connection."
     },
 
+
     unavailable: {
+
         title: "Page Temporarily Unavailable",
-        description: "The requested page may be temporarily unavailable.",
-        suggestion: "Try again later or return to the homepage.",
+
+        description:
+            "The requested page may be temporarily unavailable.",
+
+        suggestion:
+            "Try again later or return to the homepage.",
+
         status: "UNAVAILABLE",
+
         badgeClass: "warning",
-        pageTitle: "404 | Temporarily Unavailable",
-        heading: "Page Temporarily Unavailable",
+
+        pageTitle:
+            "404 | Temporarily Unavailable",
+
+        heading:
+            "Page Temporarily Unavailable",
+
         subtitle:
             "Something prevented this page from being displayed right now."
     }
+
 };
 
 
 // =========================
-// DETERMINE ISSUE
+// GET FORCED ISSUE
 // =========================
 
 function getForcedIssue() {
 
-    const params = new URLSearchParams(window.location.search);
+    const params =
+        new URLSearchParams(window.location.search);
 
-    const issue = params.get("issue");
+    const issue =
+        params.get("issue");
 
     if (!issue) {
         return null;
     }
 
-    const normalized = issue.toLowerCase().trim();
+    const normalized =
+        issue.toLowerCase().trim();
 
     return issues[normalized] || null;
 }
 
 
+// =========================
+// DETECT ISSUE
+// =========================
+
 function detectIssue() {
 
-    // Explicit URL override:
-    // /404.html?issue=server
-    const forcedIssue = getForcedIssue();
+    const forcedIssue =
+        getForcedIssue();
 
     if (forcedIssue) {
         return forcedIssue;
     }
 
-    // Detect offline status.
+
     if (!navigator.onLine) {
         return issues.offline;
     }
 
-    // Detect obvious maintenance/update signals.
-    const path = window.location.pathname.toLowerCase();
+
+    const path =
+        window.location.pathname.toLowerCase();
+
 
     if (
         path.includes("maintenance") ||
@@ -148,7 +245,7 @@ function detectIssue() {
         return issues.updating;
     }
 
-    // A normal 404 is most likely an incorrect link.
+
     return issues.incorrect;
 }
 
@@ -159,32 +256,50 @@ function detectIssue() {
 
 function applyIssue(issue) {
 
-    pageTitle.textContent = issue.pageTitle;
+    pageTitle.textContent =
+        issue.pageTitle;
 
-    document.title = issue.pageTitle;
+    document.title =
+        issue.pageTitle;
 
-    issueTitle.textContent = issue.title;
+    issueTitle.textContent =
+        issue.title;
 
-    issueName.textContent = issue.title;
+    issueName.textContent =
+        issue.title;
 
-    issueDescription.textContent = issue.description;
+    issueDescription.textContent =
+        issue.description;
 
-    issueSuggestion.textContent = issue.suggestion;
+    issueSuggestion.textContent =
+        issue.suggestion;
 
-    issueStatus.textContent = issue.status;
+    issueStatus.textContent =
+        issue.status;
 
-    mainTitle.textContent = issue.heading;
+    mainTitle.textContent =
+        issue.heading;
 
-    mainSubtitle.textContent = issue.subtitle;
+    mainSubtitle.textContent =
+        issue.subtitle;
 
-    terminalIssue.textContent = `Issue: ${issue.title}`;
 
-    terminalStatus.textContent = `Status: ${issue.description}`;
+    terminalIssue.textContent =
+        `Issue: ${issue.title}`;
 
-    terminalSuggestion.textContent = `Suggestion: ${issue.suggestion}`;
+    terminalStatus.textContent =
+        `Status: ${issue.description}`;
+
+    terminalSuggestion.textContent =
+        `Suggestion: ${issue.suggestion}`;
 
     terminalDiagnosis.textContent =
         `Diagnosis complete → ${issue.title}`;
+
+
+    terminalResult.textContent =
+        `Error: ${issue.title.toLowerCase()}.`;
+
 
     issueBadge.classList.remove(
         "offline",
@@ -192,20 +307,20 @@ function applyIssue(issue) {
         "ok"
     );
 
-    issueBadge.classList.add(issue.badgeClass);
-
-    terminalResult.textContent =
-        `Error: ${issue.title.toLowerCase()}.`;
+    issueBadge.classList.add(
+        issue.badgeClass
+    );
 }
 
 
 // =========================
-// INITIAL DIAGNOSIS
+// DIAGNOSTICS
 // =========================
 
 function runDiagnostics() {
 
-    const issue = detectIssue();
+    const issue =
+        detectIssue();
 
     applyIssue(issue);
 
@@ -224,21 +339,29 @@ function runDiagnostics() {
 
 
 // =========================
-// ONLINE / OFFLINE DETECTION
+// INTERNET STATUS
 // =========================
 
-window.addEventListener("offline", () => {
+window.addEventListener(
+    "offline",
+    () => {
 
-    applyIssue(issues.offline);
+        applyIssue(
+            issues.offline
+        );
 
-});
+    }
+);
 
 
-window.addEventListener("online", () => {
+window.addEventListener(
+    "online",
+    () => {
 
-    runDiagnostics();
+        runDiagnostics();
 
-});
+    }
+);
 
 
 // =========================
@@ -251,7 +374,8 @@ function formatTime(seconds) {
         return "0:00";
     }
 
-    const minutes = Math.floor(seconds / 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
     const remainingSeconds =
         Math.floor(seconds % 60)
@@ -263,82 +387,114 @@ function formatTime(seconds) {
 
 
 // =========================
-// PLAY / PAUSE
+// PLAYER UI
 // =========================
 
 function updatePlayerUI() {
 
     if (music.paused) {
 
-        playPause.textContent = "▶";
+        playPause.textContent =
+            "▶";
 
-        albumArt.classList.remove("playing");
+        albumArt.classList.remove(
+            "playing"
+        );
 
     } else {
 
-        playPause.textContent = "❚❚";
+        playPause.textContent =
+            "❚❚";
 
-        albumArt.classList.add("playing");
+        albumArt.classList.add(
+            "playing"
+        );
     }
 }
 
 
-playPause.addEventListener("click", () => {
+// =========================
+// PLAY / PAUSE
+// =========================
 
-    if (music.paused) {
+playPause.addEventListener(
+    "click",
+    () => {
 
-        music.play()
-            .then(() => {
-                updatePlayerUI();
-            })
-            .catch(() => {
-                console.log(
-                    "Browser blocked autoplay."
-                );
-            });
+        if (music.paused) {
 
-    } else {
+            music.play()
+                .then(() => {
 
-        music.pause();
+                    updatePlayerUI();
 
-        updatePlayerUI();
+                })
+                .catch(() => {
+
+                    console.log(
+                        "Browser blocked autoplay."
+                    );
+
+                });
+
+        } else {
+
+            music.pause();
+
+            updatePlayerUI();
+        }
+
     }
-});
+);
+
+
+// =========================
+// INITIAL VOLUME
+// =========================
+
+music.volume = 0.70;
 
 
 // =========================
 // VOLUME
 // =========================
 
-music.volume = 0.70;
+volumeSlider.addEventListener(
+    "input",
+    () => {
 
-volumeSlider.addEventListener("input", () => {
+        const volume =
+            Number(volumeSlider.value);
 
-    const volume =
-        Number(volumeSlider.value);
+        music.volume =
+            volume / 100;
 
-    music.volume = volume / 100;
+        volumeValue.textContent =
+            `${volume}%`;
 
-    volumeValue.textContent =
-        `${volume}%`;
 
-    if (volume === 0) {
+        if (volume === 0) {
 
-        volumeIcon.textContent = "🔇";
+            volumeIcon.textContent =
+                "🔇";
 
-    } else if (volume < 50) {
+        } else if (volume < 50) {
 
-        volumeIcon.textContent = "🔉";
+            volumeIcon.textContent =
+                "🔉";
 
-    } else {
+        } else {
 
-        volumeIcon.textContent = "🔊";
+            volumeIcon.textContent =
+                "🔊";
+        }
+
     }
-});
+);
 
 
 // =========================
-// PROGRESS BAR
+// MUSIC METADATA
 // =========================
 
 music.addEventListener(
@@ -349,10 +505,17 @@ music.addEventListener(
             music.duration;
 
         durationDisplay.textContent =
-            formatTime(music.duration);
+            formatTime(
+                music.duration
+            );
+
     }
 );
 
+
+// =========================
+// MUSIC PROGRESS
+// =========================
 
 music.addEventListener(
     "timeupdate",
@@ -362,16 +525,27 @@ music.addEventListener(
             music.currentTime;
 
         currentTimeDisplay.textContent =
-            formatTime(music.currentTime);
+            formatTime(
+                music.currentTime
+            );
+
     }
 );
 
 
-progressBar.addEventListener("input", () => {
+// =========================
+// MANUAL SEEK
+// =========================
 
-    music.currentTime =
-        progressBar.value;
-});
+progressBar.addEventListener(
+    "input",
+    () => {
+
+        music.currentTime =
+            progressBar.value;
+
+    }
+);
 
 
 // =========================
@@ -393,21 +567,26 @@ music.addEventListener(
 // AUTOPLAY
 // =========================
 
-window.addEventListener("load", () => {
+window.addEventListener(
+    "load",
+    () => {
 
-    music.play()
-        .then(() => {
+        music.play()
 
-            updatePlayerUI();
+            .then(() => {
 
-        })
-        .catch(() => {
+                updatePlayerUI();
 
-            updatePlayerUI();
+            })
 
-        });
+            .catch(() => {
 
-});
+                updatePlayerUI();
+
+            });
+
+    }
+);
 
 
 // =========================
@@ -415,3 +594,7 @@ window.addEventListener("load", () => {
 // =========================
 
 runDiagnostics();
+
+// =========================
+// END OF SCRIPT
+// =========================

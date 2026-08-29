@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,7 +18,7 @@
     <main class="error-container">
 
         <!-- =========================
-             ERROR CODE
+             ERROR HEADER
         ========================== -->
 
         <div class="error-header">
@@ -33,6 +33,7 @@
             </div>
 
         </div>
+
 
         <h1 id="mainTitle">
             Page Not Found
@@ -50,38 +51,65 @@
         <div class="issue-panel">
 
             <div class="issue-panel-header">
-                <span class="issue-label">DIAGNOSTIC REPORT</span>
+
+                <span class="issue-label">
+                    DIAGNOSTIC REPORT
+                </span>
+
                 <span class="issue-status" id="issueStatus">
                     CHECKING
                 </span>
+
             </div>
 
             <div class="issue-details">
 
                 <div class="issue-row">
-                    <span>ERROR CODE</span>
-                    <strong>404</strong>
+
+                    <span>
+                        ERROR CODE
+                    </span>
+
+                    <strong>
+                        404
+                    </strong>
+
                 </div>
 
                 <div class="issue-row">
-                    <span>ISSUE</span>
+
+                    <span>
+                        ISSUE
+                    </span>
+
                     <strong id="issueName">
                         Diagnosing...
                     </strong>
+
                 </div>
 
                 <div class="issue-row">
-                    <span>STATUS</span>
+
+                    <span>
+                        STATUS
+                    </span>
+
                     <strong id="issueDescription">
                         Checking page status...
                     </strong>
+
                 </div>
 
                 <div class="issue-row">
-                    <span>SUGGESTION</span>
+
+                    <span>
+                        SUGGESTION
+                    </span>
+
                     <strong id="issueSuggestion">
                         Please wait...
                     </strong>
+
                 </div>
 
             </div>
@@ -110,8 +138,12 @@
             <div class="terminal-body">
 
                 <p>
-                    <span class="green">visitor@portfolio</span>:~$
-                    <span class="command">find page</span>
+                    <span class="green">
+                        visitor@portfolio
+                    </span>:~$
+                    <span class="command">
+                        find page
+                    </span>
                 </p>
 
                 <p class="output">
@@ -123,8 +155,12 @@
                 </p>
 
                 <p>
-                    <span class="green">visitor@portfolio</span>:~$
-                    <span class="command">status</span>
+                    <span class="green">
+                        visitor@portfolio
+                    </span>:~$
+                    <span class="command">
+                        status
+                    </span>
                 </p>
 
                 <p class="output" id="terminalIssue">
@@ -140,8 +176,12 @@
                 </p>
 
                 <p>
-                    <span class="green">visitor@portfolio</span>:~$
-                    <span class="command">diagnose</span>
+                    <span class="green">
+                        visitor@portfolio
+                    </span>:~$
+                    <span class="command">
+                        diagnose
+                    </span>
                 </p>
 
                 <p class="output" id="terminalDiagnosis">
@@ -149,7 +189,9 @@
                 </p>
 
                 <p>
-                    <span class="green">visitor@portfolio</span>:~$
+                    <span class="green">
+                        visitor@portfolio
+                    </span>:~$
                     <span class="cursor">_</span>
                 </p>
 
@@ -166,11 +208,19 @@
 
             <div class="music-info">
 
+                <!-- Circular DVD-style album disc -->
+
                 <div class="album-art" id="albumArt">
-    <img
-        src="Isnt-that-what-foees-are-for.jpg"
-        alt="Isn't That What Foes Are For album artwork">
-</div>
+
+                    <img
+                        src="Isnt-that-what-foees-are-for.jpg"
+                        alt="Isn't That What Foes Are For artwork"
+                    >
+
+                    <div class="disc-center"></div>
+
+                </div>
+
 
                 <div class="song-details">
 
@@ -190,6 +240,7 @@
 
             </div>
 
+
             <div class="music-controls">
 
                 <button
@@ -199,6 +250,7 @@
                     aria-label="Play or pause music">
                     ▶
                 </button>
+
 
                 <div class="volume-section">
 
@@ -212,7 +264,8 @@
                         min="0"
                         max="100"
                         value="70"
-                        aria-label="Volume">
+                        aria-label="Volume"
+                    >
 
                     <span id="volumeValue">
                         70%
@@ -221,6 +274,7 @@
                 </div>
 
             </div>
+
 
             <div class="progress-section">
 
@@ -234,13 +288,15 @@
                     min="0"
                     max="100"
                     value="0"
-                    aria-label="Song progress">
+                    aria-label="Song progress"
+                >
 
                 <span id="duration">
                     0:00
                 </span>
 
             </div>
+
 
             <audio
                 id="music"
@@ -277,6 +333,7 @@
         </p>
 
     </main>
+
 
     <script src="404.js"></script>
 

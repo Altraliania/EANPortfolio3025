@@ -181,18 +181,21 @@ body {
 
 .issue-badge.offline .issue-dot {
     background: #ff5f57;
+
     box-shadow:
         0 0 10px rgba(255, 95, 87, 0.5);
 }
 
 .issue-badge.warning .issue-dot {
     background: #ffbd2e;
+
     box-shadow:
         0 0 10px rgba(255, 189, 46, 0.5);
 }
 
 .issue-badge.ok .issue-dot {
     background: #70e000;
+
     box-shadow:
         0 0 10px rgba(112, 224, 0, 0.5);
 }
@@ -248,6 +251,7 @@ h1 {
     display: flex;
 
     justify-content: space-between;
+
     align-items: center;
 
     gap: 15px;
@@ -287,6 +291,7 @@ h1 {
     display: flex;
 
     justify-content: space-between;
+
     align-items: center;
 
     gap: 20px;
@@ -378,7 +383,9 @@ h1 {
 
     color: #666;
 
-    font-family: "Courier New", monospace;
+    font-family:
+        "Courier New",
+        monospace;
 
     font-size: 11px;
 
@@ -439,7 +446,14 @@ h1 {
         0 15px 40px rgba(0, 0, 0, 0.35);
 
     backdrop-filter: blur(10px);
+
+    overflow: hidden;
 }
+
+
+/* =========================
+   ALBUM / DVD DISC
+========================= */
 
 .music-info {
     display: flex;
@@ -447,41 +461,86 @@ h1 {
     align-items: center;
 
     gap: 15px;
+
+    min-width: 0;
 }
 
 .album-art {
-    width: 58px;
-    height: 58px;
+    width: 64px;
+    height: 64px;
+
+    min-width: 64px;
+    min-height: 64px;
 
     flex-shrink: 0;
 
-    border-radius: 50%;
+    position: relative;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 50%;
 
     overflow: hidden;
 
+    background: #222;
+
     border: 2px solid #777;
 
-    background: #222;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     animation: spin 4s linear infinite;
 
     animation-play-state: paused;
 
     box-shadow:
-        0 0 15px rgba(255, 255, 255, 0.08);
+        0 0 18px rgba(255, 255, 255, 0.08);
+
+    isolation: isolate;
 }
 
 .album-art img {
+    position: absolute;
+
+    inset: 0;
+
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
+    object-position: center;
+
+    border-radius: 50%;
+
     display: block;
+
+    z-index: 1;
+}
+
+/* Small center hole to make it feel more like a disc */
+
+.disc-center {
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: #111;
+
+    border: 2px solid rgba(255, 255, 255, 0.7);
+
+    z-index: 2;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 0, 0, 0.35);
 }
 
 .album-art.playing {
@@ -490,9 +549,13 @@ h1 {
 
 .song-details {
     min-width: 0;
+
+    flex: 1;
 }
 
 .now-playing {
+    display: block;
+
     font-size: 10px;
 
     letter-spacing: 2px;
@@ -522,7 +585,14 @@ h1 {
     margin-top: 3px;
 
     line-height: 1.5;
+
+    overflow: hidden;
 }
+
+
+/* =========================
+   MUSIC CONTROLS
+========================= */
 
 .music-controls {
     display: flex;
@@ -537,6 +607,8 @@ h1 {
 .play-button {
     width: 42px;
     height: 42px;
+
+    flex-shrink: 0;
 
     border: none;
 
@@ -570,10 +642,14 @@ h1 {
     gap: 9px;
 
     flex: 1;
+
+    min-width: 0;
 }
 
 .volume-section span {
     font-size: 13px;
+
+    flex-shrink: 0;
 }
 
 input[type="range"] {
@@ -634,6 +710,8 @@ input[type="range"]::-moz-range-thumb {
 
 #progressBar {
     flex: 1;
+
+    min-width: 0;
 }
 
 
@@ -649,6 +727,8 @@ input[type="range"]::-moz-range-thumb {
     gap: 14px;
 
     flex-wrap: wrap;
+
+    margin-top: 0;
 }
 
 .btn {
@@ -702,6 +782,7 @@ input[type="range"]::-moz-range-thumb {
 ========================= */
 
 @keyframes fadeIn {
+
     from {
         opacity: 0;
 
@@ -814,13 +895,35 @@ input[type="range"]::-moz-range-thumb {
         font-size: 14px;
     }
 
+    .song-details p {
+        font-size: 11px;
+    }
+
     .issue-row {
         align-items: flex-start;
+
         flex-direction: column;
+
         gap: 5px;
     }
 
     .issue-row strong {
         text-align: left;
+    }
+
+    .album-art {
+        width: 58px;
+        height: 58px;
+
+        min-width: 58px;
+        min-height: 58px;
+    }
+
+    .music-controls {
+        gap: 12px;
+    }
+
+    .volume-section {
+        gap: 6px;
     }
 }
