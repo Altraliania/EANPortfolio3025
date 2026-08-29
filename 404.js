@@ -1,3 +1,7 @@
+// =========================
+// ELEMENTS
+// =========================
+
 const music = document.getElementById("music");
 const playPause = document.getElementById("playPause");
 
@@ -12,12 +16,229 @@ const durationDisplay = document.getElementById("duration");
 
 const albumArt = document.getElementById("albumArt");
 
+const issueBadge = document.getElementById("issueBadge");
+const issueTitle = document.getElementById("issueTitle");
+
+const issueStatus = document.getElementById("issueStatus");
+const issueName = document.getElementById("issueName");
+const issueDescription = document.getElementById("issueDescription");
+const issueSuggestion = document.getElementById("issueSuggestion");
+
+const mainTitle = document.getElementById("mainTitle");
+const mainSubtitle = document.getElementById("mainSubtitle");
+const pageTitle = document.getElementById("pageTitle");
+
+const terminalResult = document.getElementById("terminalResult");
+const terminalIssue = document.getElementById("terminalIssue");
+const terminalStatus = document.getElementById("terminalStatus");
+const terminalSuggestion = document.getElementById("terminalSuggestion");
+const terminalDiagnosis = document.getElementById("terminalDiagnosis");
+
 
 // =========================
-// INITIAL VOLUME
+// ERROR TYPES
 // =========================
 
-music.volume = 0.70;
+const issues = {
+
+    incorrect: {
+        title: "Incorrect Link",
+        description: "The requested page could not be found.",
+        suggestion: "Check the URL and try again.",
+        status: "NOT FOUND",
+        badgeClass: "warning",
+        pageTitle: "404 | Incorrect Link",
+        heading: "Page Not Found",
+        subtitle:
+            "The link you followed doesn't appear to point to a valid page."
+    },
+
+    server: {
+        title: "Server Issue",
+        description: "The server may be temporarily unavailable.",
+        suggestion: "Try refreshing the page in a moment.",
+        status: "SERVER ERROR",
+        badgeClass: "warning",
+        pageTitle: "404 | Server Issue",
+        heading: "The Server Had a Problem",
+        subtitle:
+            "The requested page could not be reached correctly from the server."
+    },
+
+    updating: {
+        title: "Page Being Updated",
+        description: "This page may currently be under maintenance.",
+        suggestion: "Come back shortly and try again.",
+        status: "UPDATING",
+        badgeClass: "warning",
+        pageTitle: "404 | Page Being Updated",
+        heading: "This Page Is Being Updated",
+        subtitle:
+            "The page may be temporarily unavailable while changes are being made."
+    },
+
+    offline: {
+        title: "Wi-Fi / Internet Issue",
+        description: "Your browser appears to be offline.",
+        suggestion: "Reconnect to the internet and refresh.",
+        status: "OFFLINE",
+        badgeClass: "offline",
+        pageTitle: "404 | Internet Issue",
+        heading: "You're Offline",
+        subtitle:
+            "Your browser currently reports that there is no internet connection."
+    },
+
+    unavailable: {
+        title: "Page Temporarily Unavailable",
+        description: "The requested page may be temporarily unavailable.",
+        suggestion: "Try again later or return to the homepage.",
+        status: "UNAVAILABLE",
+        badgeClass: "warning",
+        pageTitle: "404 | Temporarily Unavailable",
+        heading: "Page Temporarily Unavailable",
+        subtitle:
+            "Something prevented this page from being displayed right now."
+    }
+};
+
+
+// =========================
+// DETERMINE ISSUE
+// =========================
+
+function getForcedIssue() {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const issue = params.get("issue");
+
+    if (!issue) {
+        return null;
+    }
+
+    const normalized = issue.toLowerCase().trim();
+
+    return issues[normalized] || null;
+}
+
+
+function detectIssue() {
+
+    // Explicit URL override:
+    // /404.html?issue=server
+    const forcedIssue = getForcedIssue();
+
+    if (forcedIssue) {
+        return forcedIssue;
+    }
+
+    // Detect offline status.
+    if (!navigator.onLine) {
+        return issues.offline;
+    }
+
+    // Detect obvious maintenance/update signals.
+    const path = window.location.pathname.toLowerCase();
+
+    if (
+        path.includes("maintenance") ||
+        path.includes("updating")
+    ) {
+        return issues.updating;
+    }
+
+    // A normal 404 is most likely an incorrect link.
+    return issues.incorrect;
+}
+
+
+// =========================
+// APPLY ISSUE
+// =========================
+
+function applyIssue(issue) {
+
+    pageTitle.textContent = issue.pageTitle;
+
+    document.title = issue.pageTitle;
+
+    issueTitle.textContent = issue.title;
+
+    issueName.textContent = issue.title;
+
+    issueDescription.textContent = issue.description;
+
+    issueSuggestion.textContent = issue.suggestion;
+
+    issueStatus.textContent = issue.status;
+
+    mainTitle.textContent = issue.heading;
+
+    mainSubtitle.textContent = issue.subtitle;
+
+    terminalIssue.textContent = `Issue: ${issue.title}`;
+
+    terminalStatus.textContent = `Status: ${issue.description}`;
+
+    terminalSuggestion.textContent = `Suggestion: ${issue.suggestion}`;
+
+    terminalDiagnosis.textContent =
+        `Diagnosis complete → ${issue.title}`;
+
+    issueBadge.classList.remove(
+        "offline",
+        "warning",
+        "ok"
+    );
+
+    issueBadge.classList.add(issue.badgeClass);
+
+    terminalResult.textContent =
+        `Error: ${issue.title.toLowerCase()}.`;
+}
+
+
+// =========================
+// INITIAL DIAGNOSIS
+// =========================
+
+function runDiagnostics() {
+
+    const issue = detectIssue();
+
+    applyIssue(issue);
+
+    console.log(
+        `[404 Diagnostics] ${issue.title}`
+    );
+
+    console.log(
+        `[404 Diagnostics] ${issue.description}`
+    );
+
+    console.log(
+        `[404 Diagnostics] ${issue.suggestion}`
+    );
+}
+
+
+// =========================
+// ONLINE / OFFLINE DETECTION
+// =========================
+
+window.addEventListener("offline", () => {
+
+    applyIssue(issues.offline);
+
+});
+
+
+window.addEventListener("online", () => {
+
+    runDiagnostics();
+
+});
 
 
 // =========================
@@ -32,9 +253,10 @@ function formatTime(seconds) {
 
     const minutes = Math.floor(seconds / 60);
 
-    const remainingSeconds = Math.floor(seconds % 60)
-        .toString()
-        .padStart(2, "0");
+    const remainingSeconds =
+        Math.floor(seconds % 60)
+            .toString()
+            .padStart(2, "0");
 
     return `${minutes}:${remainingSeconds}`;
 }
@@ -70,7 +292,9 @@ playPause.addEventListener("click", () => {
                 updatePlayerUI();
             })
             .catch(() => {
-                console.log("Browser blocked autoplay.");
+                console.log(
+                    "Browser blocked autoplay."
+                );
             });
 
     } else {
@@ -86,13 +310,17 @@ playPause.addEventListener("click", () => {
 // VOLUME
 // =========================
 
+music.volume = 0.70;
+
 volumeSlider.addEventListener("input", () => {
 
-    const volume = Number(volumeSlider.value);
+    const volume =
+        Number(volumeSlider.value);
 
     music.volume = volume / 100;
 
-    volumeValue.textContent = `${volume}%`;
+    volumeValue.textContent =
+        `${volume}%`;
 
     if (volume === 0) {
 
@@ -113,27 +341,36 @@ volumeSlider.addEventListener("input", () => {
 // PROGRESS BAR
 // =========================
 
-music.addEventListener("loadedmetadata", () => {
+music.addEventListener(
+    "loadedmetadata",
+    () => {
 
-    progressBar.max = music.duration;
+        progressBar.max =
+            music.duration;
 
-    durationDisplay.textContent =
-        formatTime(music.duration);
-});
+        durationDisplay.textContent =
+            formatTime(music.duration);
+    }
+);
 
 
-music.addEventListener("timeupdate", () => {
+music.addEventListener(
+    "timeupdate",
+    () => {
 
-    progressBar.value = music.currentTime;
+        progressBar.value =
+            music.currentTime;
 
-    currentTimeDisplay.textContent =
-        formatTime(music.currentTime);
-});
+        currentTimeDisplay.textContent =
+            formatTime(music.currentTime);
+    }
+);
 
 
 progressBar.addEventListener("input", () => {
 
-    music.currentTime = progressBar.value;
+    music.currentTime =
+        progressBar.value;
 });
 
 
@@ -141,31 +378,40 @@ progressBar.addEventListener("input", () => {
 // AUDIO EVENTS
 // =========================
 
-music.addEventListener("play", updatePlayerUI);
+music.addEventListener(
+    "play",
+    updatePlayerUI
+);
 
-music.addEventListener("pause", updatePlayerUI);
+music.addEventListener(
+    "pause",
+    updatePlayerUI
+);
 
 
 // =========================
-// TRY AUTOPLAY
+// AUTOPLAY
 // =========================
-
-// Browsers may block autoplay with sound.
-// If allowed, the song starts automatically.
 
 window.addEventListener("load", () => {
 
     music.play()
         .then(() => {
+
             updatePlayerUI();
+
         })
         .catch(() => {
-
-            // Autoplay was blocked.
-            // The visitor can press play manually.
 
             updatePlayerUI();
 
         });
 
 });
+
+
+// =========================
+// START DIAGNOSTICS
+// =========================
+
+runDiagnostics();

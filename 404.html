@@ -5,32 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>404 | Page Not Found</title>
+    <title id="pageTitle">404 | Page Not Found</title>
 
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="404.css">
 </head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
 <body>
 
     <div class="background"></div>
 
     <main class="error-container">
 
-        <div class="error-code" data-text="404">404</div>
+        <!-- =========================
+             ERROR CODE
+        ========================== -->
 
-        <h1>Page Not Found</h1>
+        <div class="error-header">
 
-        <p class="subtitle">
+            <div class="error-code" data-text="404">
+                404
+            </div>
+
+            <div class="issue-badge" id="issueBadge">
+                <span class="issue-dot"></span>
+                <span id="issueTitle">Diagnosing...</span>
+            </div>
+
+        </div>
+
+        <h1 id="mainTitle">
+            Page Not Found
+        </h1>
+
+        <p class="subtitle" id="mainSubtitle">
             Looks like this page got lost somewhere on the internet.
         </p>
 
-        <!-- Terminal -->
+
+        <!-- =========================
+             ISSUE INFORMATION
+        ========================== -->
+
+        <div class="issue-panel">
+
+            <div class="issue-panel-header">
+                <span class="issue-label">DIAGNOSTIC REPORT</span>
+                <span class="issue-status" id="issueStatus">
+                    CHECKING
+                </span>
+            </div>
+
+            <div class="issue-details">
+
+                <div class="issue-row">
+                    <span>ERROR CODE</span>
+                    <strong>404</strong>
+                </div>
+
+                <div class="issue-row">
+                    <span>ISSUE</span>
+                    <strong id="issueName">
+                        Diagnosing...
+                    </strong>
+                </div>
+
+                <div class="issue-row">
+                    <span>STATUS</span>
+                    <strong id="issueDescription">
+                        Checking page status...
+                    </strong>
+                </div>
+
+                <div class="issue-row">
+                    <span>SUGGESTION</span>
+                    <strong id="issueSuggestion">
+                        Please wait...
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TERMINAL
+        ========================== -->
+
         <div class="terminal">
 
             <div class="terminal-top">
+
                 <span></span>
                 <span></span>
                 <span></span>
+
+                <div class="terminal-title">
+                    portfolio-diagnostics
+                </div>
+
             </div>
 
             <div class="terminal-body">
@@ -41,11 +115,37 @@
                 </p>
 
                 <p class="output">
-                    Searching...
+                    Searching requested page...
                 </p>
 
-                <p class="output">
+                <p class="output" id="terminalResult">
                     Error: page does not exist.
+                </p>
+
+                <p>
+                    <span class="green">visitor@portfolio</span>:~$
+                    <span class="command">status</span>
+                </p>
+
+                <p class="output" id="terminalIssue">
+                    Issue: Diagnosing...
+                </p>
+
+                <p class="output" id="terminalStatus">
+                    Status: Checking...
+                </p>
+
+                <p class="output" id="terminalSuggestion">
+                    Suggestion: Checking...
+                </p>
+
+                <p>
+                    <span class="green">visitor@portfolio</span>:~$
+                    <span class="command">diagnose</span>
+                </p>
+
+                <p class="output" id="terminalDiagnosis">
+                    Running diagnostics...
                 </p>
 
                 <p>
@@ -57,7 +157,11 @@
 
         </div>
 
-        <!-- Music Player -->
+
+        <!-- =========================
+             MUSIC PLAYER
+        ========================== -->
+
         <div class="music-player">
 
             <div class="music-info">
@@ -67,26 +171,38 @@
                 </div>
 
                 <div class="song-details">
+
                     <span class="now-playing">
                         NOW PLAYING
                     </span>
 
-                    <h2>Isn't That What Foes Are For</h2>
+                    <h2>
+                        Isn't That What Foes Are For
+                    </h2>
 
-                    <p>JacknJellify | Antony Kos | Sam Thornbury | And every other peak person who made this</p>
+                    <p>
+                        JacknJellify | Antony Kos | Sam Thornbury | And every other peak person who made this
+                    </p>
+
                 </div>
 
             </div>
 
             <div class="music-controls">
 
-                <button id="playPause" class="play-button">
+                <button
+                    id="playPause"
+                    class="play-button"
+                    type="button"
+                    aria-label="Play or pause music">
                     ▶
                 </button>
 
                 <div class="volume-section">
 
-                    <span id="volumeIcon">🔊</span>
+                    <span id="volumeIcon">
+                        🔊
+                    </span>
 
                     <input
                         type="range"
@@ -94,9 +210,11 @@
                         min="0"
                         max="100"
                         value="70"
-                    >
+                        aria-label="Volume">
 
-                    <span id="volumeValue">70%</span>
+                    <span id="volumeValue">
+                        70%
+                    </span>
 
                 </div>
 
@@ -104,7 +222,9 @@
 
             <div class="progress-section">
 
-                <span id="currentTime">0:00</span>
+                <span id="currentTime">
+                    0:00
+                </span>
 
                 <input
                     type="range"
@@ -112,9 +232,11 @@
                     min="0"
                     max="100"
                     value="0"
-                >
+                    aria-label="Song progress">
 
-                <span id="duration">0:00</span>
+                <span id="duration">
+                    0:00
+                </span>
 
             </div>
 
@@ -126,18 +248,27 @@
 
         </div>
 
-        <!-- Buttons -->
+
+        <!-- =========================
+             BUTTONS
+        ========================== -->
+
         <div class="buttons">
 
-            <a href="index.html" class="btn primary">
+            <a
+                href="index.html"
+                class="btn primary">
                 ← Back Home
             </a>
 
-            <a href="projects-detail.html" class="btn secondary">
+            <a
+                href="projects-detail.html"
+                class="btn secondary">
                 View Projects
             </a>
 
         </div>
+
 
         <p class="small-text">
             Error 404 • Nothing to see here... 👀 • Emanuel Negussie

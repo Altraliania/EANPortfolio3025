@@ -6,20 +6,28 @@
 
 body {
     min-height: 100vh;
+
     background: #050505;
+
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     overflow-x: hidden;
+
     padding: 40px 20px;
 }
 
 .background {
     position: fixed;
+
     inset: 0;
 
     background:
@@ -41,6 +49,7 @@ body {
     content: "";
 
     position: absolute;
+
     inset: 0;
 
     background-image:
@@ -59,24 +68,44 @@ body {
 
 .error-container {
     width: min(90%, 700px);
+
     text-align: center;
 
     animation: fadeIn 0.8s ease;
+}
+
+
+/* =========================
+   ERROR HEADER
+========================= */
+
+.error-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 22px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
 }
 
 .error-code {
     position: relative;
 
     font-size: clamp(120px, 25vw, 230px);
+
     font-weight: 900;
 
     line-height: 0.9;
+
     letter-spacing: -15px;
 
     color: transparent;
-    -webkit-text-stroke: 2px white;
 
-    margin-bottom: 30px;
+    -webkit-text-stroke: 2px white;
 }
 
 .error-code::before,
@@ -84,9 +113,11 @@ body {
     content: attr(data-text);
 
     position: absolute;
+
     inset: 0;
 
     color: transparent;
+
     -webkit-text-stroke: 2px;
 }
 
@@ -102,16 +133,191 @@ body {
     animation: glitch2 2s infinite;
 }
 
+
+/* =========================
+   ISSUE BADGE
+========================= */
+
+.issue-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 10px 15px;
+
+    border: 1px solid #303030;
+
+    border-radius: 999px;
+
+    background: rgba(16, 16, 16, 0.9);
+
+    color: #ddd;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
+
+    white-space: nowrap;
+}
+
+.issue-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #777;
+
+    box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.issue-badge.offline .issue-dot {
+    background: #ff5f57;
+    box-shadow:
+        0 0 10px rgba(255, 95, 87, 0.5);
+}
+
+.issue-badge.warning .issue-dot {
+    background: #ffbd2e;
+    box-shadow:
+        0 0 10px rgba(255, 189, 46, 0.5);
+}
+
+.issue-badge.ok .issue-dot {
+    background: #70e000;
+    box-shadow:
+        0 0 10px rgba(112, 224, 0, 0.5);
+}
+
+
+/* =========================
+   HEADINGS
+========================= */
+
 h1 {
     font-size: 36px;
+
     margin-bottom: 12px;
 }
 
 .subtitle {
     color: #aaa;
+
     font-size: 17px;
+
     margin-bottom: 30px;
+
+    line-height: 1.6;
 }
+
+
+/* =========================
+   ISSUE PANEL
+========================= */
+
+.issue-panel {
+    width: 100%;
+
+    max-width: 600px;
+
+    margin: 0 auto 20px;
+
+    background: rgba(13, 13, 13, 0.95);
+
+    border: 1px solid #292929;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    text-align: left;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.issue-panel-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 13px 18px;
+
+    background: #171717;
+
+    border-bottom: 1px solid #292929;
+}
+
+.issue-label {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #aaa;
+
+    font-weight: bold;
+}
+
+.issue-status {
+    font-size: 10px;
+
+    letter-spacing: 1px;
+
+    color: #70e000;
+
+    font-weight: bold;
+}
+
+.issue-details {
+    padding: 8px 18px 14px;
+}
+
+.issue-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 11px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.issue-row:last-child {
+    border-bottom: none;
+}
+
+.issue-row span {
+    color: #666;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.issue-row strong {
+    color: #ddd;
+
+    font-size: 13px;
+
+    text-align: right;
+}
+
 
 /* =========================
    TERMINAL
@@ -119,6 +325,7 @@ h1 {
 
 .terminal {
     width: 100%;
+
     max-width: 600px;
 
     margin: 0 auto 20px;
@@ -126,9 +333,11 @@ h1 {
     background: #0d0d0d;
 
     border: 1px solid #292929;
+
     border-radius: 12px;
 
     overflow: hidden;
+
     text-align: left;
 
     box-shadow:
@@ -136,31 +345,55 @@ h1 {
 }
 
 .terminal-top {
+    position: relative;
+
     height: 38px;
 
     background: #171717;
 
     display: flex;
+
     align-items: center;
 
     gap: 8px;
+
     padding-left: 15px;
 }
 
-.terminal-top span {
+.terminal-top > span {
     width: 11px;
     height: 11px;
 
     border-radius: 50%;
+
     background: #555;
+}
+
+.terminal-title {
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #666;
+
+    font-family: "Courier New", monospace;
+
+    font-size: 11px;
+
+    white-space: nowrap;
 }
 
 .terminal-body {
     padding: 20px;
 
-    font-family: "Courier New", monospace;
+    font-family:
+        "Courier New",
+        monospace;
 
     font-size: 14px;
+
     line-height: 1.8;
 }
 
@@ -172,9 +405,14 @@ h1 {
     color: #777;
 }
 
+.command {
+    color: #ddd;
+}
+
 .cursor {
     animation: blink 1s infinite;
 }
+
 
 /* =========================
    MUSIC PLAYER
@@ -182,6 +420,7 @@ h1 {
 
 .music-player {
     width: 100%;
+
     max-width: 600px;
 
     margin: 0 auto 25px;
@@ -204,6 +443,7 @@ h1 {
 
 .music-info {
     display: flex;
+
     align-items: center;
 
     gap: 15px;
@@ -225,6 +465,7 @@ h1 {
         );
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -261,7 +502,9 @@ h1 {
     margin-top: 4px;
 
     white-space: nowrap;
+
     overflow: hidden;
+
     text-overflow: ellipsis;
 }
 
@@ -271,10 +514,13 @@ h1 {
     font-size: 12px;
 
     margin-top: 3px;
+
+    line-height: 1.5;
 }
 
 .music-controls {
     display: flex;
+
     align-items: center;
 
     gap: 18px;
@@ -287,9 +533,11 @@ h1 {
     height: 42px;
 
     border: none;
+
     border-radius: 50%;
 
     background: white;
+
     color: black;
 
     font-size: 16px;
@@ -297,6 +545,7 @@ h1 {
     cursor: pointer;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -309,6 +558,7 @@ h1 {
 
 .volume-section {
     display: flex;
+
     align-items: center;
 
     gap: 9px;
@@ -364,6 +614,7 @@ input[type="range"]::-moz-range-thumb {
 
 .progress-section {
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -379,12 +630,14 @@ input[type="range"]::-moz-range-thumb {
     flex: 1;
 }
 
+
 /* =========================
    BUTTONS
 ========================= */
 
 .buttons {
     display: flex;
+
     justify-content: center;
 
     gap: 14px;
@@ -406,6 +659,7 @@ input[type="range"]::-moz-range-thumb {
 
 .primary {
     background: white;
+
     color: black;
 }
 
@@ -436,6 +690,7 @@ input[type="range"]::-moz-range-thumb {
     font-size: 12px;
 }
 
+
 /* =========================
    ANIMATIONS
 ========================= */
@@ -443,11 +698,13 @@ input[type="range"]::-moz-range-thumb {
 @keyframes fadeIn {
     from {
         opacity: 0;
+
         transform: translateY(20px);
     }
 
     to {
         opacity: 1;
+
         transform: translateY(0);
     }
 }
@@ -500,6 +757,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @keyframes spin {
+
     from {
         transform: rotate(0deg);
     }
@@ -509,11 +767,22 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
+
 /* =========================
    MOBILE
 ========================= */
 
 @media (max-width: 600px) {
+
+    body {
+        padding: 30px 15px;
+    }
+
+    .error-header {
+        flex-direction: column;
+
+        gap: 15px;
+    }
 
     .error-code {
         letter-spacing: -8px;
@@ -531,7 +800,21 @@ input[type="range"]::-moz-range-thumb {
         font-size: 12px;
     }
 
+    .terminal-title {
+        display: none;
+    }
+
     .song-details h2 {
         font-size: 14px;
+    }
+
+    .issue-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .issue-row strong {
+        text-align: left;
     }
 }
