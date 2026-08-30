@@ -149,8 +149,8 @@
 
 
                         <p>
-                            The schools I attended and the airports
-                            connected to my journey.
+                            A map of the schools I attended and the
+                            airports connected to my journey.
                         </p>
 
                     </div>
@@ -167,8 +167,9 @@
 
 
                     <p class="academic-map-hint">
-                        Hover over a marker for information. Hover over
-                        the flight route to see the airline and aircraft.
+                        Hover over a marker for information.
+                        Hover over the flight route to see the airline
+                        and aircraft.
                     </p>
 
 
@@ -200,7 +201,9 @@
                 >
 
 
-                    <!-- FOREST STREET -->
+                    <!-- ==================================================
+                         FOREST STREET
+                    =================================================== -->
 
                     <div
                         style="
@@ -284,7 +287,9 @@
                     </div>
 
 
-                    <!-- SHAWNIGAN LAKE -->
+                    <!-- ==================================================
+                         SHAWNIGAN LAKE SCHOOL
+                    =================================================== -->
 
                     <div
                         style="
@@ -382,7 +387,9 @@
                 <div class="side-images">
 
 
-                    <!-- ORATORY SHOWCASE -->
+                    <!-- ==================================================
+                         ORATORY SHOWCASE
+                    =================================================== -->
 
                     <div
                         style="
@@ -457,7 +464,7 @@
 
 
     <!-- ==================================================
-         LEAFLET JS
+         LEAFLET JAVASCRIPT
     =================================================== -->
 
     <script
@@ -467,14 +474,40 @@
 
 
     <!-- ==================================================
-         MAIN SITE SCRIPT
+         MAIN SITE JAVASCRIPT
     =================================================== -->
 
     <script src="script.js"></script>
 
 
     <!-- ==================================================
-         DARK MODE
+         DARK MODE + BOTTOM CONTROLS
+    =================================================== -->
+
+    <div class="bottom-controls">
+
+        <button
+            id="dark-mode-toggle"
+            type="button"
+            aria-label="Toggle dark mode"
+        >
+            🌙 Dark Mode
+        </button>
+
+
+        <button
+            id="creatorModeButton"
+            type="button"
+            aria-label="Open Creator Mode"
+        >
+            🛠 Creator Mode
+        </button>
+
+    </div>
+
+
+    <!-- ==================================================
+         DARK MODE SCRIPT
     =================================================== -->
 
     <script>
@@ -489,6 +522,11 @@
 
 
         if (toggleButton) {
+
+            /*
+             * Restore the user's previous
+             * Dark Mode preference.
+             */
 
             if (
                 localStorage.getItem(
