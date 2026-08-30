@@ -1,140 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academics | Emanuel</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="icon"
+        href="favicon.ico"
+        type="image/x-icon"
+    >
+
+    <title>
+        Academics | Emanuel
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <!-- ==================================================
+         LEAFLET CSS
+    =================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
 </head>
+
+
 <body>
-    <!-- Animation Overlay -->
+
+
+    <!-- ==================================================
+         PAGE TRANSITION OVERLAY
+    =================================================== -->
+
     <div id="page-overlay"></div>
 
-    <!-- Container wrapper that slides down and fades in -->
+
+    <!-- ==================================================
+         PAGE CONTENT
+    =================================================== -->
+
     <div id="page-content">
 
-        <!-- Header Banner Area -->
-        <header class="project-header" style="background-color: #222;">
+
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
+        <header
+            class="project-header"
+            style="background-color: #222;"
+        >
+
             <div class="header-overlay-text">
-                <h1>Academics</h1>
-                <p>My Current Education Status</p>
+
+                <h1>
+                    Academics
+                </h1>
+
+                <p>
+                    My Current Education Status
+                </p>
+
             </div>
+
         </header>
 
-        <!-- Split Content Layout -->
+
+        <!-- ==================================================
+             MAIN CONTENT
+        =================================================== -->
+
         <div class="project-container">
-            <!-- Left Side: Main Writing -->
+
+
+            <!-- ==================================================
+                 LEFT COLUMN
+            ================================================== -->
+
             <main class="project-story">
-                <h2>My Academic Journey</h2>
+
+
+                <h2>
+                    My Academic Journey
+                </h2>
+
+
                 <p>
-                    As a freshman student at Shawnigan Lake School, I focus on building a strong foundation across all my core courses, as well as being at the top of my grade in all of the core subjects. I am highly motivated to challenge myself academically while exploring subjects that intersect with global politics, technology, creative arts, and more of my curiosities.
+                    As a freshman student at Shawnigan Lake School,
+                    I focus on building a strong foundation across all
+                    my core courses, as well as being at the top of my
+                    grade in all of the core subjects. I am highly
+                    motivated to challenge myself academically while
+                    exploring subjects that intersect with global
+                    politics, technology, creative arts, and more of
+                    my curiosities.
                 </p>
+
+
                 <p>
-                    This page serves as a live record of the schools I am attending, as well as the academic milestones I have reached.
+                    This page serves as a live record of the schools
+                    I am attending, as well as the academic milestones
+                    I have reached.
                 </p>
-                <a href="index.html" class="back-home-btn fade-link">← Back to Homepage</a>
+
+
+                <!-- ==================================================
+                     HOME BUTTON
+                =================================================== -->
+
+                <a
+                    href="index.html"
+                    class="back-home-btn fade-link"
+                >
+                    ← Back to Homepage
+                </a>
+
+
+                <!-- ==================================================
+                     ACADEMIC JOURNEY MAP
+                =================================================== -->
+
+                <section class="academic-journey-map">
+
+
+                    <div class="academic-map-heading">
+
+                        <span>
+                            ACADEMIC JOURNEY
+                        </span>
+
+
+                        <h2>
+                            My Journey
+                        </h2>
+
+
+                        <p>
+                            The schools I attended and the airports
+                            connected to my journey.
+                        </p>
+
+                    </div>
+
+
+                    <div class="academic-map-container">
+
+                        <div
+                            id="academicMap"
+                            aria-label="Interactive academic journey map"
+                        ></div>
+
+                    </div>
+
+
+                    <p class="academic-map-hint">
+                        Hover over a marker for information. Hover over
+                        the flight route to see the airline and aircraft.
+                    </p>
+
+
+                </section>
+
+
             </main>
 
-            <!-- Right Side: Supporting Cue Cards / List -->
+
+            <!-- ==================================================
+                 RIGHT COLUMN
+            =================================================== -->
+
             <aside class="project-gallery">
-                <h3 style="margin-bottom: 15px;">History of Schools I've Attended</h3>
-                <div class="side-images" style="margin-bottom: 40px;">
-                    
-                    <!-- Forest Street School Card -->
-                    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 4px solid #666; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+
+
+                <!-- ==================================================
+                     SCHOOL HISTORY
+                =================================================== -->
+
+                <h3 style="margin-bottom: 15px;">
+                    History of Schools I've Attended
+                </h3>
+
+
+                <div
+                    class="side-images"
+                    style="margin-bottom: 40px;"
+                >
+
+
+                    <!-- FOREST STREET -->
+
+                    <div
+                        style="
+                            background: #fff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                            text-align: left;
+                            border-left: 4px solid #666;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 15px;
+                        "
+                    >
+
                         <div style="flex: 1;">
-                            <h4 style="margin-bottom: 5px; color: #222;">Forest Street Community School</h4>
-                            <p style="font-size: 0.95rem; color: #666; line-height: 1.5; margin: 0;">
-                                651 Forest Street, Orange NJ, 07050, United States <br>
-                                <strong>Attended:</strong> 2019-2025 | <strong>Grades:</strong> 2-7 <br>
-                                Public Elementary & Middle School | Successfully Graduated
+
+                            <h4
+                                style="
+                                    margin-bottom: 5px;
+                                    color: #222;
+                                "
+                            >
+                                Forest Street Community School
+                            </h4>
+
+
+                            <p
+                                style="
+                                    font-size: 0.95rem;
+                                    color: #666;
+                                    line-height: 1.5;
+                                    margin: 0;
+                                "
+                            >
+
+                                651 Forest Street,
+                                Orange NJ, 07050,
+                                United States
+
+                                <br>
+
+                                <strong>
+                                    Attended:
+                                </strong>
+
+                                2019-2025
+
+                                |
+
+                                <strong>
+                                    Grades:
+                                </strong>
+
+                                2-7
+
+                                <br>
+
+                                Public Elementary & Middle School |
+                                Successfully Graduated
+
                             </p>
+
                         </div>
-                        <img src="FSCS PFP.png" alt="Forest Street Logo" style="width: 70px; height: 70px; object-fit: contain; border-radius: 4px; background: #fafafa; padding: 2px;">
+
+
+                        <img
+                            src="FSCS PFP.png"
+                            alt="Forest Street School Logo"
+                            style="
+                                width: 70px;
+                                height: 70px;
+                                object-fit: contain;
+                                border-radius: 4px;
+                                background: #fafafa;
+                                padding: 2px;
+                            "
+                        >
+
                     </div>
 
-                    <!-- Shawnigan Lake School Card -->
-                    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left; border-left: 4px solid #007bff; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+
+                    <!-- SHAWNIGAN LAKE -->
+
+                    <div
+                        style="
+                            background: #fff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                            text-align: left;
+                            border-left: 4px solid #007bff;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 15px;
+                        "
+                    >
+
                         <div style="flex: 1;">
-                            <h4 style="margin-bottom: 5px; color: #222;">Shawnigan Lake School</h4>
-                            <p style="font-size: 0.95rem; color: #666; line-height: 1.5; margin: 0;">
-                                1975 Renfrew Rd, Shawnigan Lake BC, V0R 2W1, Canada <br>
-                                <strong>Attending:</strong> 2025-2030 | <strong>Grades:</strong> 8-12 <br>
-                                Private High School | Current Student
+
+                            <h4
+                                style="
+                                    margin-bottom: 5px;
+                                    color: #222;
+                                "
+                            >
+                                Shawnigan Lake School
+                            </h4>
+
+
+                            <p
+                                style="
+                                    font-size: 0.95rem;
+                                    color: #666;
+                                    line-height: 1.5;
+                                    margin: 0;
+                                "
+                            >
+
+                                1975 Renfrew Rd,
+                                Shawnigan Lake BC,
+                                V0R 2W1, Canada
+
+                                <br>
+
+                                <strong>
+                                    Attending:
+                                </strong>
+
+                                2025-2030
+
+                                |
+
+                                <strong>
+                                    Grades:
+                                </strong>
+
+                                8-12
+
+                                <br>
+
+                                Private High School |
+                                Current Student
+
                             </p>
+
                         </div>
-                        <img src="Shawnigan-Lake-School-Logo-Google-Sheet-and-School-Profile.jpg" alt="Shawnigan Logo" style="width: 70px; height: 70px; object-fit: contain; border-radius: 4px; background: #fafafa; padding: 2px;">
+
+
+                        <img
+                            src="Shawnigan-Lake-School-Logo-Google-Sheet-and-School-Profile.jpg"
+                            alt="Shawnigan Lake School Logo"
+                            style="
+                                width: 70px;
+                                height: 70px;
+                                object-fit: contain;
+                                border-radius: 4px;
+                                background: #fafafa;
+                                padding: 2px;
+                            "
+                        >
+
                     </div>
+
                 </div>
 
-                <!-- Academic Achievements Section -->
-                <h3 style="margin-bottom: 15px;">Academic Achievements</h3>
+
+                <!-- ==================================================
+                     ACADEMIC ACHIEVEMENTS
+                =================================================== -->
+
+                <h3 style="margin-bottom: 15px;">
+                    Academic Achievements
+                </h3>
+
+
                 <div class="side-images">
-                    <!-- Oratory Showcase Card -->
-                    <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.08); text-align: left; border-left: 4px solid #ffc107;">
-                        <h4 style="margin-bottom: 8px; color: #222; font-size: 1.1rem;">First Place at 27th Annual Alpha Phi Alpha Oratory Showcase</h4>
-                        <p style="font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 20px;">
-                            A speech I won about Dr. Martin Luther King Jr. and how he would have seen the world today. Took first place and was awarded a laptop and $550 USD.
+
+
+                    <!-- ORATORY SHOWCASE -->
+
+                    <div
+                        style="
+                            background: #fff;
+                            padding: 25px;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+                            text-align: left;
+                            border-left: 4px solid #ffc107;
+                        "
+                    >
+
+                        <h4
+                            style="
+                                margin-bottom: 8px;
+                                color: #222;
+                                font-size: 1.1rem;
+                            "
+                        >
+                            First Place at 27th Annual Alpha Phi Alpha
+                            Oratory Showcase
+                        </h4>
+
+
+                        <p
+                            style="
+                                font-size: 0.95rem;
+                                color: #555;
+                                line-height: 1.6;
+                                margin-bottom: 20px;
+                            "
+                        >
+
+                            A speech I won about Dr. Martin Luther King Jr.
+                            and how he would have seen the world today.
+                            Took first place and was awarded a laptop
+                            and $550 USD.
+
                         </p>
+
+
                         <div class="card-btn-container">
-                            <a href="https://www.tapinto.net/towns/east-orange-slash-orange/sections/education/articles/orange-s-emanuel-negussie-takes-first-place-at-27th-annual-alpha-phi-alpha-oratory-showcase" target="_blank" rel="noopener noreferrer" class="card-btn" style="text-align: center; display: block; font-size: 0.8rem; padding: 8px;">Read the News Article →</a>
+
+                            <a
+                                href="https://www.tapinto.net/towns/east-orange-slash-orange/sections/education/articles/orange-s-emanuel-negussie-takes-first-place-at-27th-annual-alpha-phi-alpha-oratory-showcase"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="card-btn"
+                                style="
+                                    text-align: center;
+                                    display: block;
+                                    font-size: 0.8rem;
+                                    padding: 8px;
+                                "
+                            >
+                                Read the News Article →
+                            </a>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
             </aside>
+
         </div>
 
-    </div> <!-- Close page-content container -->
 
-    <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-
-    // Check if the user previously picked Dark Mode
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        body.classList.add('dark-mode');
-        toggleButton.textContent = '☀️ Light Mode';
-    }
-
-    toggleButton.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-
-        // Switch button text based on the mode
-        if (body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            toggleButton.textContent = '☀️ Light Mode';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            toggleButton.textContent = '🌙 Dark Mode';
-        }
-    });
-</script>
+    </div>
 
 
-    <!-- Script to enable the back-button fade transition -->
-    <script>
-        const overlay = document.getElementById('page-overlay');
-        const fadeButtons = document.querySelectorAll('.fade-link');
-        
-        fadeButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                // Skips execution for external links opening in separate windows
-                if (this.getAttribute('target') === '_blank') {
-                    return;
-                }
-                
-                event.preventDefault();
-                const targetUrl = this.getAttribute('href');
-                if (overlay) overlay.classList.add('active');
-                setTimeout(() => { window.location.href = targetUrl; }, 500);
-            });
-        });
+    <!-- ==================================================
+         LEAFLET JS
+    =================================================== -->
 
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted && overlay) overlay.classList.remove('active');
-        });
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin="">
     </script>
+
+
+    <!-- ==================================================
+         MAIN SITE SCRIPT
+    =================================================== -->
+
+    <script src="script.js"></script>
+
+
+    <!-- ==================================================
+         DARK MODE
+    =================================================== -->
+
+    <script>
+
+        const toggleButton =
+            document.getElementById(
+                "dark-mode-toggle"
+            );
+
+        const body =
+            document.body;
+
+
+        if (toggleButton) {
+
+            if (
+                localStorage.getItem(
+                    "darkMode"
+                ) === "enabled"
+            ) {
+
+                body.classList.add(
+                    "dark-mode"
+                );
+
+                toggleButton.textContent =
+                    "☀️ Light Mode";
+
+            }
+
+
+            toggleButton.addEventListener(
+                "click",
+                () => {
+
+                    body.classList.toggle(
+                        "dark-mode"
+                    );
+
+
+                    if (
+                        body.classList.contains(
+                            "dark-mode"
+                        )
+                    ) {
+
+                        localStorage.setItem(
+                            "darkMode",
+                            "enabled"
+                        );
+
+                        toggleButton.textContent =
+                            "☀️ Light Mode";
+
+                    } else {
+
+                        localStorage.setItem(
+                            "darkMode",
+                            "disabled"
+                        );
+
+                        toggleButton.textContent =
+                            "🌙 Dark Mode";
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+
 </body>
+
 </html>
