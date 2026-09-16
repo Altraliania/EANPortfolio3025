@@ -5096,3 +5096,357 @@ footer {
     }
 
 }
+
+
+/* =========================================================
+   CLOCK MODE NAVIGATION
+========================================================= */
+
+.clock-mode-nav {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    width:
+        100%;
+
+    max-width:
+        100%;
+
+    margin-top:
+        7px;
+
+    padding:
+        3px;
+
+    overflow-x:
+        auto;
+
+    overflow-y:
+        hidden;
+
+    white-space:
+        nowrap;
+
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        )
+        transparent;
+}
+
+.clock-mode-nav::-webkit-scrollbar {
+    height:
+        3px;
+}
+
+.clock-mode-nav::-webkit-scrollbar-track {
+    background:
+        transparent;
+}
+
+.clock-mode-nav::-webkit-scrollbar-thumb {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        );
+
+    border-radius:
+        10px;
+}
+
+.clock-mode-button {
+    flex:
+        0 0 auto;
+
+    min-width:
+        max-content;
+
+    padding:
+        4px 7px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+
+    border-radius:
+        6px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.65
+        );
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1;
+
+    letter-spacing:
+        0.3px;
+
+    white-space:
+        nowrap;
+
+    cursor:
+        pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.clock-mode-button:hover {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
+
+    color:
+        #ffffff;
+
+    border-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        );
+}
+
+.clock-mode-button.active {
+    background:
+        #007bff;
+
+    color:
+        #ffffff;
+
+    border-color:
+        #007bff;
+
+    box-shadow:
+        0 3px 8px
+        rgba(
+            0,
+            123,
+            255,
+            0.25
+        );
+}
+
+.clock-mode-button:active {
+    transform:
+        scale(0.96);
+}
+
+
+/* =========================================================
+   CLOCK NOTIFICATION
+========================================================= */
+
+.clock-notification {
+    position:
+        fixed;
+
+    top:
+        92px;
+
+    right:
+        20px;
+
+    z-index:
+        6000;
+
+    width:
+        min(
+            280px,
+            calc(
+                100vw - 40px
+            )
+        );
+
+    max-width:
+        calc(
+            100vw - 40px
+        );
+
+    padding:
+        12px 15px;
+
+    background:
+        #1e1e1e;
+
+    color:
+        #ffffff;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
+
+    border-radius:
+        10px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(
+            0,
+            0,
+            0,
+            0.3
+        );
+
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+    transform:
+        translateX(
+            calc(
+                100% + 30px
+            )
+        );
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+
+    overflow:
+        hidden;
+
+    white-space:
+        nowrap;
+}
+
+.clock-notification.visible {
+    opacity:
+        1;
+
+    visibility:
+        visible;
+
+    transform:
+        translateX(0);
+}
+
+#clockNotificationText {
+    display:
+        block;
+
+    width:
+        100%;
+
+    overflow-x:
+        auto;
+
+    overflow-y:
+        hidden;
+
+    white-space:
+        nowrap;
+
+    scrollbar-width:
+        none;
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+}
+
+#clockNotificationText::-webkit-scrollbar {
+    display:
+        none;
+}
+
+
+/* =========================================================
+   CLOCK RESPONSIVE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .clock-card {
+        max-width:
+            calc(
+                100vw - 20px
+            );
+
+        overflow:
+            hidden;
+    }
+
+    .clock-info {
+        min-width:
+            0;
+    }
+
+    .clock-mode-nav {
+        max-width:
+            150px;
+    }
+
+    .clock-notification {
+        top:
+            80px;
+
+        right:
+            10px;
+
+        width:
+            calc(
+                100vw - 20px
+            );
+    }
+
+}

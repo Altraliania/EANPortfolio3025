@@ -2,6 +2,88 @@
 // MAIN SITE SCRIPT
 // ==========================================================
 
+
+// ==========================================================
+// CLOCK CONFIGURATION
+// ==========================================================
+//
+// CHANGE THIS ONE VALUE whenever you want the "CURRENT"
+// button to point to a different clock.
+//
+// Options:
+// "EST"
+// "PST"
+// "FLIGHT"
+//
+// "FLIGHT" is NOT a selectable button.
+// It can only be activated through CURRENT_CLOCK_MODE.
+//
+// ==========================================================
+
+const CURRENT_CLOCK_MODE = "FLIGHT";
+
+
+// ==========================================================
+// FLIGHT MODE CONFIGURATION
+// ==========================================================
+
+const FLIGHT_MODE_LOCATION =
+    "FLIGHT MODE";
+
+
+// ==========================================================
+// CLOCK TIMEZONES
+// ==========================================================
+
+const CLOCK_TIMEZONES = {
+
+    EST:
+        "America/New_York",
+
+    PST:
+        "America/Los_Angeles"
+
+};
+
+
+// ==========================================================
+// CLOCK MODE LABELS
+// ==========================================================
+
+const CLOCK_MODE_LABELS = {
+
+    EST:
+        "LOCAL TIME (EST)",
+
+    PST:
+        "LOCAL TIME (PST)",
+
+    FLIGHT:
+        "FLIGHT MODE"
+
+};
+
+
+// ==========================================================
+// CURRENT CLOCK MODE
+// ==========================================================
+
+let activeClockMode =
+    "EST";
+
+
+// ==========================================================
+// CLOCK NOTIFICATION TIMER
+// ==========================================================
+
+let clockNotificationTimer =
+    null;
+
+
+// ==========================================================
+// MAIN SITE
+// ==========================================================
+
 document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -41,25 +123,48 @@ document.addEventListener(
                     event.stopPropagation();
 
 
+                    const nameElement =
+                        document.getElementById(
+                            "name"
+                        );
+
+
+                    const emailElement =
+                        document.getElementById(
+                            "email"
+                        );
+
+
+                    const messageElement =
+                        document.getElementById(
+                            "message"
+                        );
+
+
+                    if (
+                        !nameElement ||
+                        !emailElement ||
+                        !messageElement
+                    ) {
+
+                        status.textContent =
+                            "Contact form fields are missing.";
+
+                        return;
+
+                    }
+
+
                     const name =
-                        document
-                            .getElementById("name")
-                            .value
-                            .trim();
+                        nameElement.value.trim();
 
 
                     const email =
-                        document
-                            .getElementById("email")
-                            .value
-                            .trim();
+                        emailElement.value.trim();
 
 
                     const message =
-                        document
-                            .getElementById("message")
-                            .value
-                            .trim();
+                        messageElement.value.trim();
 
 
                     if (
@@ -135,7 +240,6 @@ document.addEventListener(
 
                             status.textContent =
                                 "The email server returned an unexpected response.";
-
 
                             return;
 
@@ -218,13 +322,23 @@ document.addEventListener(
                         }
 
 
-                        event.preventDefault();
-
-
                         const targetUrl =
                             this.getAttribute(
                                 "href"
                             );
+
+
+                        if (
+                            !targetUrl ||
+                            targetUrl === "#"
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        event.preventDefault();
 
 
                         if (overlay) {
@@ -276,7 +390,7 @@ document.addEventListener(
         // CLOCK
         // ==================================================
 
-        updateClock();
+        initializeClock();
 
 
         setInterval(
@@ -322,13 +436,267 @@ document.addEventListener(
 
 
 // ==========================================================
-// CLOCK
+// CLOCK INITIALIZATION
+// ==========================================================
+
+function initializeClock() {
+
+    const clockButtons =
+        document.querySelectorAll(
+            ".clock-mode-button"
+        );
+
+
+    // ------------------------------------------------------
+    // Default mode
+    // ------------------------------------------------------
+
+    activeClockMode =
+        "EST";
+
+
+    updateClock();
+
+    updateClockModeButtons();
+
+
+    // ------------------------------------------------------
+    // Clock navigation
+    // ------------------------------------------------------
+
+    clockButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const requestedMode =
+                        String(
+                            this.dataset.clockMode || ""
+                        )
+                        .trim()
+                        .toUpperCase();
+
+
+                    if (!requestedMode) {
+
+                        return;
+
+                    }
+
+
+                    // --------------------------------------
+                    // CURRENT
+                    // --------------------------------------
+
+                    if (
+                        requestedMode ===
+                        "CURRENT"
+                    ) {
+
+                        const currentMode =
+                            normalizeClockMode(
+                                CURRENT_CLOCK_MODE
+                            );
+
+
+                        activeClockMode =
+                            currentMode;
+
+
+                        updateClock();
+
+                        updateClockModeButtons();
+
+                        showClockNotification(
+                            getClockNotification(
+                                currentMode
+                            )
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    // --------------------------------------
+                    // EST / PST ONLY
+                    //
+                    // FLIGHT IS NOT A SELECTABLE OPTION.
+                    // --------------------------------------
+
+                    if (
+                        requestedMode ===
+                        "FLIGHT"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    if (
+                        requestedMode !==
+                        "EST" &&
+                        requestedMode !==
+                        "PST"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    activeClockMode =
+                        requestedMode;
+
+
+                    updateClock();
+
+                    updateClockModeButtons();
+
+
+                    showClockNotification(
+                        getClockNotification(
+                            requestedMode
+                        )
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+// ==========================================================
+// NORMALIZE CLOCK MODE
+// ==========================================================
+
+function normalizeClockMode(
+    mode
+) {
+
+    const normalized =
+        String(
+            mode || "EST"
+        )
+        .trim()
+        .toUpperCase();
+
+
+    if (
+        normalized ===
+        "PST"
+    ) {
+
+        return "PST";
+
+    }
+
+
+    if (
+        normalized ===
+        "FLIGHT"
+    ) {
+
+        return "FLIGHT";
+
+    }
+
+
+    return "EST";
+
+}
+
+
+// ==========================================================
+// UPDATE CLOCK
 // ==========================================================
 
 function updateClock() {
 
+    const clockTime =
+        document.getElementById(
+            "clockTime"
+        );
+
+
+    const clockDate =
+        document.getElementById(
+            "clockDate"
+        );
+
+
+    const clockLabel =
+        document.getElementById(
+            "clockLabel"
+        );
+
+
+    // ======================================================
+    // FLIGHT MODE
+    // ======================================================
+    //
+    // No time.
+    // No date.
+    // Just:
+    //
+    // Currently Flying
+    //
+    // ======================================================
+
+    if (
+        activeClockMode ===
+        "FLIGHT"
+    ) {
+
+        if (clockTime) {
+
+            clockTime.textContent =
+                "Currently Flying";
+
+        }
+
+
+        if (clockDate) {
+
+            clockDate.textContent =
+                "";
+
+        }
+
+
+        if (clockLabel) {
+
+            clockLabel.textContent =
+                CLOCK_MODE_LABELS.FLIGHT;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // ======================================================
+    // NORMAL CLOCK
+    // ======================================================
+
     const now =
         new Date();
+
+
+    const timezone =
+        CLOCK_TIMEZONES[
+            activeClockMode
+        ] ||
+        CLOCK_TIMEZONES.EST;
 
 
     const time =
@@ -336,7 +704,7 @@ function updateClock() {
             "en-US",
             {
                 timeZone:
-                    "America/New_York",
+                    timezone,
 
                 hour:
                     "numeric",
@@ -355,7 +723,7 @@ function updateClock() {
             "en-US",
             {
                 timeZone:
-                    "America/New_York",
+                    timezone,
 
                 weekday:
                     "long",
@@ -369,18 +737,6 @@ function updateClock() {
                 year:
                     "numeric"
             }
-        );
-
-
-    const clockTime =
-        document.getElementById(
-            "clockTime"
-        );
-
-
-    const clockDate =
-        document.getElementById(
-            "clockDate"
         );
 
 
@@ -398,6 +754,223 @@ function updateClock() {
             date;
 
     }
+
+
+    if (clockLabel) {
+
+        clockLabel.textContent =
+            CLOCK_MODE_LABELS[
+                activeClockMode
+            ] ||
+            "LOCAL TIME";
+
+    }
+
+}
+
+
+// ==========================================================
+// UPDATE CLOCK BUTTONS
+// ==========================================================
+
+function updateClockModeButtons() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".clock-mode-button"
+        );
+
+
+    buttons.forEach(
+        function (button) {
+
+            const buttonMode =
+                String(
+                    button.dataset.clockMode || ""
+                )
+                .trim()
+                .toUpperCase();
+
+
+            let isActive =
+                false;
+
+
+            // CURRENT button is active whenever
+            // the active mode matches CURRENT_CLOCK_MODE.
+
+            if (
+                buttonMode ===
+                "CURRENT"
+            ) {
+
+                isActive =
+                    activeClockMode ===
+                    normalizeClockMode(
+                        CURRENT_CLOCK_MODE
+                    );
+
+            }
+
+
+            // EST and PST buttons work normally.
+
+            else if (
+                buttonMode ===
+                "EST" ||
+                buttonMode ===
+                "PST"
+            ) {
+
+                isActive =
+                    buttonMode ===
+                    activeClockMode;
+
+            }
+
+
+            // FLIGHT buttons are never active because
+            // Flight Mode is not a selectable button.
+
+            else {
+
+                isActive =
+                    false;
+
+            }
+
+
+            button.classList.toggle(
+                "active",
+                isActive
+            );
+
+        }
+    );
+
+}
+
+
+// ==========================================================
+// CLOCK NOTIFICATION TEXT
+// ==========================================================
+
+function getClockNotification(
+    mode
+) {
+
+    if (
+        mode ===
+        "FLIGHT"
+    ) {
+
+        return "Emanuel is on Flight Mode";
+
+    }
+
+
+    if (
+        mode ===
+        "PST"
+    ) {
+
+        return "The Current timezone is PST";
+
+    }
+
+
+    return "The Current timezone is EST";
+
+}
+
+
+// ==========================================================
+// SHOW CLOCK NOTIFICATION
+// ==========================================================
+
+function showClockNotification(
+    message
+) {
+
+    const notification =
+        document.getElementById(
+            "clockNotification"
+        );
+
+
+    const notificationText =
+        document.getElementById(
+            "clockNotificationText"
+        );
+
+
+    if (
+        !notification ||
+        !notificationText
+    ) {
+
+        return;
+
+    }
+
+
+    notificationText.textContent =
+        message;
+
+
+    // ------------------------------------------------------
+    // Force notification to appear on the LEFT.
+    // ------------------------------------------------------
+
+    notification.style.left =
+        "20px";
+
+    notification.style.right =
+        "auto";
+
+
+    notification.classList.remove(
+        "visible"
+    );
+
+
+    // Force the browser to recognize the
+    // removal before adding it again.
+
+    void notification.offsetWidth;
+
+
+    notification.classList.add(
+        "visible"
+    );
+
+
+    if (
+        clockNotificationTimer
+    ) {
+
+        clearTimeout(
+            clockNotificationTimer
+        );
+
+    }
+
+
+    // ------------------------------------------------------
+    // Notification stays visible for 1.5 seconds.
+    // ------------------------------------------------------
+
+    clockNotificationTimer =
+        setTimeout(
+            function () {
+
+                notification.classList.remove(
+                    "visible"
+                );
+
+            },
+            1500
+        );
 
 }
 
@@ -526,20 +1099,12 @@ function initializeAcademicMap() {
         );
 
 
-    // ------------------------------------------------------
-    // Only initialize on pages containing the map.
-    // ------------------------------------------------------
-
     if (!mapElement) {
 
         return;
 
     }
 
-
-    // ------------------------------------------------------
-    // Make sure Leaflet loaded.
-    // ------------------------------------------------------
 
     if (
         typeof L === "undefined"
@@ -554,10 +1119,6 @@ function initializeAcademicMap() {
     }
 
 
-    // ------------------------------------------------------
-    // Prevent double initialization.
-    // ------------------------------------------------------
-
     if (
         mapElement._leaflet_id
     ) {
@@ -566,10 +1127,6 @@ function initializeAcademicMap() {
 
     }
 
-
-    // ======================================================
-    // CREATE MAP
-    // ======================================================
 
     const map =
         L.map(
@@ -584,10 +1141,6 @@ function initializeAcademicMap() {
         );
 
 
-    // ======================================================
-    // MAP TILES
-    // ======================================================
-
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
@@ -601,10 +1154,6 @@ function initializeAcademicMap() {
         map
     );
 
-
-    // ======================================================
-    // LOCATIONS
-    // ======================================================
 
     const locations = {
 
@@ -720,10 +1269,6 @@ function initializeAcademicMap() {
     };
 
 
-    // ======================================================
-    // SCHOOL ICON
-    // ======================================================
-
     const schoolIcon =
         L.divIcon(
             {
@@ -745,10 +1290,6 @@ function initializeAcademicMap() {
             }
         );
 
-
-    // ======================================================
-    // AIRPORT ICON
-    // ======================================================
 
     const airportIcon =
         L.divIcon(
@@ -772,10 +1313,6 @@ function initializeAcademicMap() {
         );
 
 
-    // ======================================================
-    // TOOLTIP HTML
-    // ======================================================
-
     function tooltipHTML(
         location
     ) {
@@ -794,10 +1331,6 @@ function initializeAcademicMap() {
 
     }
 
-
-    // ======================================================
-    // POPUP HTML
-    // ======================================================
 
     function popupHTML(
         location
@@ -829,10 +1362,6 @@ function initializeAcademicMap() {
 
     }
 
-
-    // ======================================================
-    // SCHOOL MARKERS
-    // ======================================================
 
     const forestMarker =
         L.marker(
@@ -899,10 +1428,6 @@ function initializeAcademicMap() {
             )
         );
 
-
-    // ======================================================
-    // AIRPORT MARKERS
-    // ======================================================
 
     const ewrMarker =
         L.marker(
@@ -1005,7 +1530,6 @@ function initializeAcademicMap() {
 
     // ======================================================
     // FLIGHT ROUTE
-    // EWR → SEA → YYJ
     // ======================================================
 
     const flightRoute =
@@ -1036,16 +1560,13 @@ function initializeAcademicMap() {
 
                 lineJoin:
                     "round"
+
             }
         )
         .addTo(
             map
         );
 
-
-    // ======================================================
-    // FLIGHT ROUTE TOOLTIP
-    // ======================================================
 
     flightRoute.bindTooltip(
         `
@@ -1068,15 +1589,7 @@ function initializeAcademicMap() {
 
 
     // ======================================================
-    // FLIGHT OVERLAY CONTAINER
-    // ======================================================
-    //
-    // This sits above the Leaflet map and contains:
-    //
-    // 1. Alaska Airlines logo
-    // 2. Plane PNG
-    //
-    // They are hidden until the flight line is hovered.
+    // FLIGHT HOVER OVERLAY
     // ======================================================
 
     const mapContainer =
@@ -1141,10 +1654,6 @@ function initializeAcademicMap() {
         );
 
 
-    // ======================================================
-    // SHOW FLIGHT OVERLAY
-    // ======================================================
-
     function showFlightOverlay(
         latLng
     ) {
@@ -1161,10 +1670,6 @@ function initializeAcademicMap() {
     }
 
 
-    // ======================================================
-    // HIDE FLIGHT OVERLAY
-    // ======================================================
-
     function hideFlightOverlay() {
 
         flightOverlay.classList.remove(
@@ -1173,10 +1678,6 @@ function initializeAcademicMap() {
 
     }
 
-
-    // ======================================================
-    // POSITION PLANE + AIRLINE LOGO
-    // ======================================================
 
     function positionFlightOverlay(
         latLng
@@ -1195,10 +1696,6 @@ function initializeAcademicMap() {
             );
 
 
-        // --------------------------------------------------
-        // Plane
-        // --------------------------------------------------
-
         hoverPlane.style.left =
             `${point.x}px`;
 
@@ -1206,13 +1703,6 @@ function initializeAcademicMap() {
         hoverPlane.style.top =
             `${point.y}px`;
 
-
-        // --------------------------------------------------
-        // Airline logo
-        // --------------------------------------------------
-        //
-        // Place it slightly above/right of the cursor.
-        // --------------------------------------------------
 
         airlineLogo.style.left =
             `${point.x + 18}px`;
@@ -1223,10 +1713,6 @@ function initializeAcademicMap() {
 
     }
 
-
-    // ======================================================
-    // ROUTE MOUSE OVER
-    // ======================================================
 
     flightRoute.on(
         "mouseover",
@@ -1240,10 +1726,6 @@ function initializeAcademicMap() {
     );
 
 
-    // ======================================================
-    // ROUTE MOUSE MOVE
-    // ======================================================
-
     flightRoute.on(
         "mousemove",
         function (event) {
@@ -1256,10 +1738,6 @@ function initializeAcademicMap() {
     );
 
 
-    // ======================================================
-    // ROUTE MOUSE OUT
-    // ======================================================
-
     flightRoute.on(
         "mouseout",
         function () {
@@ -1269,10 +1747,6 @@ function initializeAcademicMap() {
         }
     );
 
-
-    // ======================================================
-    // UPDATE PLANE/LOGO WHEN MAP MOVES
-    // ======================================================
 
     let lastFlightPosition =
         null;
@@ -1310,10 +1784,6 @@ function initializeAcademicMap() {
     );
 
 
-    // ======================================================
-    // REMOVE OVERLAY WHEN MOUSE LEAVES MAP
-    // ======================================================
-
     mapElement.addEventListener(
         "mouseleave",
         function () {
@@ -1326,10 +1796,6 @@ function initializeAcademicMap() {
         }
     );
 
-
-    // ======================================================
-    // ROUTE CLICK
-    // ======================================================
 
     flightRoute.on(
         "click",
@@ -1374,7 +1840,7 @@ function initializeAcademicMap() {
 
 
     // ======================================================
-    // ALL MAP POINTS
+    // MAP BOUNDS
     // ======================================================
 
     const allPoints = [
@@ -1392,10 +1858,6 @@ function initializeAcademicMap() {
     ];
 
 
-    // ======================================================
-    // FIT MAP
-    // ======================================================
-
     const bounds =
         L.latLngBounds(
             allPoints
@@ -1412,7 +1874,7 @@ function initializeAcademicMap() {
 
 
     // ======================================================
-    // MARKER CLICK INTERACTIONS
+    // MARKER CLICK BEHAVIOR
     // ======================================================
 
     function setupMarker(

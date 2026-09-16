@@ -30,8 +30,8 @@
     >
 
     <link
-    rel="stylesheet"
-    href="creator.css"
+        rel="stylesheet"
+        href="creator.css"
     >
 
 </head>
@@ -125,7 +125,10 @@
 
             <div class="clock-info">
 
-                <span class="clock-label">
+                <span
+                    class="clock-label"
+                    id="clockLabel"
+                >
                     LOCAL TIME (EST)
                 </span>
 
@@ -137,8 +140,48 @@
                     Loading...
                 </div>
 
+
+                <!-- CLOCK MODE NAVIGATION -->
+                <div class="clock-mode-nav">
+
+                    <button
+                        type="button"
+                        class="clock-mode-button active"
+                        data-clock-mode="EST"
+                    >
+                        EST
+                    </button>
+
+                    <button
+                        type="button"
+                        class="clock-mode-button"
+                        data-clock-mode="PST"
+                    >
+                        PST
+                    </button>
+
+                    <button
+                        type="button"
+                        class="clock-mode-button"
+                        data-clock-mode="CURRENT"
+                    >
+                        Current
+                    </button>
+
+                </div>
+
             </div>
 
+        </div>
+
+
+        <!-- CLOCK SIDE NOTIFICATION -->
+        <div
+            id="clockNotification"
+            class="clock-notification"
+            aria-live="polite"
+        >
+            <span id="clockNotificationText"></span>
         </div>
 
 
@@ -442,9 +485,7 @@
     </div>
 
 
-    <!-- =====================================================
-         BOTTOM CONTROLS
-    ====================================================== -->
+    <!-- BOTTOM CONTROLS -->
 
     <div class="bottom-controls">
 
@@ -457,7 +498,6 @@
         </button>
 
 
-        <!-- THIS NOW OPENS Creator.html -->
         <button
             id="creatorModeButton"
             class="card-btn"
@@ -469,9 +509,7 @@
     </div>
 
 
-    <!-- =====================================================
-         WELCOME SCREEN
-    ====================================================== -->
+    <!-- WELCOME SCREEN -->
 
     <div id="welcomeScreen">
 
@@ -544,9 +582,7 @@
     </div>
 
 
-    <!-- =====================================================
-         LEAFLET
-    ====================================================== -->
+    <!-- LEAFLET -->
 
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -554,18 +590,14 @@
     ></script>
 
 
-    <!-- =====================================================
-         WEBSITE JAVASCRIPT
-    ====================================================== -->
+    <!-- WEBSITE JAVASCRIPT -->
 
     <script src="script.js"></script>
 
     <script src="welcome.js"></script>
 
 
-    <!-- =====================================================
-         PROFILE IMAGE LIGHTBOX
-    ====================================================== -->
+    <!-- PROFILE IMAGE LIGHTBOX -->
 
     <script>
 
@@ -660,9 +692,7 @@
     </script>
 
 
-    <!-- =====================================================
-         DARK MODE
-    ====================================================== -->
+    <!-- DARK MODE -->
 
     <script>
 
@@ -744,9 +774,7 @@
     </script>
 
 
-    <!-- =====================================================
-         PAGE TRANSITIONS
-    ====================================================== -->
+    <!-- PAGE TRANSITIONS -->
 
     <script>
 
