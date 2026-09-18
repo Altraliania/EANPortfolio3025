@@ -458,33 +458,158 @@
             </p>
 
 
-            <a
-                href="https://www.instagram.com/emanuelaltra/"
-                target="_blank"
-                class="footer-logo-link"
-                rel="noopener noreferrer"
-            >
+            <div class="footer-social-buttons">
 
-                <img
-                    src="instagram.png"
-                    alt="Visit Instagram"
-                    style="
-                        width: 24px;
-                        height: 24px;
-                        max-width: 24px;
-                        max-height: 24px;
-                        object-fit: contain;
-                        vertical-align: middle;
-                    "
-                >
+    <a
+        href="https://www.instagram.com/emanuelaltra/"
+        target="_blank"
+        class="footer-logo-link"
+        rel="noopener noreferrer"
+        aria-label="Visit Instagram"
+    >
+        <img
+            src="instagram.png"
+            alt="Instagram"
+        >
+    </a>
 
-            </a>
+    <button
+        type="button"
+        id="websiteUpdatesButton"
+        class="website-updates-button"
+        aria-label="Website Updates"
+        aria-haspopup="dialog"
+        aria-controls="websiteUpdatesOverlay"
+    >
+        <span class="updates-grid-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+
+        <span class="updates-button-text">
+            Website Updates
+        </span>
+    </button>
+
+</div>
 
         </footer>
 
     </div>
 
+        <!-- WEBSITE UPDATES MODAL -->
 
+<div
+    id="websiteUpdatesOverlay"
+    class="website-updates-overlay"
+    aria-hidden="true"
+>
+
+    <div
+        id="websiteUpdatesModal"
+        class="website-updates-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="websiteUpdatesTitle"
+    >
+
+        <div class="website-updates-header">
+
+            <div>
+
+                <span class="website-updates-badge">
+                    WEBSITE
+                </span>
+
+                <h2 id="websiteUpdatesTitle">
+                    Website Updates
+                </h2>
+
+                <p>
+                    Latest changes and additions to my website.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                id="closeWebsiteUpdates"
+                class="website-updates-close"
+                aria-label="Close Website Updates"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="website-updates-list">
+
+            <!-- UPDATE 1 -->
+
+            <article class="website-update-card">
+
+                <div class="website-update-date">
+                    SEPTEMBER 17, 2026
+                </div>
+
+                <h3>
+                    Website Updates System
+                </h3>
+
+                <p>
+                    Added a new Website Updates button to the main
+                    portfolio page. You can now view website changes
+                    without leaving the page.
+                </p>
+
+                <a
+                    href="index.html"
+                    class="website-update-link"
+                >
+                    Main Website →
+                </a>
+
+            </article>
+
+
+            <!-- UPDATE 2 -->
+
+            <article class="website-update-card">
+
+                <div class="website-update-date">
+                    SEPTEMBER 17, 2026
+                </div>
+
+                <h3>
+                    Clock System Improvements
+                </h3>
+
+                <p>
+                    Updated the clock system with EST, PST, and Current
+                    modes, along with improved notifications.
+                </p>
+
+            </article>
+
+        </div>
+
+
+        <div class="website-updates-footer">
+            <span>
+                Emanuel Negussie Portfolio
+            </span>
+
+            <span>
+                More updates coming soon.
+            </span>
+        </div>
+
+    </div>
+
+</div>
     <!-- BOTTOM CONTROLS -->
 
     <div class="bottom-controls">

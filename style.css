@@ -37,10 +37,6 @@ a {
 }
 
 
-/* =========================================================
-   VARIABLES
-========================================================= */
-
 :root {
     --bg-color: #f8f9fa;
     --text-color: #333333;
@@ -80,10 +76,6 @@ body.dark-mode {
 }
 
 
-/* =========================================================
-   TEXT
-========================================================= */
-
 h1,
 h2,
 h3,
@@ -95,11 +87,6 @@ h4,
 p {
     color: var(--text-color);
 }
-
-
-/* =========================================================
-   HERO
-========================================================= */
 
 .hero-section {
     text-align: center;
@@ -264,10 +251,6 @@ p {
 }
 
 
-/* =========================================================
-   LIGHTBOX
-========================================================= */
-
 #lightbox-overlay {
     position: fixed !important;
 
@@ -403,10 +386,6 @@ p {
         translateY(-2px);
 }
 
-
-/* =========================================================
-   SKILLS
-========================================================= */
 
 .skills-section {
     padding:
@@ -559,10 +538,6 @@ p {
 }
 
 
-/* =========================================================
-   PAGE OVERLAY
-========================================================= */
-
 #page-overlay {
     position:
         fixed;
@@ -660,10 +635,6 @@ p {
 }
 
 
-/* =========================================================
-   PROJECT HEADER
-========================================================= */
-
 .project-header {
     position:
         relative;
@@ -748,10 +719,6 @@ p {
         #ffffff !important;
 }
 
-
-/* =========================================================
-   PROJECT LAYOUT
-========================================================= */
 
 .project-container {
     display:
@@ -991,10 +958,6 @@ p {
 }
 
 
-/* =========================================================
-   EXPERIENCE
-========================================================= */
-
 .experience-block {
     display:
         flex;
@@ -1025,10 +988,6 @@ p {
         1;
 }
 
-
-/* =========================================================
-   CLOCK
-========================================================= */
 
 .live-clock {
     position:
@@ -1173,11 +1132,6 @@ p {
     margin-top:
         2px;
 }
-
-
-/* =========================================================
-   WELCOME SCREEN
-========================================================= */
 
 #welcomeScreen {
     position:
@@ -1445,11 +1399,6 @@ p {
         white;
 }
 
-
-/* =========================================================
-   BOTTOM CONTROLS
-========================================================= */
-
 .bottom-controls {
     position:
         fixed !important;
@@ -1595,11 +1544,6 @@ p {
     transform:
         translateY(0) !important;
 }
-
-
-/* =========================================================
-   CREATOR OVERLAY
-========================================================= */
 
 #creatorOverlay {
     position:
@@ -2119,11 +2063,6 @@ p {
         var(--card-text);
 }
 
-
-/* =========================================================
-   PROJECT EDITOR
-========================================================= */
-
 .project-editor {
     position:
         fixed !important;
@@ -2369,11 +2308,6 @@ footer {
     margin-top:
         10px;
 }
-
-
-/* =========================================================
-   CREATOR LOGIN
-========================================================= */
 
 #creatorLoginOverlay {
     position:
@@ -2647,11 +2581,6 @@ footer {
     }
 
 }
-
-
-/* =========================================================
-   VISITOR ANALYTICS
-========================================================= */
 
 .visitor-analytics-card {
     width:
@@ -2990,11 +2919,6 @@ footer {
         #198754 !important;
 }
 
-
-/* =========================================================
-   VISITOR MAP
-========================================================= */
-
 .visitor-map-section {
     margin-top:
         28px;
@@ -3146,11 +3070,6 @@ footer {
         Arial,
         sans-serif;
 }
-
-
-/* =========================================================
-   SITE STATUS
-========================================================= */
 
 .site-status-card {
     width:
@@ -3456,11 +3375,6 @@ footer {
     font-size:
         0.7rem;
 }
-
-
-/* =========================================================
-   TIMELINE
-========================================================= */
 
 .timeline-section {
     padding:
@@ -3960,11 +3874,6 @@ footer {
         #ffffff;
 }
 
-
-/* =========================================================
-   ACADEMIC JOURNEY MAP
-========================================================= */
-
 .academic-journey-map {
     width:
         100%;
@@ -4033,11 +3942,6 @@ footer {
         1.5;
 }
 
-
-/* =========================================================
-   ACADEMIC MAP CONTAINER
-========================================================= */
-
 .academic-map-container {
     position:
         relative;
@@ -4087,11 +3991,6 @@ footer {
         left;
 }
 
-
-/* =========================================================
-   SCHOOL MARKERS
-========================================================= */
-
 .academic-school-marker {
     width:
         18px;
@@ -4125,11 +4024,6 @@ footer {
             0.55
         );
 }
-
-
-/* =========================================================
-   AIRPORT MARKERS
-========================================================= */
 
 .academic-airport-marker {
     width:
@@ -4165,11 +4059,6 @@ footer {
         );
 }
 
-
-/* =========================================================
-   FLIGHT HOVER OVERLAY
-========================================================= */
-
 .flight-hover-overlay {
     position:
         absolute;
@@ -4201,11 +4090,6 @@ footer {
     visibility:
         visible;
 }
-
-
-/* =========================================================
-   ALASKA AIRLINES LOGO
-========================================================= */
 
 .flight-airline-logo {
     position:
@@ -4283,11 +4167,6 @@ footer {
         block;
 }
 
-
-/* =========================================================
-   AIRCRAFT
-========================================================= */
-
 .flight-hover-plane {
     position:
         absolute;
@@ -4346,11 +4225,6 @@ footer {
         );
 }
 
-
-/* =========================================================
-   ACADEMIC TOOLTIP
-========================================================= */
-
 .academic-tooltip {
     background:
         var(--card-bg) !important;
@@ -4407,11 +4281,6 @@ footer {
     font-weight:
         700;
 }
-
-
-/* =========================================================
-   ACADEMIC POPUP
-========================================================= */
 
 .academic-popup {
     min-width:
@@ -4471,11 +4340,6 @@ footer {
         700;
 }
 
-
-/* =========================================================
-   LEAFLET CONTROLS
-========================================================= */
-
 .leaflet-control-zoom {
     border:
         1px solid
@@ -4527,11 +4391,6 @@ footer {
     color:
         #007bff !important;
 }
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
 
 @media (max-width: 900px) {
 
@@ -5075,9 +4934,6 @@ footer {
             350px;
     }
 
-
-    /* Keep plane visible but compact on very small screens */
-
     .flight-hover-plane {
         width:
             44px;
@@ -5096,11 +4952,6 @@ footer {
     }
 
 }
-
-
-/* =========================================================
-   CLOCK MODE NAVIGATION
-========================================================= */
 
 .clock-mode-nav {
     display:
@@ -5278,11 +5129,6 @@ footer {
         scale(0.96);
 }
 
-
-/* =========================================================
-   CLOCK NOTIFICATION
-========================================================= */
-
 .clock-notification {
     position:
         fixed;
@@ -5409,11 +5255,6 @@ footer {
         none;
 }
 
-
-/* =========================================================
-   CLOCK RESPONSIVE
-========================================================= */
-
 @media (max-width: 480px) {
 
     .clock-card {
@@ -5447,6 +5288,316 @@ footer {
             calc(
                 100vw - 20px
             );
+    }
+
+}
+
+/* ==========================================================
+   WEBSITE UPDATES
+   ========================================================== */
+
+.footer-social-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.footer-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-top: 0;
+    text-decoration: none;
+}
+
+.footer-logo-link img {
+    width: 24px;
+    height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    object-fit: contain;
+    display: block;
+}
+
+.website-updates-button {
+    width: 82px;
+    height: 55px;
+    min-width: 32px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-shadow: 0 3px 10px rgba(52, 52, 52, 0.12);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.website-updates-button:hover {
+    transform: translateY(-2px);
+    background: var(--text-color);
+    border-color: var(--text-color);
+    box-shadow: 0 6px 15px rgba(38, 38, 38, 0.18);
+}
+
+.updates-grid-icon {
+    width: 15px;
+    height: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2px;
+}
+
+.updates-grid-icon span {
+    width: 100%;
+    height: 100%;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+}
+
+.website-updates-button:hover .updates-grid-icon span {
+    border-color: var(--bg-color);
+}
+
+
+/* ==========================================================
+   WEBSITE UPDATES OVERLAY
+   ========================================================== */
+
+.website-updates-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    z-index: 350000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    overflow-y: auto;
+}
+
+.website-updates-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* ==========================================================
+   WEBSITE UPDATES MODAL
+   ========================================================== */
+
+.website-updates-modal {
+    position: relative;
+    width: min(700px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.45);
+    padding: 30px;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.25s ease;
+}
+
+.website-updates-overlay.visible .website-updates-modal {
+    transform: translateY(0) scale(1);
+}
+
+
+/* ==========================================================
+   UPDATES HEADER
+   ========================================================== */
+
+.website-updates-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 22px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.website-updates-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background: #007bff;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.website-updates-header h2 {
+    margin: 0 0 5px;
+    color: var(--heading-color);
+    font-size: 1.8rem;
+}
+
+.website-updates-header p {
+    margin: 0;
+    color: var(--card-text);
+    font-size: 0.85rem;
+}
+
+.website-updates-close {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.website-updates-close:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+    transform: rotate(4deg);
+}
+
+
+/* ==========================================================
+   UPDATE CARDS
+   ========================================================== */
+
+.website-updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.website-update-card {
+    padding: 20px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-align: left;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.website-update-card:hover {
+    transform: translateY(-2px);
+    border-color: #007bff;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.website-update-date {
+    margin-bottom: 7px;
+    color: #007bff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.website-update-card h3 {
+    margin-bottom: 7px;
+    color: var(--heading-color);
+    font-size: 1.1rem;
+}
+
+.website-update-card p {
+    margin: 0 0 12px;
+    color: var(--card-text);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.website-update-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.website-update-link:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================================
+   UPDATES FOOTER
+   ========================================================== */
+
+.website-updates-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 17px;
+    border-top: 1px solid var(--border-color);
+    color: #888888;
+    font-size: 0.7rem;
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 600px) {
+
+    .website-updates-overlay {
+        padding: 15px;
+    }
+
+    .website-updates-modal {
+        padding: 20px;
+        max-height: 92vh;
+        border-radius: 15px;
+    }
+
+    .website-updates-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .website-update-card {
+        padding: 16px;
+    }
+
+    .website-updates-footer {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
 }

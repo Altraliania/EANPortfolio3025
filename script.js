@@ -1952,3 +1952,154 @@ function initializeAcademicMap() {
     );
 
 }
+
+// ==========================================================
+// WEBSITE UPDATES MODAL
+// ==========================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const updatesButton =
+            document.getElementById(
+                "websiteUpdatesButton"
+            );
+
+        const updatesOverlay =
+            document.getElementById(
+                "websiteUpdatesOverlay"
+            );
+
+        const closeUpdatesButton =
+            document.getElementById(
+                "closeWebsiteUpdates"
+            );
+
+
+        if (
+            !updatesButton ||
+            !updatesOverlay ||
+            !closeUpdatesButton
+        ) {
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // OPEN
+        // ==================================================
+
+        function openWebsiteUpdates() {
+
+            updatesOverlay.classList.add(
+                "visible"
+            );
+
+            updatesOverlay.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+
+
+        // ==================================================
+        // CLOSE
+        // ==================================================
+
+        function closeWebsiteUpdates() {
+
+            updatesOverlay.classList.remove(
+                "visible"
+            );
+
+            updatesOverlay.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        // ==================================================
+        // OPEN BUTTON
+        // ==================================================
+
+        updatesButton.addEventListener(
+            "click",
+            function () {
+
+                openWebsiteUpdates();
+
+            }
+        );
+
+
+        // ==================================================
+        // CLOSE BUTTON
+        // ==================================================
+
+        closeUpdatesButton.addEventListener(
+            "click",
+            function () {
+
+                closeWebsiteUpdates();
+
+            }
+        );
+
+
+        // ==================================================
+        // CLICK OUTSIDE MODAL
+        // ==================================================
+
+        updatesOverlay.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    updatesOverlay
+                ) {
+
+                    closeWebsiteUpdates();
+
+                }
+
+            }
+        );
+
+
+        // ==================================================
+        // ESCAPE KEY
+        // ==================================================
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape" &&
+                    updatesOverlay.classList.contains(
+                        "visible"
+                    )
+                ) {
+
+                    closeWebsiteUpdates();
+
+                }
+
+            }
+        );
+
+    }
+);
